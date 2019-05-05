@@ -1,1 +1,1 @@
-# https://b1indsight.github.io/
+# b1indsight.github.io
