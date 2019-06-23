@@ -5,11 +5,18 @@
     <description>Recent content on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 05 May 2019 16:27:50 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 23 Jun 2019 20:47:44 +0800</lastBuildDate>
     
         <atom:link href="https://b1indsight.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>现代操作系统写作计划</title>
+      <link>https://b1indsight.github.io/post/modern_operating_system/</link>
+      <pubDate>Sun, 23 Jun 2019 20:47:44 +0800</pubDate>
+      
+      <guid>https://b1indsight.github.io/post/modern_operating_system/</guid>
+      <description>操作系统一课的复述及总结，写作计划及目标</description>
+    </item><item>
       <title>斯科特杨的高效率方法</title>
       <link>https://b1indsight.github.io/post/effecient_method_of_scotty/</link>
       <pubDate>Sun, 05 May 2019 16:27:50 +0800</pubDate>
