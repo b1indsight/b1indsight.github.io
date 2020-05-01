@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>进程与线程 &middot; Blog</title>
+  <meta name="description" content="本文主要介绍进程与线程的概念，主要问题，进程间的调度与同步。" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  
+  
+  
+  
+  
+  <link href="https://b1indsight.github.io/css/concated.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      background: #ecedef url("https://user-images.githubusercontent.com/47165749/57181495-2207e200-6ec7-11e9-94c0-2580990d1e71.jpg") repeat;
+    }
+  </style>
+</head>
+
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://b1indsight.github.io" class="nav-text">b1indsight</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://b1indsight.github.io" class="hamburger-menu-overlay-link">Home</a></li>
+      
+      <li><a href="https://b1indsight.github.io/categories/java/" class="hamburger-menu-overlay-link">JAVA</a></li>
+      
+      
+    </ul>
+  </div>
+</nav>
+
+    <main class="content side-text-padding">
+      <article class="post ">
+        <header class="post-header">
+          <h1 class="post-title">进程与线程</h1>
+          <p class="post-date">Posted <time datetime="2019-08-03">Aug 3, 2019</time></p>
+        </header>
+        
+        
+        <h2 id="进程">进程</h2>
+<hr>
+<h3 id="1进程是什么">1.进程是什么？</h3>
+<p>一个进程是一个正在执行的程序的实例。一个进程是一种类型的活动，它包含程序，输入，输出以及状态。单个处理器可以被多个进程共享，处理器在多个进程间快切换，以达到（伪）并行的效果，这种形式被称为多道程序设计。</p>
+<h3 id="2进程的创建">2.进程的创建</h3>
+<p>进程在以下四种情况下可以被创建：1.系统初始化 2.在执行的进程执行了创建进程的系统调用 3.用户请求创建进程 4.批处理作业初始化。</p>
+<p>在unix系统中只允许通过fork创建新的进程，创建的子进程通过执行execve系统调用来执行一个新程序。之所以使用两步等等系统调用，是因为要在fork和execve之间由进程完成对标准输入输出和标准错误文件的重定向。uinx的子进程的地址空间是父进程的一个副本，两者共享不可修改的内存，或者子进程通过写时复制共享父进程的所有内存。</p>
+<p>在Windows中，父进程调用CreatProcess来处理进程创建，执行新程序。</p>
+<h3 id="3进程的终止">3.进程的终止</h3>
+<p>进程由四种原因终止：1.正常退出（自愿）2.出错退出（自愿）3.严重出错（非自愿）4.被其他进程杀死（非自愿）</p>
+<h3 id="4进程的层次">4.进程的层次</h3>
+<p>在unix中进程和子进程及其后裔进程构成进程组，信号被传给进程组的所有进程，进程组的各进程自主决定是否响应信号。
+在windows中进程的层次彼此是相同的，父进程通过句柄来控制子进程，但是其可以把句柄传送给其他进程。</p>
+<h3 id="5进程的状态">5.进程的状态</h3>
+<p>进程分为运行态，就绪态，阻塞态。
+运行态的进程如被操作系统发现无法继续，如需要等待输入转换成阻塞态。阻塞态的进程在得到输入时就转换为就绪态。就绪态的进程和运行态的进程由调度系统调度可以互相转换。
+进程不能由阻塞态直接转换为运行态，进程在阻塞态下获得资源后会先达到就绪态。同样，进程不能由就绪态转换为阻塞态，就绪态的进程并不在运行中，不能通过操作失去拥有的I/O资源。</p>
+<h3 id="6进程的实现">6.进程的实现</h3>
+<p>为实现进程，需要在操作系统中维持一个进程表，每个进程占用一个表项。进程表项包含进程状态的重要信息，包括程序计数器，堆栈指针，内存分配状况，文件状态，账号和调度信息，及其他在调度时和转换为阻塞态时需要保存的信息。
+中断发生时：1.硬件将程序计数器保存入堆栈 2.硬件由中断向量装入新的程序计数器 3.通过汇编程序保存寄存器值 4.汇编程序设置新的堆栈 5.执行中断服务程序 6.调度程序决定下一个运行的进程 7.C过程转移控制到汇编代码，装入新的程序计数器及其内存映射开始新的进程</p>
+
+      </article>
+      
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://b1indsight.github.io/post/effecient_method_of_scotty/" class="card blog-card" rel="bookmark" >
+  
+  <article class="card-body">
+    <h2 class="card-title">斯科特杨的高效率方法</h2>
+    <p class="card-text">简单构建的可行提高效率体系</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2019-05-05 55:00">May 5, 2019</time></p>
+      <p>#学习方法 </p>
+    </div>
+  </article>
+</a>
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://b1indsight.github.io" class="card home-card" style="background-image: url( https://b1indsight.github.io/img/grey-cloud.jpg )" rel="bookmark" >
+  Home
+</a>
+    </nav>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+  
+  <script src="https://b1indsight.github.io/js/core.min.js"></script>
+
+  </body>
+</html>

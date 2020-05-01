@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>JUC包AQS设计 &middot; Blog</title>
+  <meta name="description" content="基本是JUC论文读书笔记，没什么独创性，#TODO具体实现及补充" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  
+  
+  
+  
+  
+  <link href="https://b1indsight.github.io/css/concated.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      background: #ecedef url("https://user-images.githubusercontent.com/47165749/57181495-2207e200-6ec7-11e9-94c0-2580990d1e71.jpg") repeat;
+    }
+  </style>
+</head>
+
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://b1indsight.github.io" class="nav-text">b1indsight</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://b1indsight.github.io" class="hamburger-menu-overlay-link">Home</a></li>
+      
+      <li><a href="https://b1indsight.github.io/categories/java/" class="hamburger-menu-overlay-link">JAVA</a></li>
+      
+      
+    </ul>
+  </div>
+</nav>
+
+    <main class="content side-text-padding">
+      <article class="post ">
+        <header class="post-header">
+          <h1 class="post-title">JUC包AQS设计</h1>
+          <p class="post-date">Posted <time datetime="2020-05-01">May 1, 2020</time></p>
+        </header>
+        
+        
+        <ul>
+<li>为什么需要AQS
+<ul>
+<li>JUC包中提供了一系列的同步器，这些同步器都有以下基本功能
+<ul>
+<li>内部同步状态的管理</li>
+<li>内部同步状态的设置
+<ul>
+<li>使一个线程被阻塞</li>
+<li>使线程被其他线程唤醒</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>几乎任何一个同步器都可以用来设计其他的同步器，因此将共有部分抽象并设计框架成为一个符合直觉的需求</li>
+</ul>
+</li>
+<li>AQS设计需求
+<ul>
+<li>功能目标
+<ul>
+<li>基本方法，Acquire和Release</li>
+<li>阻塞和非阻塞操作</li>
+<li>可选的超时设置</li>
+<li>通过中断实现的任务取消，通常是分为两个版本，一个 acquire 可取消，而另一个不可以</li>
+<li>独占与非独占模式</li>
+<li>监控形式的await/signal 操作</li>
+</ul>
+</li>
+<li>性能目标
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Fb1indsight%2FGClYdJQyqH?alt=media&amp;token=94fddedf-4b05-4a05-8509-14aa630410f4" alt=""></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>AQS结构
+<ul>
+<li>acquire和release
+<ul>
+<li>
+<pre><code class="language-acquire:" data-lang="acquire:">  while (synchronization state does not allow acquire) {
+      enqueue current thread if not already queued;
+      possibly block current thread;
+  }
+  dequeue current thread if it was queued;
+</code></pre></li>
+<li>
+<pre><code class="language-release:" data-lang="release:">  update synchronization state;
+  if (state may permit a blocked thread to acquire)
+      unblock one or more queued threads;
+</code></pre></li>
+</ul>
+</li>
+<li>同步状态的原子性管理
+<ul>
+<li>AQS使用了一个32位int保存state，并提供<code>getState</code>, <code>setState</code>, 和<code>compareAndSet</code>来读取和操作</li>
+<li>在CyclingBarrier中使用了64位state， 因此利用了锁来完成原子性操作</li>
+</ul>
+</li>
+<li>线程的阻塞与解除阻塞
+<ul>
+<li>通过JUCLockSupport park和unpark来控制阻塞和feizuse</li>
+<li>park是基于线程设置的，而不是基于同步器</li>
+<li>unpark是没有计数的，因此可能有多余的unpark附在线程上</li>
+</ul>
+</li>
+<li>队列的管理
+<ul>
+<li>阻塞队列采用严格的FIFO链表队列，使用了变体的CLH锁。
+<ul>
+<li>为解决取消和超时功能，待选MCS锁变体</li>
+</ul>
+</li>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Fb1indsight%2FJyxNDXHojl?alt=media&amp;token=735980c0-8bc6-4c36-8d67-ecfd7992de20" alt=""></li>
+<li>节点通过自旋和CAS操作插入，每个节点状态被保存在它的前驱，因此自旋阻塞类似<code>while(node.pred.state != release);</code></li>
+<li>CLH锁的优点在于节点的入队与出队总是快速， 无障碍且无锁的，而且由于每个节点的状态保持在前驱，使得修改节点可以分散进行；</li>
+<li>一个节点的前驱修改其状态，他的后继在下一次自旋时即会发现状态的改变，在阻塞队列中，则需要前驱节点去显式的唤醒（即unpark。
+<ul>
+<li>其中节点的next的仅为一种优化，这个队列是由prev所链接的，由于缺少应用于双向列表的CAS操作，next仅仅是直接赋值的。因此在唤醒时使用next来找到需要唤醒的节点，next不存在也并不能证明后继不存在，需要由tail前溯来确认。</li>
+</ul>
+</li>
+<li>节点在前驱中的状态是用于控制阻塞而不是自旋，在同步器中，线程仅在<code>tryAcquire</code>返回<code>true</code>时才在<code>acquire</code>返回。</li>
+<li>活动线程在队首时，仅允许<code>tryAcquire</code>来获取锁，也可能<code>Acquire</code>失败而重新堵塞，此时是通过检查前驱是否为head来确认解除许可。取消状态也必须在状态位实现，因此单bit的release位并不够。</li>
+<li>设置状态同时可以避免多余的park和unpark，在线程park前，设置signal位并检查同步状态和节点状态。线程release时重置状态，这样显性的标识状态可以避免多次阻塞及引入多次冲突的开销。</li>
+</ul>
+</li>
+<li>Acquire操作
+<ul>
+<li>
+<pre><code>  if (!tryAcquire(arg)) {
+      node = create and enqueue new node;
+      pred = node's effective predecessor;
+  while (pred is not head node || !tryAcquire(arg)) {
+      if (pred's signal bit is set)
+          park();
+      else
+          compareAndSet pred's signal bit to true;
+      pred = node's effective predecessor;
+  }
+  head = node;
+  }
+</code></pre></li>
+</ul>
+</li>
+<li>release
+<ul>
+<li>
+<pre><code>  if (tryRelease(arg) &amp;&amp; head node's signal bit is set) {
+      compareAndSet head's signal bit to false;
+      unpark head's successor, if one exists
+  }
+</code></pre></li>
+</ul>
+</li>
+<li>条件队列
+<ul>
+<li>#TODO</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>AQS使用
+<ul>
+<li>AQS作为模板提供给子类，子类仅需要设置更新状态。在JUC包中的同步器使用了一个内部类来包装AQS，重写了tryAquire和tryRelease来控制同步。</li>
+<li>AQS提供了多个版本的Aquire和Release，包括超时和中断版本。并提供了tryAcquireShared来控制可重入的资源，方法通过返回值通知框架所剩资源状况，在release时框架通过级联来唤醒多个节点。</li>
+<li>公平与非公平功能：
+<ul>
+<li>在一些条件下，非公平的获取锁可以有效提高同步器吞吐量，而如果外来线程可以持续抢占锁则会造成队列中线程饥饿。</li>
+<li>FIFO队列在进入之前线程会调用tryAcquire方法，因此获得了一个与队头线程竞争的机会，从而可以实现公平与非公平的竞争，此时可以修改tryAcquire中对资源的请求次数来使其偏向外来线程；如果要实现严格的公平竞争，则可以通过添加约束，使线程只有入队才能调用tryAcquire。
+<ul>
+<li>一个比完全公平竞争优化的方法：在lock队列为空时，线程可以使用tryAcquire来获取锁，这样有一个线程可以不必入队获取到锁，得到性能的一点优化。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Reference
+<ul>
+<li><a href="http://gee.cs.oswego.edu/dl/papers/aqs.pdf">http://gee.cs.oswego.edu/dl/papers/aqs.pdf</a></li>
+<li><a href="https://www.inoreader.com/article/3a9c6e78f01cc939-juc-aqs">https://www.inoreader.com/article/3a9c6e78f01cc939-juc-aqs</a></li>
+</ul>
+</li>
+</ul>
+
+      </article>
+      
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://b1indsight.github.io/post/process_and_thread/" class="card blog-card" rel="bookmark" >
+  
+  <article class="card-body">
+    <h2 class="card-title">进程与线程</h2>
+    <p class="card-text">本文主要介绍进程与线程的概念，主要问题，进程间的调度与同步。</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2019-08-03 83:00">Aug 3, 2019</time></p>
+      <p>#操作系统 </p>
+    </div>
+  </article>
+</a>
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://b1indsight.github.io" class="card home-card" style="background-image: url( https://b1indsight.github.io/img/grey-cloud.jpg )" rel="bookmark" >
+  Home
+</a>
+    </nav>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+  
+  <script src="https://b1indsight.github.io/js/core.min.js"></script>
+
+  </body>
+</html>

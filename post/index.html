@@ -12,6 +12,7 @@
   
   
   
+  
   <link href="https://b1indsight.github.io/css/concated.min.css" rel="stylesheet">
   <link rel="alternate" type="application/rss+xml" href="https://b1indsight.github.io/post/index.xml" title="Blog" />
   
@@ -32,60 +33,63 @@
     </button>
     <ul id="menu" class="hamburger-menu-overlay">
       <li><a href="https://b1indsight.github.io" class="hamburger-menu-overlay-link">Home</a></li>
-      <li><a href="https://b1indsight.github.io/categories/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95" class="hamburger-menu-overlay-link">学习方法</a></li><li><a href="https://b1indsight.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F" class="hamburger-menu-overlay-link">操作系统</a></li>
+      
+      <li><a href="https://b1indsight.github.io/categories/java/" class="hamburger-menu-overlay-link">JAVA</a></li>
+      
+      
     </ul>
   </div>
 </nav>
+
     <main class="card-container side-gutter">
       <header class="list-header">
-        <p class="list-header-subtext"></p>
         <h1 class="list-header-title">Posts</h1>
-      </header>
-      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
-  href="https://b1indsight.github.io/post/modern_operating_system/" class="card blog-card" rel="bookmark" >
-    <div class="card-img-container">
-      <picture>
         
-        <source srcset="https://b1indsight.github.io/top2.png">
-        <img src="https://b1indsight.github.io/top2.png" class="card-img" alt="">
-      </picture>
-    </div>
+      </header>
+      
+      
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://b1indsight.github.io/post/juc_aqs/" class="card blog-card" rel="bookmark" >
+  
   <article class="card-body">
-    <h2 class="card-title">现代操作系统写作计划</h2>
-    <p class="card-text">操作系统一课的复述及总结，写作计划及目标</p>
+    <h2 class="card-title">JUC包AQS设计</h2>
+    <p class="card-text">基本是JUC论文读书笔记，没什么独创性，#TODO具体实现及补充</p>
     <div class="card-subtext muted-text">
-      <p>Posted <time datetime="2019-06-23">Jun 23, 2019</time></p>
-      <p>#操作系统 </p>
+      <p>Posted <time datetime="2020-05-01">May 1, 2020</time></p>
+      <p>#Java </p>
+    </div>
+  </article>
+</a><a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://b1indsight.github.io/post/process_and_thread/" class="card blog-card" rel="bookmark" >
+  
+  <article class="card-body">
+    <h2 class="card-title">进程与线程</h2>
+    <p class="card-text">本文主要介绍进程与线程的概念，主要问题，进程间的调度与同步。</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2019-08-03">Aug 3, 2019</time></p>
+      <p>#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F </p>
     </div>
   </article>
 </a><a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
   href="https://b1indsight.github.io/post/effecient_method_of_scotty/" class="card blog-card" rel="bookmark" >
-    <div class="card-img-container">
-      <picture>
-        
-        <source srcset="https://b1indsight.github.io/top1.jpg">
-        <img src="https://b1indsight.github.io/top1.jpg" class="card-img" alt="">
-      </picture>
-    </div>
+  
   <article class="card-body">
     <h2 class="card-title">斯科特杨的高效率方法</h2>
     <p class="card-text">简单构建的可行提高效率体系</p>
     <div class="card-subtext muted-text">
       <p>Posted <time datetime="2019-05-05">May 5, 2019</time></p>
-      <p>#学习方法 </p>
+      <p>#%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95 </p>
     </div>
   </article>
 </a>
     </main>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
     onload="renderMathInElement(document.body);"></script>
   
   <script src="https://b1indsight.github.io/js/core.min.js"></script>
-<script>
-  hljs.initHighlightingOnLoad();
-</script>
 
   </body>
 </html>

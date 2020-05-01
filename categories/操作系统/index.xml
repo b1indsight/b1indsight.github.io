@@ -5,17 +5,17 @@
     <description>Recent content in 操作系统 on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 23 Jun 2019 20:47:44 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 03 Aug 2019 18:56:51 +0800</lastBuildDate>
     
         <atom:link href="https://b1indsight.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>现代操作系统写作计划</title>
-      <link>https://b1indsight.github.io/post/modern_operating_system/</link>
-      <pubDate>Sun, 23 Jun 2019 20:47:44 +0800</pubDate>
+      <title>进程与线程</title>
+      <link>https://b1indsight.github.io/post/process_and_thread/</link>
+      <pubDate>Sat, 03 Aug 2019 18:56:51 +0800</pubDate>
       
-      <guid>https://b1indsight.github.io/post/modern_operating_system/</guid>
-      <description>操作系统一课的复述及总结，写作计划及目标</description>
+      <guid>https://b1indsight.github.io/post/process_and_thread/</guid>
+      <description>本文主要介绍进程与线程的概念，主要问题，进程间的调度与同步。</description>
     </item>
   </channel>
 </rss>

@@ -5,17 +5,24 @@
     <description>Recent content in Posts on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 23 Jun 2019 20:47:44 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 01 May 2020 16:27:50 +0800</lastBuildDate>
     
         <atom:link href="https://b1indsight.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>现代操作系统写作计划</title>
-      <link>https://b1indsight.github.io/post/modern_operating_system/</link>
-      <pubDate>Sun, 23 Jun 2019 20:47:44 +0800</pubDate>
+      <title>JUC包AQS设计</title>
+      <link>https://b1indsight.github.io/post/juc_aqs/</link>
+      <pubDate>Fri, 01 May 2020 16:27:50 +0800</pubDate>
       
-      <guid>https://b1indsight.github.io/post/modern_operating_system/</guid>
-      <description>操作系统一课的复述及总结，写作计划及目标</description>
+      <guid>https://b1indsight.github.io/post/juc_aqs/</guid>
+      <description>基本是JUC论文读书笔记，没什么独创性，#TODO具体实现及补充</description>
+    </item><item>
+      <title>进程与线程</title>
+      <link>https://b1indsight.github.io/post/process_and_thread/</link>
+      <pubDate>Sat, 03 Aug 2019 18:56:51 +0800</pubDate>
+      
+      <guid>https://b1indsight.github.io/post/process_and_thread/</guid>
+      <description>本文主要介绍进程与线程的概念，主要问题，进程间的调度与同步。</description>
     </item><item>
       <title>斯科特杨的高效率方法</title>
       <link>https://b1indsight.github.io/post/effecient_method_of_scotty/</link>

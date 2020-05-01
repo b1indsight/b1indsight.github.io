@@ -1,0 +1,21 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JAVA - Blog</title>
+    <link>https://b1indsight.github.io/categories/java/</link>
+    <description>Recent content in JAVA on Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 01 May 2020 16:27:50 +0800</lastBuildDate>
+    
+        <atom:link href="https://b1indsight.github.io/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>JUC包AQS设计</title>
+      <link>https://b1indsight.github.io/post/juc_aqs/</link>
+      <pubDate>Fri, 01 May 2020 16:27:50 +0800</pubDate>
+      
+      <guid>https://b1indsight.github.io/post/juc_aqs/</guid>
+      <description>基本是JUC论文读书笔记，没什么独创性，#TODO具体实现及补充</description>
+    </item>
+  </channel>
+</rss>
