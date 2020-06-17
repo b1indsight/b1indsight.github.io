@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>从零开始的python解释器（1） &middot; Blog</title>
+  <meta name="description" content="最基础的字节码序列求值器的实现" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  
+  
+  
+  
+  
+  <link href="https://b1indsight.github.io/css/concated.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      background: #ecedef url("https://user-images.githubusercontent.com/47165749/57181495-2207e200-6ec7-11e9-94c0-2580990d1e71.jpg") repeat;
+    }
+  </style>
+</head>
+
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://b1indsight.github.io" class="nav-text">b1indsight</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://b1indsight.github.io" class="hamburger-menu-overlay-link">Home</a></li>
+      
+      <li><a href="https://b1indsight.github.io/categories/java/" class="hamburger-menu-overlay-link">JAVA</a></li>
+      
+      <li><a href="https://b1indsight.github.io/categories/python/" class="hamburger-menu-overlay-link">Python</a></li>
+      
+      <li><a href="https://b1indsight.github.io/categories/python-interpreter/" class="hamburger-menu-overlay-link">Python interpreter</a></li>
+      
+      
+    </ul>
+  </div>
+</nav>
+
+    <main class="content side-text-padding">
+      <article class="post dropcase">
+        <header class="post-header">
+          <h1 class="post-title">从零开始的python解释器（1）</h1>
+          <p class="post-date">Posted <time datetime="2020-06-17">Jun 17, 2020</time></p>
+        </header>
+        
+        
+        <h2 id="单条字节码的解释运行">单条字节码的解释运行</h2>
+<h3 id="反编译字节码">反编译字节码</h3>
+<p>python 字节码形式可以用<code>dis.dis()</code>来反编译code object来获得，先考虑一段简单的python代码:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+b <span style="color:#f92672">=</span> a <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</code></pre></div><p>反编译之后是：
+<img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Fb1indsight%2FQSbuQtX8Ay.png?alt=media&amp;token=e2261049-5c88-4308-99ea-70f6fc57dd76" alt="dis.dis(code)"></p>
+<p>可见字节码拥有2Byte长度，前半部分用来标识字节码，后半是参数。其中字节码的参数仅用来标识字节码参数的位置，而不是参数本身。</p>
+<h3 id="字节码来源">字节码来源</h3>
+<p>code object是由<code>compile()</code>函数编译代码字符串生成的。在当前要进行的部分暂时关注它的一部分内容：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">code<span style="color:#f92672">.</span>co_code <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;d</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">Z</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">e</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">d</span><span style="color:#ae81ff">\x00\x17\x00</span><span style="color:#e6db74">Z</span><span style="color:#ae81ff">\x01</span><span style="color:#e6db74">d</span><span style="color:#ae81ff">\x01</span><span style="color:#e6db74">S</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>
+code<span style="color:#f92672">.</span>co_consts <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span>, None)
+code<span style="color:#f92672">.</span>co_names <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>)
+</code></pre></div><p>以上则是解释运行暂时需要的全部材料，其中co_code则是python字节码，co_consts用来存储需要的常数，co_names存储需要的变量。</p>
+<p>举例：LOAD_CONST的解释
+<code>print(co_code[0])</code>则会返回100，即是字节码， <code>co_code[1]= 0</code>则是字节码参数
+通过<code>dis.opname[100]</code>则可知道字节码<code>opname = LOAD_CONST</code>,参数则是<code>co_consts[0] = 1</code>。这样第一条字节码就可以翻译为<code>LOAD_CONST(1)</code></p>
+<h3 id="字节码执行">字节码执行</h3>
+<p>由上知道了字节码本身被翻译为<code>LOAD_CONST(1)</code>，接下来就需要执行该函数
+python vm与JVM相同，都是基于操作数栈的解释器，函数在执行后将返回值压入操作数栈
+因此，<code>LOAD_CONST()</code>函数可以被写成以下形式</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">LOAD_CONST</span>(num):
+stack<span style="color:#f92672">.</span>push(num)
+</code></pre></div><p>这样，第一条字节码便执行完成</p>
+<hr>
+<h2 id="多条字节码顺序执行">多条字节码顺序执行</h2>
+<p>这样可以写出字节码解释器主体的循环：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">pc <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+stack <span style="color:#f92672">=</span> []
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>():
+    <span style="color:#66d9ef">while</span> True:
+        byteName, arguments <span style="color:#f92672">=</span> prase_byte_code_and_argument()
+        dispatch(byteName, arguments)
+        <span style="color:#66d9ef">if</span> byteName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;RETURE_VALUE&#34;</span>:
+            <span style="color:#66d9ef">return</span>
+</code></pre></div><p>此处，鉴于将来要对于循环和分支结构的支持，考虑通过判断<code>RETURE_VALUE</code>来返回退出循环。</p>
+<h3 id="prase_byte_code_and_argument函数"><code>prase_byte_code_and_argument()</code>函数</h3>
+<p>本函数用来解析code.co_code的字节码，转换为字节码函数名和参数。</p>
+<pre><code class="language-pythonpython" data-lang="pythonpython">def prase_byte_code_and_argument():
+    byteCode = code.co_code[pc]
+    byteName = dis.opname[byteCode]
+    arguments = []
+    pc += 2
+
+    if byteCode &gt;= dis.HAVE_ARGUMENT:
+        arg = code.co_code[pc-1]
+
+        if byteCode in dis.hasconst:   # Look up a constant
+            arg = code.co_consts[arg]
+        elif byteCode in dis.hasname:  # Look up a name
+            arg = code.co_names[arg]
+        elif byteCode in dis.haslocal:  # Look up a local name
+            arg = code.co_varnames[arg]
+        elif byteCode in dis.hasjrel:  # Calculate a relative jump
+            arg = pc + arg
+        else:
+            arg = arg
+        arguments = [arg]
+    else:
+        arguments = []
+
+return byteName, arguments
+</code></pre><h3 id="dispatchbytename-arguments函数"><code>dispatch(byteName, arguments)</code>函数</h3>
+<p>获取到<code>byteName</code>之后要得到对应的函数对象，此时使用<code>getattr(byteName)</code>来获取对应的函数对象
+然后调用<code>byteName(*arguments)</code>完成执行</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dispatch</span>(byteName, arguments):
+    func <span style="color:#f92672">=</span> getattr(vm, byteName)
+    func(<span style="color:#f92672">*</span>arguments)
+</code></pre></div><h3 id="reture_value">RETURE_VALUE</h3>
+<p>return value暂时仅作为字节码的终止，因此判断运行到此处时退出主循环。</p>
+<hr>
+<h2 id="总结">总结</h2>
+<p>最简单的字节码求值器的主题就这样写成了，剩余的其他工作即是填充上未写过的字节码函数定义，这样字节码的解释求值即可以完成了。</p>
+
+      </article>
+      
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://b1indsight.github.io/post/juc_aqs/" class="card blog-card" rel="bookmark" >
+  
+  <article class="card-body">
+    <h2 class="card-title">JUC包AQS设计</h2>
+    <p class="card-text">基本是JUC论文读书笔记，没什么独创性，#TODO具体实现及补充</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2020-05-01 51:00">May 1, 2020</time></p>
+      <p>#JAVA </p>
+    </div>
+  </article>
+</a>
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://b1indsight.github.io" class="card home-card" style="background-image: url( https://b1indsight.github.io/img/grey-cloud.jpg )" rel="bookmark" >
+  Home
+</a>
+    </nav>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+  
+  <script src="https://b1indsight.github.io/js/core.min.js"></script>
+
+  </body>
+</html>

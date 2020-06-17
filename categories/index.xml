@@ -5,11 +5,25 @@
     <description>Recent content in Categories on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 01 May 2020 16:27:50 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 17 Jun 2020 16:25:20 +0800</lastBuildDate>
     
         <atom:link href="https://b1indsight.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Python</title>
+      <link>https://b1indsight.github.io/categories/python/</link>
+      <pubDate>Wed, 17 Jun 2020 16:25:20 +0800</pubDate>
+      
+      <guid>https://b1indsight.github.io/categories/python/</guid>
+      <description></description>
+    </item><item>
+      <title>Python interpreter</title>
+      <link>https://b1indsight.github.io/categories/python-interpreter/</link>
+      <pubDate>Wed, 17 Jun 2020 16:25:20 +0800</pubDate>
+      
+      <guid>https://b1indsight.github.io/categories/python-interpreter/</guid>
+      <description></description>
+    </item><item>
       <title>JAVA</title>
       <link>https://b1indsight.github.io/categories/java/</link>
       <pubDate>Fri, 01 May 2020 16:27:50 +0800</pubDate>

@@ -4,12 +4,32 @@
   
   <url>
     <loc>https://b1indsight.github.io/</loc>
-    <lastmod>2020-05-01T16:27:50+08:00</lastmod>
+    <lastmod>2020-06-17T16:25:20+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://b1indsight.github.io/categories/</loc>
-    <lastmod>2020-05-01T16:27:50+08:00</lastmod>
+    <lastmod>2020-06-17T16:25:20+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://b1indsight.github.io/post/</loc>
+    <lastmod>2020-06-17T16:25:20+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://b1indsight.github.io/categories/python/</loc>
+    <lastmod>2020-06-17T16:25:20+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://b1indsight.github.io/categories/python-interpreter/</loc>
+    <lastmod>2020-06-17T16:25:20+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://b1indsight.github.io/post/from_zero_to_a_python_interpreter_1/</loc>
+    <lastmod>2020-06-17T16:25:20+08:00</lastmod>
   </url>
   
   <url>
@@ -19,11 +39,6 @@
   
   <url>
     <loc>https://b1indsight.github.io/post/juc_aqs/</loc>
-    <lastmod>2020-05-01T16:27:50+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://b1indsight.github.io/post/</loc>
     <lastmod>2020-05-01T16:27:50+08:00</lastmod>
   </url>
   
