@@ -1,42 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories - Blog</title>
+    <title>Categories on b1indsight</title>
     <link>https://b1indsight.github.io/categories/</link>
-    <description>Recent content in Categories on Blog</description>
+    <description>b1indsight (Categories)</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 17 Jun 2020 16:25:20 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 17 Jun 2020 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="https://b1indsight.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://b1indsight.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Python</title>
-      <link>https://b1indsight.github.io/categories/python/</link>
-      <pubDate>Wed, 17 Jun 2020 16:25:20 +0800</pubDate>
-      
-      <guid>https://b1indsight.github.io/categories/python/</guid>
-      <description></description>
-    </item><item>
-      <title>Python interpreter</title>
-      <link>https://b1indsight.github.io/categories/python-interpreter/</link>
-      <pubDate>Wed, 17 Jun 2020 16:25:20 +0800</pubDate>
-      
-      <guid>https://b1indsight.github.io/categories/python-interpreter/</guid>
-      <description></description>
-    </item><item>
-      <title>JAVA</title>
-      <link>https://b1indsight.github.io/categories/java/</link>
-      <pubDate>Fri, 01 May 2020 16:27:50 +0800</pubDate>
-      
-      <guid>https://b1indsight.github.io/categories/java/</guid>
-      <description></description>
-    </item><item>
-      <title>学习方法</title>
-      <link>https://b1indsight.github.io/categories/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/</link>
-      <pubDate>Sun, 05 May 2019 16:27:50 +0800</pubDate>
-      
-      <guid>https://b1indsight.github.io/categories/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/</guid>
-      <description></description>
-    </item>
+    
   </channel>
 </rss>

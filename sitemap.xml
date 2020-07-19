@@ -3,37 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://b1indsight.github.io/</loc>
-    <lastmod>2020-06-17T16:25:20+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://b1indsight.github.io/categories/</loc>
-    <lastmod>2020-06-17T16:25:20+08:00</lastmod>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://b1indsight.github.io/post/</loc>
-    <lastmod>2020-06-17T16:25:20+08:00</lastmod>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://b1indsight.github.io/categories/python/</loc>
-    <lastmod>2020-06-17T16:25:20+08:00</lastmod>
+    <loc>https://b1indsight.github.io/tags/python/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://b1indsight.github.io/categories/python-interpreter/</loc>
-    <lastmod>2020-06-17T16:25:20+08:00</lastmod>
+    <loc>https://b1indsight.github.io/tags/python-interpreter/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://b1indsight.github.io/tags/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://b1indsight.github.io/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84python%E8%A7%A3%E9%87%8A%E5%99%A8/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://b1indsight.github.io/post/from_zero_to_a_python_interpreter_1/</loc>
-    <lastmod>2020-06-17T16:25:20+08:00</lastmod>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://b1indsight.github.io/categories/java/</loc>
+    <loc>https://b1indsight.github.io/tags/java/</loc>
     <lastmod>2020-05-01T16:27:50+08:00</lastmod>
   </url>
   
@@ -53,7 +58,13 @@
   </url>
   
   <url>
-    <loc>https://b1indsight.github.io/tags/</loc>
+    <loc>https://b1indsight.github.io/about/</loc>
+    <lastmod>2019-02-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://b1indsight.github.io/</loc>
+    <lastmod>2019-02-28T00:00:00+00:00</lastmod>
   </url>
   
 </urlset>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JAVA on b1indsight</title>
+    <link>https://b1indsight.github.io/tags/java/</link>
+    <description>b1indsight (JAVA)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 01 May 2020 16:27:50 +0800</lastBuildDate>
+    
+    <atom:link href="https://b1indsight.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>JUC包AQS设计</title>
+      <link>https://b1indsight.github.io/post/juc_aqs/</link>
+      <pubDate>Fri, 01 May 2020 16:27:50 +0800</pubDate>
+      
+      <guid>https://b1indsight.github.io/post/juc_aqs/</guid>
+      <description>&lt;ul&gt;
+&lt;li&gt;为什么需要AQS
+&lt;ul&gt;
+&lt;li&gt;JUC包中提供了一系列的同步器，这些同步器都有以下基本功能
+&lt;ul&gt;
+&lt;li&gt;内部同步状态的管理&lt;/li&gt;
+&lt;li&gt;内部同步状态的设置
+&lt;ul&gt;
+&lt;li&gt;使一个线程被阻塞&lt;/li&gt;
+&lt;li&gt;使线程被其他线程唤醒&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;几乎任何一个同步器都可以用来设计其他的同步器，因此将共有部分抽象并设计框架成为一个符合直觉的需求&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;AQS设计需求
+&lt;ul&gt;
+&lt;li&gt;功能目标
+&lt;ul&gt;
+&lt;li&gt;基本方法，Acquire和Release&lt;/li&gt;
+&lt;li&gt;阻塞和非阻塞操作&lt;/li&gt;
+&lt;li&gt;可选的超时设置&lt;/li&gt;
+&lt;li&gt;通过中断实现的任务取消，通常是分为两个版本，一个 acquire 可取消，而另一个不可以&lt;/li&gt;
+&lt;li&gt;独占与非独占模式&lt;/li&gt;
+&lt;li&gt;监控形式的await/signal 操作&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;性能目标
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Fb1indsight%2FGClYdJQyqH?alt=media&amp;amp;token=94fddedf-4b05-4a05-8509-14aa630410f4&#34; alt=&#34;&#34;&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;AQS结构
+&lt;ul&gt;
+&lt;li&gt;acquire和release
+&lt;ul&gt;
+&lt;li&gt;
+&lt;pre&gt;&lt;code class=&#34;language-acquire:&#34; data-lang=&#34;acquire:&#34;&gt;  while (synchronization state does not allow acquire) {
+      enqueue current thread if not already queued;
+      possibly block current thread;
+  }
+  dequeue current thread if it was queued;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;pre&gt;&lt;code class=&#34;language-release:&#34; data-lang=&#34;release:&#34;&gt;  update synchronization state;
+  if (state may permit a blocked thread to acquire)
+      unblock one or more queued threads;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;同步状态的原子性管理
+&lt;ul&gt;
+&lt;li&gt;AQS使用了一个32位int保存state，并提供&lt;code&gt;getState&lt;/code&gt;, &lt;code&gt;setState&lt;/code&gt;, 和&lt;code&gt;compareAndSet&lt;/code&gt;来读取和操作&lt;/li&gt;
+&lt;li&gt;在CyclingBarrier中使用了64位state， 因此利用了锁来完成原子性操作&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;线程的阻塞与解除阻塞
+&lt;ul&gt;
+&lt;li&gt;通过JUCLockSupport park和unpark来控制阻塞和feizuse&lt;/li&gt;
+&lt;li&gt;park是基于线程设置的，而不是基于同步器&lt;/li&gt;
+&lt;li&gt;unpark是没有计数的，因此可能有多余的unpark附在线程上&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;队列的管理
+&lt;ul&gt;
+&lt;li&gt;阻塞队列采用严格的FIFO链表队列，使用了变体的CLH锁。
+&lt;ul&gt;
+&lt;li&gt;为解决取消和超时功能，待选MCS锁变体&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;img src=&#34;https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Fb1indsight%2FJyxNDXHojl?alt=media&amp;amp;token=735980c0-8bc6-4c36-8d67-ecfd7992de20&#34; alt=&#34;&#34;&gt;&lt;/li&gt;
+&lt;li&gt;节点通过自旋和CAS操作插入，每个节点状态被保存在它的前驱，因此自旋阻塞类似&lt;code&gt;while(node.pred.state != release);&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;CLH锁的优点在于节点的入队与出队总是快速， 无障碍且无锁的，而且由于每个节点的状态保持在前驱，使得修改节点可以分散进行；&lt;/li&gt;
+&lt;li&gt;一个节点的前驱修改其状态，他的后继在下一次自旋时即会发现状态的改变，在阻塞队列中，则需要前驱节点去显式的唤醒（即unpark。
+&lt;ul&gt;
+&lt;li&gt;其中节点的next的仅为一种优化，这个队列是由prev所链接的，由于缺少应用于双向列表的CAS操作，next仅仅是直接赋值的。因此在唤醒时使用next来找到需要唤醒的节点，next不存在也并不能证明后继不存在，需要由tail前溯来确认。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;节点在前驱中的状态是用于控制阻塞而不是自旋，在同步器中，线程仅在&lt;code&gt;tryAcquire&lt;/code&gt;返回&lt;code&gt;true&lt;/code&gt;时才在&lt;code&gt;acquire&lt;/code&gt;返回。&lt;/li&gt;
+&lt;li&gt;活动线程在队首时，仅允许&lt;code&gt;tryAcquire&lt;/code&gt;来获取锁，也可能&lt;code&gt;Acquire&lt;/code&gt;失败而重新堵塞，此时是通过检查前驱是否为head来确认解除许可。取消状态也必须在状态位实现，因此单bit的release位并不够。&lt;/li&gt;
+&lt;li&gt;设置状态同时可以避免多余的park和unpark，在线程park前，设置signal位并检查同步状态和节点状态。线程release时重置状态，这样显性的标识状态可以避免多次阻塞及引入多次冲突的开销。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Acquire操作
+&lt;ul&gt;
+&lt;li&gt;
+&lt;pre&gt;&lt;code&gt;  if (!tryAcquire(arg)) {
+      node = create and enqueue new node;
+      pred = node&#39;s effective predecessor;
+  while (pred is not head node || !tryAcquire(arg)) {
+      if (pred&#39;s signal bit is set)
+          park();
+      else
+          compareAndSet pred&#39;s signal bit to true;
+      pred = node&#39;s effective predecessor;
+  }
+  head = node;
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;release
+&lt;ul&gt;
+&lt;li&gt;
+&lt;pre&gt;&lt;code&gt;  if (tryRelease(arg) &amp;amp;&amp;amp; head node&#39;s signal bit is set) {
+      compareAndSet head&#39;s signal bit to false;
+      unpark head&#39;s successor, if one exists
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;条件队列
+&lt;ul&gt;
+&lt;li&gt;#TODO&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;AQS使用
+&lt;ul&gt;
+&lt;li&gt;AQS作为模板提供给子类，子类仅需要设置更新状态。在JUC包中的同步器使用了一个内部类来包装AQS，重写了tryAquire和tryRelease来控制同步。&lt;/li&gt;
+&lt;li&gt;AQS提供了多个版本的Aquire和Release，包括超时和中断版本。并提供了tryAcquireShared来控制可重入的资源，方法通过返回值通知框架所剩资源状况，在release时框架通过级联来唤醒多个节点。&lt;/li&gt;
+&lt;li&gt;公平与非公平功能：
+&lt;ul&gt;
+&lt;li&gt;在一些条件下，非公平的获取锁可以有效提高同步器吞吐量，而如果外来线程可以持续抢占锁则会造成队列中线程饥饿。&lt;/li&gt;
+&lt;li&gt;FIFO队列在进入之前线程会调用tryAcquire方法，因此获得了一个与队头线程竞争的机会，从而可以实现公平与非公平的竞争，此时可以修改tryAcquire中对资源的请求次数来使其偏向外来线程；如果要实现严格的公平竞争，则可以通过添加约束，使线程只有入队才能调用tryAcquire。
+&lt;ul&gt;
+&lt;li&gt;一个比完全公平竞争优化的方法：在lock队列为空时，线程可以使用tryAcquire来获取锁，这样有一个线程可以不必入队获取到锁，得到性能的一点优化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Reference
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://gee.cs.oswego.edu/dl/papers/aqs.pdf&#34;&gt;http://gee.cs.oswego.edu/dl/papers/aqs.pdf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.inoreader.com/article/3a9c6e78f01cc939-juc-aqs&#34;&gt;https://www.inoreader.com/article/3a9c6e78f01cc939-juc-aqs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

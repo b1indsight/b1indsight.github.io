@@ -1,35 +1,310 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts - Blog</title>
+    <title>Posts on b1indsight</title>
     <link>https://b1indsight.github.io/post/</link>
-    <description>Recent content in Posts on Blog</description>
+    <description>b1indsight (Posts)</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 17 Jun 2020 16:25:20 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 17 Jun 2020 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="https://b1indsight.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://b1indsight.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>从零开始的python解释器（1）</title>
       <link>https://b1indsight.github.io/post/from_zero_to_a_python_interpreter_1/</link>
-      <pubDate>Wed, 17 Jun 2020 16:25:20 +0800</pubDate>
+      <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
       
       <guid>https://b1indsight.github.io/post/from_zero_to_a_python_interpreter_1/</guid>
-      <description>最基础的字节码序列求值器的实现</description>
-    </item><item>
+      <description>&lt;h2 id=&#34;单条字节码的解释运行&#34;&gt;单条字节码的解释运行&lt;/h2&gt;
+&lt;h3 id=&#34;反编译字节码&#34;&gt;反编译字节码&lt;/h3&gt;
+&lt;p&gt;python 字节码形式可以用&lt;code&gt;dis.dis()&lt;/code&gt;来反编译code object来获得，先考虑一段简单的python代码:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;反编译之后是：
+&lt;img src=&#34;https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Fb1indsight%2FQSbuQtX8Ay.png?alt=media&amp;amp;token=e2261049-5c88-4308-99ea-70f6fc57dd76&#34; alt=&#34;dis.dis(code)&#34;&gt;&lt;/p&gt;
+&lt;p&gt;可见字节码拥有2Byte长度，前半部分用来标识字节码，后半是参数。其中字节码的参数仅用来标识字节码参数的位置，而不是参数本身。&lt;/p&gt;
+&lt;h3 id=&#34;字节码来源&#34;&gt;字节码来源&lt;/h3&gt;
+&lt;p&gt;code object是由&lt;code&gt;compile()&lt;/code&gt;函数编译代码字符串生成的。在当前要进行的部分暂时关注它的一部分内容：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;code&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;co_code &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;d&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x00&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Z&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x00&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;e&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x00&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;d&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x00\x17\x00&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Z&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x01&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;d&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x01&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;S&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x00&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;
+code&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;co_consts &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, None)
+code&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;co_names &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;以上则是解释运行暂时需要的全部材料，其中co_code则是python字节码，co_consts用来存储需要的常数，co_names存储需要的变量。&lt;/p&gt;
+&lt;p&gt;举例：LOAD_CONST的解释
+&lt;code&gt;print(co_code[0])&lt;/code&gt;则会返回100，即是字节码， &lt;code&gt;co_code[1]= 0&lt;/code&gt;则是字节码参数
+通过&lt;code&gt;dis.opname[100]&lt;/code&gt;则可知道字节码&lt;code&gt;opname = LOAD_CONST&lt;/code&gt;,参数则是&lt;code&gt;co_consts[0] = 1&lt;/code&gt;。这样第一条字节码就可以翻译为&lt;code&gt;LOAD_CONST(1)&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;字节码执行&#34;&gt;字节码执行&lt;/h3&gt;
+&lt;p&gt;由上知道了字节码本身被翻译为&lt;code&gt;LOAD_CONST(1)&lt;/code&gt;，接下来就需要执行该函数
+python vm与JVM相同，都是基于操作数栈的解释器，函数在执行后将返回值压入操作数栈
+因此，&lt;code&gt;LOAD_CONST()&lt;/code&gt;函数可以被写成以下形式&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;LOAD_CONST&lt;/span&gt;(num):
+stack&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;push(num)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样，第一条字节码便执行完成&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;多条字节码顺序执行&#34;&gt;多条字节码顺序执行&lt;/h2&gt;
+&lt;p&gt;这样可以写出字节码解释器主体的循环：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+stack &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;run&lt;/span&gt;():
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; True:
+        byteName, arguments &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; prase_byte_code_and_argument()
+        dispatch(byteName, arguments)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; byteName &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;RETURE_VALUE&amp;#34;&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此处，鉴于将来要对于循环和分支结构的支持，考虑通过判断&lt;code&gt;RETURE_VALUE&lt;/code&gt;来返回退出循环。&lt;/p&gt;
+&lt;h3 id=&#34;prase_byte_code_and_argument函数&#34;&gt;&lt;code&gt;prase_byte_code_and_argument()&lt;/code&gt;函数&lt;/h3&gt;
+&lt;p&gt;本函数用来解析code.co_code的字节码，转换为字节码函数名和参数。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-pythonpython&#34; data-lang=&#34;pythonpython&#34;&gt;def prase_byte_code_and_argument():
+    byteCode = code.co_code[pc]
+    byteName = dis.opname[byteCode]
+    arguments = []
+    pc += 2
+
+    if byteCode &amp;gt;= dis.HAVE_ARGUMENT:
+        arg = code.co_code[pc-1]
+
+        if byteCode in dis.hasconst:   # Look up a constant
+            arg = code.co_consts[arg]
+        elif byteCode in dis.hasname:  # Look up a name
+            arg = code.co_names[arg]
+        elif byteCode in dis.haslocal:  # Look up a local name
+            arg = code.co_varnames[arg]
+        elif byteCode in dis.hasjrel:  # Calculate a relative jump
+            arg = pc + arg
+        else:
+            arg = arg
+        arguments = [arg]
+    else:
+        arguments = []
+
+return byteName, arguments
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;dispatchbytename-arguments函数&#34;&gt;&lt;code&gt;dispatch(byteName, arguments)&lt;/code&gt;函数&lt;/h3&gt;
+&lt;p&gt;获取到&lt;code&gt;byteName&lt;/code&gt;之后要得到对应的函数对象，此时使用&lt;code&gt;getattr(byteName)&lt;/code&gt;来获取对应的函数对象
+然后调用&lt;code&gt;byteName(*arguments)&lt;/code&gt;完成执行&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;dispatch&lt;/span&gt;(byteName, arguments):
+    func &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; getattr(vm, byteName)
+    func(&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;arguments)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;reture_value&#34;&gt;RETURE_VALUE&lt;/h3&gt;
+&lt;p&gt;return value暂时仅作为字节码的终止，因此判断运行到此处时退出主循环。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;p&gt;最简单的字节码求值器的主题就这样写成了，剩余的其他工作即是填充上未写过的字节码函数定义，这样字节码的解释求值即可以完成了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>JUC包AQS设计</title>
       <link>https://b1indsight.github.io/post/juc_aqs/</link>
       <pubDate>Fri, 01 May 2020 16:27:50 +0800</pubDate>
       
       <guid>https://b1indsight.github.io/post/juc_aqs/</guid>
-      <description>基本是JUC论文读书笔记，没什么独创性，#TODO具体实现及补充</description>
-    </item><item>
+      <description>&lt;ul&gt;
+&lt;li&gt;为什么需要AQS
+&lt;ul&gt;
+&lt;li&gt;JUC包中提供了一系列的同步器，这些同步器都有以下基本功能
+&lt;ul&gt;
+&lt;li&gt;内部同步状态的管理&lt;/li&gt;
+&lt;li&gt;内部同步状态的设置
+&lt;ul&gt;
+&lt;li&gt;使一个线程被阻塞&lt;/li&gt;
+&lt;li&gt;使线程被其他线程唤醒&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;几乎任何一个同步器都可以用来设计其他的同步器，因此将共有部分抽象并设计框架成为一个符合直觉的需求&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;AQS设计需求
+&lt;ul&gt;
+&lt;li&gt;功能目标
+&lt;ul&gt;
+&lt;li&gt;基本方法，Acquire和Release&lt;/li&gt;
+&lt;li&gt;阻塞和非阻塞操作&lt;/li&gt;
+&lt;li&gt;可选的超时设置&lt;/li&gt;
+&lt;li&gt;通过中断实现的任务取消，通常是分为两个版本，一个 acquire 可取消，而另一个不可以&lt;/li&gt;
+&lt;li&gt;独占与非独占模式&lt;/li&gt;
+&lt;li&gt;监控形式的await/signal 操作&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;性能目标
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Fb1indsight%2FGClYdJQyqH?alt=media&amp;amp;token=94fddedf-4b05-4a05-8509-14aa630410f4&#34; alt=&#34;&#34;&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;AQS结构
+&lt;ul&gt;
+&lt;li&gt;acquire和release
+&lt;ul&gt;
+&lt;li&gt;
+&lt;pre&gt;&lt;code class=&#34;language-acquire:&#34; data-lang=&#34;acquire:&#34;&gt;  while (synchronization state does not allow acquire) {
+      enqueue current thread if not already queued;
+      possibly block current thread;
+  }
+  dequeue current thread if it was queued;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;pre&gt;&lt;code class=&#34;language-release:&#34; data-lang=&#34;release:&#34;&gt;  update synchronization state;
+  if (state may permit a blocked thread to acquire)
+      unblock one or more queued threads;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;同步状态的原子性管理
+&lt;ul&gt;
+&lt;li&gt;AQS使用了一个32位int保存state，并提供&lt;code&gt;getState&lt;/code&gt;, &lt;code&gt;setState&lt;/code&gt;, 和&lt;code&gt;compareAndSet&lt;/code&gt;来读取和操作&lt;/li&gt;
+&lt;li&gt;在CyclingBarrier中使用了64位state， 因此利用了锁来完成原子性操作&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;线程的阻塞与解除阻塞
+&lt;ul&gt;
+&lt;li&gt;通过JUCLockSupport park和unpark来控制阻塞和feizuse&lt;/li&gt;
+&lt;li&gt;park是基于线程设置的，而不是基于同步器&lt;/li&gt;
+&lt;li&gt;unpark是没有计数的，因此可能有多余的unpark附在线程上&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;队列的管理
+&lt;ul&gt;
+&lt;li&gt;阻塞队列采用严格的FIFO链表队列，使用了变体的CLH锁。
+&lt;ul&gt;
+&lt;li&gt;为解决取消和超时功能，待选MCS锁变体&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;img src=&#34;https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Fb1indsight%2FJyxNDXHojl?alt=media&amp;amp;token=735980c0-8bc6-4c36-8d67-ecfd7992de20&#34; alt=&#34;&#34;&gt;&lt;/li&gt;
+&lt;li&gt;节点通过自旋和CAS操作插入，每个节点状态被保存在它的前驱，因此自旋阻塞类似&lt;code&gt;while(node.pred.state != release);&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;CLH锁的优点在于节点的入队与出队总是快速， 无障碍且无锁的，而且由于每个节点的状态保持在前驱，使得修改节点可以分散进行；&lt;/li&gt;
+&lt;li&gt;一个节点的前驱修改其状态，他的后继在下一次自旋时即会发现状态的改变，在阻塞队列中，则需要前驱节点去显式的唤醒（即unpark。
+&lt;ul&gt;
+&lt;li&gt;其中节点的next的仅为一种优化，这个队列是由prev所链接的，由于缺少应用于双向列表的CAS操作，next仅仅是直接赋值的。因此在唤醒时使用next来找到需要唤醒的节点，next不存在也并不能证明后继不存在，需要由tail前溯来确认。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;节点在前驱中的状态是用于控制阻塞而不是自旋，在同步器中，线程仅在&lt;code&gt;tryAcquire&lt;/code&gt;返回&lt;code&gt;true&lt;/code&gt;时才在&lt;code&gt;acquire&lt;/code&gt;返回。&lt;/li&gt;
+&lt;li&gt;活动线程在队首时，仅允许&lt;code&gt;tryAcquire&lt;/code&gt;来获取锁，也可能&lt;code&gt;Acquire&lt;/code&gt;失败而重新堵塞，此时是通过检查前驱是否为head来确认解除许可。取消状态也必须在状态位实现，因此单bit的release位并不够。&lt;/li&gt;
+&lt;li&gt;设置状态同时可以避免多余的park和unpark，在线程park前，设置signal位并检查同步状态和节点状态。线程release时重置状态，这样显性的标识状态可以避免多次阻塞及引入多次冲突的开销。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Acquire操作
+&lt;ul&gt;
+&lt;li&gt;
+&lt;pre&gt;&lt;code&gt;  if (!tryAcquire(arg)) {
+      node = create and enqueue new node;
+      pred = node&#39;s effective predecessor;
+  while (pred is not head node || !tryAcquire(arg)) {
+      if (pred&#39;s signal bit is set)
+          park();
+      else
+          compareAndSet pred&#39;s signal bit to true;
+      pred = node&#39;s effective predecessor;
+  }
+  head = node;
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;release
+&lt;ul&gt;
+&lt;li&gt;
+&lt;pre&gt;&lt;code&gt;  if (tryRelease(arg) &amp;amp;&amp;amp; head node&#39;s signal bit is set) {
+      compareAndSet head&#39;s signal bit to false;
+      unpark head&#39;s successor, if one exists
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;条件队列
+&lt;ul&gt;
+&lt;li&gt;#TODO&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;AQS使用
+&lt;ul&gt;
+&lt;li&gt;AQS作为模板提供给子类，子类仅需要设置更新状态。在JUC包中的同步器使用了一个内部类来包装AQS，重写了tryAquire和tryRelease来控制同步。&lt;/li&gt;
+&lt;li&gt;AQS提供了多个版本的Aquire和Release，包括超时和中断版本。并提供了tryAcquireShared来控制可重入的资源，方法通过返回值通知框架所剩资源状况，在release时框架通过级联来唤醒多个节点。&lt;/li&gt;
+&lt;li&gt;公平与非公平功能：
+&lt;ul&gt;
+&lt;li&gt;在一些条件下，非公平的获取锁可以有效提高同步器吞吐量，而如果外来线程可以持续抢占锁则会造成队列中线程饥饿。&lt;/li&gt;
+&lt;li&gt;FIFO队列在进入之前线程会调用tryAcquire方法，因此获得了一个与队头线程竞争的机会，从而可以实现公平与非公平的竞争，此时可以修改tryAcquire中对资源的请求次数来使其偏向外来线程；如果要实现严格的公平竞争，则可以通过添加约束，使线程只有入队才能调用tryAcquire。
+&lt;ul&gt;
+&lt;li&gt;一个比完全公平竞争优化的方法：在lock队列为空时，线程可以使用tryAcquire来获取锁，这样有一个线程可以不必入队获取到锁，得到性能的一点优化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Reference
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://gee.cs.oswego.edu/dl/papers/aqs.pdf&#34;&gt;http://gee.cs.oswego.edu/dl/papers/aqs.pdf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.inoreader.com/article/3a9c6e78f01cc939-juc-aqs&#34;&gt;https://www.inoreader.com/article/3a9c6e78f01cc939-juc-aqs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>斯科特杨的高效率方法</title>
       <link>https://b1indsight.github.io/post/effecient_method_of_scotty/</link>
       <pubDate>Sun, 05 May 2019 16:27:50 +0800</pubDate>
       
       <guid>https://b1indsight.github.io/post/effecient_method_of_scotty/</guid>
-      <description>简单构建的可行提高效率体系</description>
+      <description>&lt;p&gt;在阅读了Scoltt Yang的几本关于高效率的书之后，总结并试着运用了一些关于高效率的方法，在这里做一些总结。&lt;/p&gt;
+&lt;h3 id=&#34;日周目标清单&#34;&gt;日/周目标清单&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;建立一个周目标清单，并在每天开始的时候将清单中的一些任务添加到日目标清单中。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;每天日目标清单中的主要工作应该不超过3个，可以让你分配主要的精力在这些任务上面。（这条原则来自于《精力管理》）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在做完清单中的所有项之后立刻开始休息，即使你仅使用了3个小时就完成了今天的任务，也要避免继续添加今天的任务，正如我们在小时候会有即使做完作业也会被父母继续添加任务这样的经历，我们应当避免把日目标清单变成普通的todo-list，从而减少每天完成任务的动力。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;每周工作六天，在每周的最后一天不要设置任何需要大量精力的任务，为自己思考休息提供充足的空闲，给自己干涸的电池充满电。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;精力管理&#34;&gt;精力管理&lt;/h3&gt;
+&lt;p&gt;我们在工作时应当管理的是我们的精力和任务，而非时间。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;安排你的食物，少食多餐，每天吃4-6餐。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;工作90-120分钟休息一次，注意力是消耗品，同时也需要锻炼。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;将每天固定要做的事建立为习惯，让这些事自动完成。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;做自己想要去做的事，而不是应该去做的事。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;建立习惯&#34;&gt;建立习惯&lt;/h3&gt;
+&lt;p&gt;30天建立一个习惯，并将它写在纸上或者以文档记录下来，在最初的30天之内，一旦在某一天停止就重新开始计数，重新坚持30天。
+之后便可以不必坚持的如此严格，身体会自动将它完成。&lt;/p&gt;
+&lt;p&gt;选择要建立的习惯时推荐阅读《Zen to do》&lt;/p&gt;
+&lt;h3 id=&#34;批处理&#34;&gt;批处理&lt;/h3&gt;
+&lt;p&gt;生活中有大量的事情可以使用批处理来解决，把大量原本填充到其他空余时间的事情集中解决，从而可以节省出大量额外的时间。&lt;/p&gt;
+&lt;p&gt;以下几类事情可以使用批处理的办法来解决：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;阅读
+集中阅读订阅的博客或者文章，每日学习工作中的阅读任务也可以批处理来解决。&lt;/li&gt;
+&lt;li&gt;邮件处理/拨打电话/社会联系&lt;/li&gt;
+&lt;li&gt;作业/写博客/电脑工作 
+一次性做这些工作可能会花费大量的时间，但是可以避免每天进入专注时花费的时间，也不必使自己承受拖延的痛苦。&lt;/li&gt;
+&lt;li&gt;清扫/购物 
+将家务之类的事务在每周的某一天集中完成，可以避免陷入无尽的家务漩涡。&lt;/li&gt;
+&lt;li&gt;思考/设置目标
+在周日把自己的项目或者一些任务放入自己的周清单，使用完整的一块时间来进行计划，远比使用小段时间计划要好。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
     </item>
+    
   </channel>
 </rss>

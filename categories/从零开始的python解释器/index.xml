@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>从零开始的python解释器 on b1indsight</title>
+    <link>https://b1indsight.github.io/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84python%E8%A7%A3%E9%87%8A%E5%99%A8/</link>
+    <description>b1indsight (从零开始的python解释器)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 17 Jun 2020 00:00:00 +0000</lastBuildDate>
+    
+    <atom:link href="https://b1indsight.github.io/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84python%E8%A7%A3%E9%87%8A%E5%99%A8/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>从零开始的python解释器（1）</title>
+      <link>https://b1indsight.github.io/post/from_zero_to_a_python_interpreter_1/</link>
+      <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://b1indsight.github.io/post/from_zero_to_a_python_interpreter_1/</guid>
+      <description>&lt;h2 id=&#34;单条字节码的解释运行&#34;&gt;单条字节码的解释运行&lt;/h2&gt;
+&lt;h3 id=&#34;反编译字节码&#34;&gt;反编译字节码&lt;/h3&gt;
+&lt;p&gt;python 字节码形式可以用&lt;code&gt;dis.dis()&lt;/code&gt;来反编译code object来获得，先考虑一段简单的python代码:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;反编译之后是：
+&lt;img src=&#34;https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Fb1indsight%2FQSbuQtX8Ay.png?alt=media&amp;amp;token=e2261049-5c88-4308-99ea-70f6fc57dd76&#34; alt=&#34;dis.dis(code)&#34;&gt;&lt;/p&gt;
+&lt;p&gt;可见字节码拥有2Byte长度，前半部分用来标识字节码，后半是参数。其中字节码的参数仅用来标识字节码参数的位置，而不是参数本身。&lt;/p&gt;
+&lt;h3 id=&#34;字节码来源&#34;&gt;字节码来源&lt;/h3&gt;
+&lt;p&gt;code object是由&lt;code&gt;compile()&lt;/code&gt;函数编译代码字符串生成的。在当前要进行的部分暂时关注它的一部分内容：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;code&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;co_code &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;d&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x00&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Z&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x00&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;e&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x00&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;d&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x00\x17\x00&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Z&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x01&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;d&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x01&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;S&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x00&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;
+code&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;co_consts &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, None)
+code&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;co_names &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;以上则是解释运行暂时需要的全部材料，其中co_code则是python字节码，co_consts用来存储需要的常数，co_names存储需要的变量。&lt;/p&gt;
+&lt;p&gt;举例：LOAD_CONST的解释
+&lt;code&gt;print(co_code[0])&lt;/code&gt;则会返回100，即是字节码， &lt;code&gt;co_code[1]= 0&lt;/code&gt;则是字节码参数
+通过&lt;code&gt;dis.opname[100]&lt;/code&gt;则可知道字节码&lt;code&gt;opname = LOAD_CONST&lt;/code&gt;,参数则是&lt;code&gt;co_consts[0] = 1&lt;/code&gt;。这样第一条字节码就可以翻译为&lt;code&gt;LOAD_CONST(1)&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;字节码执行&#34;&gt;字节码执行&lt;/h3&gt;
+&lt;p&gt;由上知道了字节码本身被翻译为&lt;code&gt;LOAD_CONST(1)&lt;/code&gt;，接下来就需要执行该函数
+python vm与JVM相同，都是基于操作数栈的解释器，函数在执行后将返回值压入操作数栈
+因此，&lt;code&gt;LOAD_CONST()&lt;/code&gt;函数可以被写成以下形式&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;LOAD_CONST&lt;/span&gt;(num):
+stack&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;push(num)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样，第一条字节码便执行完成&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;多条字节码顺序执行&#34;&gt;多条字节码顺序执行&lt;/h2&gt;
+&lt;p&gt;这样可以写出字节码解释器主体的循环：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+stack &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;run&lt;/span&gt;():
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; True:
+        byteName, arguments &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; prase_byte_code_and_argument()
+        dispatch(byteName, arguments)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; byteName &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;RETURE_VALUE&amp;#34;&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此处，鉴于将来要对于循环和分支结构的支持，考虑通过判断&lt;code&gt;RETURE_VALUE&lt;/code&gt;来返回退出循环。&lt;/p&gt;
+&lt;h3 id=&#34;prase_byte_code_and_argument函数&#34;&gt;&lt;code&gt;prase_byte_code_and_argument()&lt;/code&gt;函数&lt;/h3&gt;
+&lt;p&gt;本函数用来解析code.co_code的字节码，转换为字节码函数名和参数。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-pythonpython&#34; data-lang=&#34;pythonpython&#34;&gt;def prase_byte_code_and_argument():
+    byteCode = code.co_code[pc]
+    byteName = dis.opname[byteCode]
+    arguments = []
+    pc += 2
+
+    if byteCode &amp;gt;= dis.HAVE_ARGUMENT:
+        arg = code.co_code[pc-1]
+
+        if byteCode in dis.hasconst:   # Look up a constant
+            arg = code.co_consts[arg]
+        elif byteCode in dis.hasname:  # Look up a name
+            arg = code.co_names[arg]
+        elif byteCode in dis.haslocal:  # Look up a local name
+            arg = code.co_varnames[arg]
+        elif byteCode in dis.hasjrel:  # Calculate a relative jump
+            arg = pc + arg
+        else:
+            arg = arg
+        arguments = [arg]
+    else:
+        arguments = []
+
+return byteName, arguments
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;dispatchbytename-arguments函数&#34;&gt;&lt;code&gt;dispatch(byteName, arguments)&lt;/code&gt;函数&lt;/h3&gt;
+&lt;p&gt;获取到&lt;code&gt;byteName&lt;/code&gt;之后要得到对应的函数对象，此时使用&lt;code&gt;getattr(byteName)&lt;/code&gt;来获取对应的函数对象
+然后调用&lt;code&gt;byteName(*arguments)&lt;/code&gt;完成执行&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;dispatch&lt;/span&gt;(byteName, arguments):
+    func &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; getattr(vm, byteName)
+    func(&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;arguments)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;reture_value&#34;&gt;RETURE_VALUE&lt;/h3&gt;
+&lt;p&gt;return value暂时仅作为字节码的终止，因此判断运行到此处时退出主循环。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;p&gt;最简单的字节码求值器的主题就这样写成了，剩余的其他工作即是填充上未写过的字节码函数定义，这样字节码的解释求值即可以完成了。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

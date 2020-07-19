@@ -1,58 +1,113 @@
 <!DOCTYPE html>
-<html lang="zh-cn" dir="ltr">
-  <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>从零开始的python解释器（1） &middot; Blog</title>
-  <meta name="description" content="最基础的字节码序列求值器的实现" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
-  
-  
-  
-  
-  
-  <link href="https://b1indsight.github.io/css/concated.min.css" rel="stylesheet">
-  
-  <style>
-    body {
-      background: #ecedef url("https://user-images.githubusercontent.com/47165749/57181495-2207e200-6ec7-11e9-94c0-2580990d1e71.jpg") repeat;
-    }
-  </style>
-</head>
 
-  <body class="single-body">
-    <nav class="nav-bar side-padding">
-  <h1 class="nav-header"><a href="https://b1indsight.github.io" class="nav-text">b1indsight</a></h1>
-  <div class="hamburger-menu">
-    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
-      <span></span>
-      <span></span>
-    </button>
-    <ul id="menu" class="hamburger-menu-overlay">
-      <li><a href="https://b1indsight.github.io" class="hamburger-menu-overlay-link">Home</a></li>
-      
-      <li><a href="https://b1indsight.github.io/categories/java/" class="hamburger-menu-overlay-link">JAVA</a></li>
-      
-      <li><a href="https://b1indsight.github.io/categories/python/" class="hamburger-menu-overlay-link">Python</a></li>
-      
-      <li><a href="https://b1indsight.github.io/categories/python-interpreter/" class="hamburger-menu-overlay-link">Python interpreter</a></li>
-      
-      
-    </ul>
-  </div>
+
+<html lang="zh-cn" data-theme="">
+<head>
+    
+        
+<meta charset="utf-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<title>从零开始的python解释器（1） - b1indsight</title>
+<meta name="description" content="learning and writing">
+
+<link rel="icon" type="image/x-icon" href="https://b1indsight.github.io/favicon.ico">
+<link rel="apple-touch-icon-precomposed" href="https://b1indsight.github.io/favicon.png">
+
+<link rel="stylesheet" href="https://b1indsight.github.io/css/light.css?rnd=1595139490" />
+<style>
+
+    [data-theme="dark"] {   
+        --font-color: #eee;
+--bg-color: #212121;
+
+--link-color:#599ada;
+--link-state-color:#ff5858;
+--link-state-border-color: rgba(238, 54, 54, 0.5);
+
+--thead-bg-color: #343a40;
+--table-border-color: lightgrey;
+
+--pre-color: #333;
+--pre-bg-color: #f1f1f1;
+
+--bq-color: #ccc;
+--hr-color: #333;
+
+--pagination-bg-color: #373737;
+--pagination-link-color: #b6b6b6;
+
+--post-info-color: grey;
+
+--switcher-color: #333;
+--switcher-bg-color: #fff;
+
+    }
+
+</style>
+
+<link rel="stylesheet" href="https://b1indsight.github.io/css/style.css?rnd=1595139490" />
+
+<link rel="stylesheet" href="https://b1indsight.github.io/css/my.css?rnd=1595139490">
+
+<script src="https://b1indsight.github.io/js/main.js?rnd=1595139490" type="text/javascript" charset="utf-8"></script>
+
+<meta property="og:title" content="从零开始的python解释器（1）" />
+<meta property="og:description" content="最基础的字节码序列求值器的实现" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://b1indsight.github.io/post/from_zero_to_a_python_interpreter_1/" />
+<meta property="og:image" content="https://b1indsight.github.io/images/og-featured.png"/>
+<meta property="article:published_time" content="2020-06-17T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-06-17T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://b1indsight.github.io/images/og-featured.png"/>
+
+<meta name="twitter:title" content="从零开始的python解释器（1）"/>
+<meta name="twitter:description" content="最基础的字节码序列求值器的实现"/>
+
+
+
+
+
+
+
+
+    
+</head>
+<body>
+    <a class="skip-main" href="#main"></a>
+    <div class="container">
+        <header class="common-header"> 
+            
+                <h1 class="site-title">
+    <a href="/">b1indsight</a>
+</h1>
+<nav>
+    
+    
+    <a class="" href="https://b1indsight.github.io/about" title="About">About</a>
+    
+    <a class="" href="https://b1indsight.github.io/post/" title="Archive">Archive</a>
+    
+    <a class="" href="https://b1indsight.github.io/tags/" title="Tags">Tags</a>
+    
 </nav>
 
-    <main class="content side-text-padding">
-      <article class="post dropcase">
-        <header class="post-header">
-          <h1 class="post-title">从零开始的python解释器（1）</h1>
-          <p class="post-date">Posted <time datetime="2020-06-17">Jun 17, 2020</time></p>
+            
         </header>
-        
-        
-        <h2 id="单条字节码的解释运行">单条字节码的解释运行</h2>
+        <main id="main" tabindex="-1"> 
+            
+    
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class="post-title">从零开始的python解释器（1）</h1>
+        </header>
+        <div class="content">
+            <h2 id="单条字节码的解释运行">单条字节码的解释运行</h2>
 <h3 id="反编译字节码">反编译字节码</h3>
 <p>python 字节码形式可以用<code>dis.dis()</code>来反编译code object来获得，先考虑一段简单的python代码:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
@@ -126,34 +181,168 @@ return byteName, arguments
 <h2 id="总结">总结</h2>
 <p>最简单的字节码求值器的主题就这样写成了，剩余的其他工作即是填充上未写过的字节码函数定义，这样字节码的解释求值即可以完成了。</p>
 
-      </article>
-      
-    </main>
-    <nav class="end-nav side-padding">
-      
-      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
-  href="https://b1indsight.github.io/post/juc_aqs/" class="card blog-card" rel="bookmark" >
-  
-  <article class="card-body">
-    <h2 class="card-title">JUC包AQS设计</h2>
-    <p class="card-text">基本是JUC论文读书笔记，没什么独创性，#TODO具体实现及补充</p>
-    <div class="card-subtext muted-text">
-      <p>Posted <time datetime="2020-05-01 51:00">May 1, 2020</time></p>
-      <p>#JAVA </p>
-    </div>
-  </article>
-</a>
-      
-      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
-  href="https://b1indsight.github.io" class="card home-card" style="background-image: url( https://b1indsight.github.io/img/grey-cloud.jpg )" rel="bookmark" >
-  Home
-</a>
-    </nav>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
-    onload="renderMathInElement(document.body);"></script>
-  
-  <script src="https://b1indsight.github.io/js/core.min.js"></script>
+        </div>
+        
 
-  </body>
+    
+
+
+<div class="post-info">
+    
+        <div class="post-date">2020-06-17</div>
+    
+    <div class="post-taxonomies">
+        
+            <ul class="post-categories">
+                
+                    <li><a href="https://b1indsight.github.io/categories/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e7%9a%84python%e8%a7%a3%e9%87%8a%e5%99%a8">从零开始的python解释器</a></li>
+                
+            </ul>
+            
+            
+                <ul class="post-tags">
+                    
+                        <li><a href="https://b1indsight.github.io/tags/python">#Python</a></li>
+                    
+                        <li><a href="https://b1indsight.github.io/tags/python-interpreter">#Python interpreter</a></li>
+                    
+                </ul>
+        
+    </div>
+</div>
+
+    </article>
+
+    
+        
+    <div class="pagination post-pagination">
+        <div class="left pagination-item disabled">
+            
+        </div>
+        <div class="right pagination-item ">
+            
+                <a href="/post/juc_aqs/">JUC包AQS设计</a>
+            
+        </div>
+    </div>
+
+    
+
+    
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yourdiscussshortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+
+        </main>
+        
+            <footer class="common-footer">
+    
+    
+
+    <div class="copyright">
+        <p>© b1indsight, 2020<br>
+         <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>,  <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.
+        </p>  
+    </div> 
+
+    
+
+    
+
+
+
+    <button class="theme-switcher">
+        Dark theme
+    </button>
+
+    <script>
+    const STORAGE_KEY = 'user-color-scheme'
+    const defaultTheme = "auto"
+
+    let currentTheme
+    let switchButton
+    let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+    const autoChangeScheme = e => {
+        currentTheme = e.matches ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', currentTheme)
+        changeButtonText()
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        switchButton = document.querySelector('.theme-switcher')
+        currentTheme = detectCurrentScheme()
+        if (currentTheme == 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark')
+        }
+        if (currentTheme == 'auto') {
+            autoChangeScheme(autoDefinedScheme);
+            autoDefinedScheme.addListener(autoChangeScheme);
+        }
+        changeButtonText()
+        switchButton.addEventListener('click', switchTheme, false)
+    })
+
+
+
+    function detectCurrentScheme() {
+        if (localStorage.getItem(STORAGE_KEY)) {
+            return localStorage.getItem(STORAGE_KEY)
+        } 
+        if (defaultTheme) {
+            return defaultTheme
+        } 
+        if (!window.matchMedia) {
+            return 'light'
+        } 
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark'
+        }
+        return 'light'
+    }
+
+    function changeButtonText()
+    {
+        console.log(currentTheme)
+        switchButton.textContent = currentTheme == 'dark' ? 'Light theme' : 'Dark theme'
+    }
+
+    function switchTheme(e) {
+        if (currentTheme == 'dark') {
+            localStorage.setItem(STORAGE_KEY, 'light')
+            document.documentElement.setAttribute('data-theme', 'light')
+            currentTheme = 'light'
+        } else {
+            localStorage.setItem(STORAGE_KEY, 'dark')
+            document.documentElement.setAttribute('data-theme', 'dark')
+            currentTheme = 'dark'
+        }
+        changeButtonText()
+    }
+    </script>
+    
+</footer>
+
+        
+    </div>
+</body>
 </html>
