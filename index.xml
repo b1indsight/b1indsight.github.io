@@ -12,6 +12,71 @@
     
     
     <item>
+      <title>Flask 源码阅读（1） : request的处理流程</title>
+      <link>https://b1indsight.github.io/post/read_flask_source_code_1/</link>
+      <pubDate>Sun, 02 Aug 2020 21:11:42 +0800</pubDate>
+      
+      <guid>https://b1indsight.github.io/post/read_flask_source_code_1/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本系列试图从flask 1.0版开始阅读一个完整的项目，不同于常见的追踪启动后行为来阅读源码的方式，这一个系列的文章打算从写一个符合wsgi方式的web框架开始，然后逐步完善添加功能的方式来写阅读笔记。&lt;/p&gt;
+&lt;h2 id=&#34;wsgi规范&#34;&gt;wsgi规范&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;app&lt;/span&gt;(environ, start_response):
+    start_response(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;, [(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;text/plain&amp;#39;&lt;/span&gt;)])
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Hello world!&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;一个简单的 wsgi 规范的 app 会被构建为以上的形式。其中app作为即将扩展的部分，需要被实现为一个 Callable 对象，它接受 environ 和 start_response 两个参数，并返回一个字节序列。&lt;/p&gt;
+&lt;h2 id=&#34;flask-的app实现&#34;&gt;flask 的app实现&lt;/h2&gt;
+&lt;p&gt;以上提到 app 需要被实现为一个 callable 对象，那么，作为主体的 Flask 类则要定义 &lt;code&gt;__call__()&lt;/code&gt; 函数。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __call__(self, environ, start_response):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;wsgi_app(environ, start_response)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到&lt;code&gt;__call__&lt;/code&gt; 函数其实只是返回了&lt;code&gt;wsgi_app(environ, start_response)&lt;/code&gt;， 真正的app主体在 wsgi_app上，&lt;code&gt;__call__()&lt;/code&gt; 只是它的一个包装。通过这种方式可以分离 app 方法，便于对 app 进行修改。&lt;/p&gt;
+&lt;p&gt;观察&lt;code&gt;wsgi_app()&lt;/code&gt; 方法&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;wsgi_app&lt;/span&gt;(self, environ, start_response):
+        ctx &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;request_context(environ)
+        error &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; None
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+                ctx&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;push()
+                response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;full_dispatch_request()
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Exception&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; e:
+                error &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; e
+                response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle_exception(e)
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt;:
+                error &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;exc_info()[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;raise&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; response(environ, start_response)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;finally&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;should_ignore_error(error):
+                error &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; None
+            ctx&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;auto_pop(error)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;方法主体十分简单，首先根据 environ 构造 context ， 然后通过 &lt;code&gt;full_dispatch_request()&lt;/code&gt; 解析请求返回函数
+&lt;code&gt;response&lt;/code&gt; ，&lt;code&gt;response(environ, start_response)&lt;/code&gt; 函数返回真正需要获得的字节序列。&lt;/p&gt;
+&lt;h3 id=&#34;request_context-函数&#34;&gt;&lt;code&gt;request_context()&lt;/code&gt; 函数&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;request_context&lt;/span&gt;(self, environ):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; RequestContext(self, environ)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;返回了 RequestContext 类， 暂且跳过。&lt;/p&gt;
+&lt;h3 id=&#34;full_dispatch_request-函数&#34;&gt;&lt;code&gt;full_dispatch_request()&lt;/code&gt; 函数&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;full_dispatch_request&lt;/span&gt;(self):
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;try_trigger_before_first_request_functions()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+            request_started&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send(self)
+            rv &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;preprocess_request()
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; rv &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; None:
+                rv &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;dispatch_request()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Exception&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; e:
+            rv &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle_user_exception(e)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;finalize_request(rv)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如上所说，&lt;code&gt;full_dispatch_request()&lt;/code&gt; 函数作为主体主要执行了以下几件事&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;try_trigger_before_first_request_functions()&lt;/code&gt; : 这个函数并不复杂，简单来说是在第一个 request 之前初始化并依次执行&lt;code&gt;self.before_first_request_funcs&lt;/code&gt;中的函数。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;request_started.send(self)&lt;/code&gt; : 这一部分&lt;code&gt;request_started&lt;/code&gt;作为&lt;code&gt;_FakeSingnal&lt;/code&gt;对象用来发送 request start的信号&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;preprocess_request()&lt;/code&gt; : 预处理请求，先由上下文栈弹出蓝图，调用&lt;code&gt;url_value_preprocessors.get(none， ())&lt;/code&gt;来获取针对所有 url 值需要的函数，如果有针对所有 url 都起作用的视图函数，则在此调用。接下来调用每一个使用&lt;code&gt;before_request&lt;/code&gt;装饰的可作用于所有 request 的函数。如果其中某一个函数返回一个值，这个值将会作为视图返回值 处理并停止进一步的请求处理。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;dispatch_request()&lt;/code&gt; ：本函数进行url匹配，返回视图函数返回值。由栈顶弹出 request，然后&lt;code&gt;rule = req.url_rul&lt;/code&gt;，如果 rule 含有 provide_automatic_options，自动调用&lt;code&gt;self.make_default_options_response()&lt;/code&gt;函数并返回。否则返回&lt;code&gt;self.view_functions[rule.endpoint] (**req.view_args)&lt;/code&gt;，可以看出这里仅通过endpoint来匹配 view function 字典。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;finalize_request()&lt;/code&gt; : 这个函数将先调用&lt;code&gt;make_response(rv)&lt;/code&gt;视图返回值转变为真正的 response (这一部分之后再谈)。接下来是函数主要部分，&lt;code&gt;process_response(response)&lt;/code&gt;函数获取上下文，获得蓝图和上下文中 request 之后需要调用的函数，接下来构造执行链 ctx.after_request_functions-&amp;gt;（逆置）bp.after_request_functions-&amp;gt;适用于所有的 request 的 （逆置） after_request_functions。按照执行链依次执行，最终储存session，结束request。&lt;/p&gt;
+&lt;h2 id=&#34;小结&#34;&gt;小结&lt;/h2&gt;
+&lt;p&gt;本文作为 flask 源码阅读的第一篇，简略的浏览了一遍 app 中关于 request 的处理流程，设计方式基本十分直观，主体分为三部分，在 request 之前，request 处理， request 之后构建了相关的执行链，并进行调用。 接下来一篇将试图观察视图函数的注册以及 route 部分的实现。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>从零开始的python解释器（1）</title>
       <link>https://b1indsight.github.io/post/from_zero_to_a_python_interpreter_1/</link>
       <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
