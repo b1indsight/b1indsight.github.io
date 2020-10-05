@@ -3,27 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://b1indsight.github.io/post/weekly_report_20200831_20200906/</loc>
-    <lastmod>2020-09-06T20:46:36+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://b1indsight.github.io/</loc>
-    <lastmod>2020-09-06T20:46:36+08:00</lastmod>
+    <lastmod>2020-09-20T17:05:31+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://b1indsight.github.io/categories/</loc>
-    <lastmod>2020-09-06T20:46:36+08:00</lastmod>
+    <lastmod>2020-09-20T17:05:31+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://b1indsight.github.io/post/</loc>
-    <lastmod>2020-09-06T20:46:36+08:00</lastmod>
+    <lastmod>2020-09-20T17:05:31+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://b1indsight.github.io/tags/python/</loc>
+    <lastmod>2020-09-20T17:05:31+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://b1indsight.github.io/categories/python%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0/</loc>
+    <lastmod>2020-09-20T17:05:31+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://b1indsight.github.io/post/q_magic/</loc>
+    <lastmod>2020-09-20T17:05:31+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://b1indsight.github.io/tags/</loc>
+    <lastmod>2020-09-20T17:05:31+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://b1indsight.github.io/post/weekly_report_20200831_20200906/</loc>
     <lastmod>2020-09-06T20:46:36+08:00</lastmod>
   </url>
   
@@ -54,11 +69,6 @@
   
   <url>
     <loc>https://b1indsight.github.io/post/read_flask_source_code_1/</loc>
-    <lastmod>2020-08-02T21:11:42+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://b1indsight.github.io/tags/python/</loc>
     <lastmod>2020-08-02T21:11:42+08:00</lastmod>
   </url>
   

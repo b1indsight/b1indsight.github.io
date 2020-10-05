@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>python其他文章 on b1indsight</title>
+    <link>https://b1indsight.github.io/categories/python%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0/</link>
+    <description>b1indsight (python其他文章)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 20 Sep 2020 17:05:31 +0800</lastBuildDate>
+    
+    <atom:link href="https://b1indsight.github.io/categories/python%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Q&#39;s magic</title>
+      <link>https://b1indsight.github.io/post/q_magic/</link>
+      <pubDate>Sun, 20 Sep 2020 17:05:31 +0800</pubDate>
+      
+      <guid>https://b1indsight.github.io/post/q_magic/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;Q 是一个开源库，正如它介绍里所写的那样，它是用来“Quick and dirty debugging output for tired programmers.”，Q的用法主要有两种：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;import q&lt;/code&gt;之后， 使用&lt;code&gt;q(value)&lt;/code&gt;来 print value 的值，或是使用&lt;code&gt;q/value&lt;/code&gt;， 或者&lt;code&gt;q|value&lt;/code&gt;，只要在想 print 的值前加“q/”或“q|”的前缀，即可以print值&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在函数定义前加&lt;code&gt;@q&lt;/code&gt;的修饰器,可以print 函数参数，返回值，运行时间等信息
+本文用来展示q这个库是如何在300+行代码的篇幅下，完成这样的功能的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;import-q之后为什么可以直接使用q和q&#34;&gt;&lt;code&gt;import q&lt;/code&gt;之后为什么可以直接使用q()和@q&lt;/h2&gt;
+&lt;p&gt;想做到这件事的办法可以想到，如同其他语言一样&lt;code&gt;q()&lt;/code&gt;需要被实现成一个全局的静态函数，在python中，则是在import时完成class q的实例化，那么另一个问题是，q 中 class 名是 Q ，那么调用应该是&lt;code&gt;Q.q()&lt;/code&gt;，而不是q()，这部分的实现关键在于它将自己装载在了&lt;code&gt;sys.module&lt;/code&gt;中,通过这条语句&lt;code&gt;sys.modules[&#39;q&#39;] = Q()&lt;/code&gt;并在class中实现&lt;code&gt;__call__()&lt;/code&gt;函数，使得可以直接使用q()&lt;/p&gt;
+&lt;h2 id=&#34;qvalue如何实现&#34;&gt;&lt;code&gt;q/value&lt;/code&gt;如何实现&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;q/value&lt;/code&gt; 修改一下格式就变为 &lt;code&gt;q / value&lt;/code&gt;， 同时源码里也可以看到其中有&lt;code&gt;__truediv__()&lt;/code&gt;函数，于是发现这里的实现在于 q 重载了&lt;code&gt;/&lt;/code&gt;和&lt;code&gt;|&lt;/code&gt;运算，使得这个运算符在执行了q print的操作之后返回&lt;code&gt;__truediv__()&lt;/code&gt;的第二个参数。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;object.&lt;strong&gt;truediv&lt;/strong&gt;(self, other)
+调用这些方法来实现二进制算术运算 (+, -, *, @, /, //, %, divmod(), pow(), **, &amp;laquo;, &amp;raquo;, &amp;amp;, ^, |)。例如，求表达式 x + y 的值，其中 x 是具有 &lt;strong&gt;add&lt;/strong&gt;() 方法的类的一个实例，则会调用 x.&lt;strong&gt;add&lt;/strong&gt;(y)。
+&lt;a href=&#34;https://docs.python.org/zh-cn/3/reference/datamodel.html?highlight=truediv#object.__truediv__&#34;&gt;python数据模型&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这里可以看到 q/value 时会调用 q 的&lt;code&gt;__truediv__()&lt;/code&gt;函数，这样在 q 重载了这个函数的时候，达到了重载操作符的效果。&lt;/p&gt;
+&lt;h2 id=&#34;q如何实现&#34;&gt;&lt;code&gt;@q&lt;/code&gt;如何实现&lt;/h2&gt;
+&lt;p&gt;q被调用时调用了&lt;code&gt;__call__()&lt;/code&gt;函数，这个函数主要做了有关的几件事：&lt;code&gt;self.inspect.getframeinfo(self.sys._getframe(1), context=9)&lt;/code&gt;通过&lt;code&gt;getframeinfo()&lt;/code&gt;来获取调用附近的代码文本块，打印被修饰函数的基本信息，然后扫描文本块返回&lt;code&gt;self.trace()&lt;/code&gt;, python 定义修饰器需要返回一个以修饰函数 func 为参数的 wapper 函数，那么可以想到 trace 里会返回 wapper，那么在这里，则是返回了&lt;code&gt;self.functools.update_wrapper(wrapper, func)&lt;/code&gt;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;functools.update_wrapper(wrapper, wrapped, assigned=WRAPPER_ASSIGNMENTS, updated=WRAPPER_UPDATES)
+更新一个 wrapper 函数以使其类似于 wrapped 函数。 可选参数为指明原函数的哪些属性要直接被赋值给 wrapper 函数的匹配属性的元组，并且这些 wrapper 函数的属性将使用原函数的对应属性来更新。
+此函数的主要目的是在 decorator 函数中用来包装被装饰的函数并返回包装器。 如果包装器函数未被更新，则被返回函数的元数据将反映包装器定义而不是原始函数定义，这通常没有什么用处。
+&lt;a href=&#34;https://docs.python.org/zh-cn/3/library/functools.html?highlight=functools#module-functools&#34;&gt;module-functools&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;trace 里仅仅是定义了&lt;code&gt;wapper()&lt;/code&gt;,而在&lt;code&gt;wapper()&lt;/code&gt;中执行了 func，然后返回了 func 的返回值，在这里修饰器得到了 func 的参数，(&lt;code&gt;q.__call__(self, *args)&lt;/code&gt;,这里被作为修饰器调用时，args[0] 是被修饰的函数，这个参数被传到了 trace 里)因此可以遍历参数并 print 它们的值，func 在wapper 中执行，这样也可以 print 返回值&lt;/p&gt;
+&lt;p&gt;在处理error时会有些麻烦，因为 func 是在 q 的&lt;code&gt;wapper()&lt;/code&gt;中运行的，异常抛出时会抛到 wapper 的 栈帧，这里需要在 wapper 中获取 error 信息，这是通过 &lt;code&gt;self.sys.exc_info()&lt;/code&gt;来做到的，通过 print error_trace_back.tb_next 可以正确显示异常。&lt;/p&gt;
+&lt;h3 id=&#34;reference&#34;&gt;reference&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/zestyping/q&#34;&gt;https://github.com/zestyping/q&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://pyvideo.org/video/1858/sunday-evening-lightning-talks#t=25m15s&#34;&gt;http://pyvideo.org/video/1858/sunday-evening-lightning-talks#t=25m15s&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
