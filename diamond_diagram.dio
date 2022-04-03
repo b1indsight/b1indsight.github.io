@@ -1,0 +1,55 @@
+<mxfile host="65bd71144e">
+    <diagram id="crurVixdPfq-E6BtPc4I" name="第 1 页">
+        <mxGraphModel dx="427" dy="719" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="11" value="" style="group;sketch=1;rounded=0;" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="54" y="180" width="360" height="420" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="class C" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=36;sketch=1;" parent="11" vertex="1">
+                    <mxGeometry x="120" y="360" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <UserObject label="class A" id="3">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fontSize=36;align=center;sketch=1;rounded=0;" parent="11" vertex="1">
+                        <mxGeometry x="240" y="180" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="class B" id="4">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fontSize=36;align=center;sketch=1;rounded=0;" parent="11" vertex="1">
+                        <mxGeometry y="180" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="object" id="5">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fontSize=36;align=center;sketch=1;rounded=0;" parent="11" vertex="1">
+                        <mxGeometry x="120" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="7" value="" style="endArrow=classic;html=1;fontSize=36;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endSize=16;exitX=0.25;exitY=0;exitDx=0;exitDy=0;sketch=1;rounded=0;curved=1;" parent="11" source="2" target="4" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="150" y="340" as="sourcePoint"/>
+                        <mxPoint x="180" y="120" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8" value="" style="endArrow=classic;html=1;fontSize=36;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endSize=16;exitX=0.75;exitY=0;exitDx=0;exitDy=0;sketch=1;rounded=0;curved=1;" parent="11" source="2" target="3" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="339.13494809688586" y="342" as="sourcePoint"/>
+                        <mxPoint x="250" y="230" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9" value="" style="endArrow=classic;html=1;fontSize=36;endSize=16;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;sketch=1;rounded=0;curved=1;" parent="11" source="4" target="5" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="139.13494809688586" y="162" as="sourcePoint"/>
+                        <mxPoint x="50" y="50" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="10" value="" style="endArrow=classic;html=1;fontSize=36;entryX=0.75;entryY=1;entryDx=0;entryDy=0;endSize=16;exitX=0.5;exitY=0;exitDx=0;exitDy=0;sketch=1;rounded=0;curved=1;" parent="11" source="3" target="5" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="289.13494809688586" y="160" as="sourcePoint"/>
+                        <mxPoint x="200" y="48" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

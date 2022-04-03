@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
 html {
-    font-family: -apple-system, BlinkMacSystemFont, 'Montserrat', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Cascadia Code', 'Arial', 'Montserrat', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     /* 1 */
     -ms-text-size-adjust: 100%;
     /* 2 */
@@ -46,15 +46,15 @@ main {
 
 /* Headers */
 h1 {
-    font-size: 1.35em;
+    font-size: 2em;
 }
 
 h2 {
-    font-size: 1.2em;
+    font-size: 1.5em;
 }
 
 h3 {
-    font-size: 1.1em;
+    font-size: 1.2em;
 }
 
 /* Links */
@@ -135,7 +135,7 @@ pre {
 code,
 pre,
 kbd {
-    font-family: monospace;
+    font-family: 'Cascadia Code';
     font-size: 0.90em;
     line-height: 154%;
 }

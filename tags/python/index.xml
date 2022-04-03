@@ -6,10 +6,267 @@
     <description>b1indsight (Python)</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 20 Sep 2020 17:05:31 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 02 Mar 2022 22:03:50 +0800</lastBuildDate>
     
     <atom:link href="https://b1indsight.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Super函数和mro算法</title>
+      <link>https://b1indsight.github.io/post/super_and_mro_algorithm/</link>
+      <pubDate>Wed, 02 Mar 2022 22:03:50 +0800</pubDate>
+      
+      <guid>https://b1indsight.github.io/post/super_and_mro_algorithm/</guid>
+      <description>&lt;p&gt;&lt;code&gt;super()&lt;/code&gt;作为在python中常被使用到的一个方法而言，具有一些有趣的特性，本文可以看作&lt;code&gt;super()&lt;/code&gt;的一个考古，主要包括以下几个部分：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;super()&lt;/code&gt;的定义和用法&lt;/li&gt;
+&lt;li&gt;构造&lt;code&gt;__mro__&lt;/code&gt;属性中类继承顺序线性化的算法&lt;/li&gt;
+&lt;li&gt;提供了一个&lt;code&gt;super()&lt;/code&gt;的简单实现，以及一些注意事项&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;super的定义和用法&#34;&gt;&lt;code&gt;super()&lt;/code&gt;的定义和用法&lt;/h2&gt;
+&lt;p&gt;首先提供一个&lt;code&gt;super(type, object-or-type)&lt;/code&gt;的定义：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在&lt;code&gt;object-or-type&lt;/code&gt;中__mro__指定的搜索路径中,返回&lt;code&gt;type&lt;/code&gt;后的下一个类对象的代理。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;例如&lt;code&gt;object-or-type&lt;/code&gt;的&lt;code&gt;__mro__&lt;/code&gt;指定的查找路径为D-&amp;gt;B-&amp;gt;C-&amp;gt;A-&amp;gt;object, 并且&lt;code&gt;type&lt;/code&gt;的值为B，则&lt;code&gt;super(type, object-or-type)&lt;/code&gt;将返回路径中B的下一个类C的代理。&lt;/p&gt;
+&lt;h3 id=&#34;关于未绑定的一个问题&#34;&gt;关于未绑定的一个问题&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;super()&lt;/code&gt;的两个参数都是可选参数，如果省略第二个参数，则返回一个未绑定的超类对象。在这个角度中，&lt;code&gt;super()&lt;/code&gt;返回的代理对象与&lt;code&gt;super()&lt;/code&gt;的第二个参数绑定。&lt;/p&gt;
+&lt;p&gt;这一点可以用以下的代码测试：先构造两个类A，B，并初始化&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;A&lt;/span&gt;():
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __init__(self):
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;s &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;
+  
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;obj A&amp;#39;&lt;/span&gt;)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;s
+  
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __repr__(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;A: {}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;format(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__class__&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__name__) 
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;(A):
+    s &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;B&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __init__(self):
+        super()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__init__()
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;s &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt;
+  
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;obj B&amp;#39;&lt;/span&gt;)
+        super()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;s
+ 
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __repr__(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;B: {}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;format(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__class__&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__name__) 
+ 
+a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A()
+b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; B()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此时执行&lt;code&gt;super(B)&lt;/code&gt;将返回一个未绑定的类&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; super(B)
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;super: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;gt;, NULL&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;而&lt;code&gt;super(B,B)&lt;/code&gt;则会返回&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; super(B, B)
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;super: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;gt;, &amp;lt;B object&amp;gt;&amp;gt; &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此时输出&lt;code&gt;super(B).method&lt;/code&gt;在一些&lt;a href=&#34;https://stackoverflow.com/a/22403976&#34;&gt;说明&lt;/a&gt;中会指出将返回一个未绑定的方法（像&lt;code&gt;&amp;lt;unbound method A.method&amp;gt;&lt;/code&gt;）,但在当前的实现中，将是如下状况&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; super(B)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method
+&lt;span style=&#34;color:#a6e22e&#34;&gt;AttributeError&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#39;super&amp;#39; object has no attribute &amp;#39;method&amp;#39;&amp;#34;&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;而同时并不像&lt;a href=&#34;https://www.artima.com/weblogs/viewpost.jsp?thread=236278&#34;&gt;博客&lt;/a&gt;中所说，&lt;code&gt;super(B,B)&lt;/code&gt;的行为现在也有所不同&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; super(B, B)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;function A&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method at &lt;span style=&#34;color:#ae81ff&#34;&gt;0x059976A0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# 而在调用这个函数的时候，可以通过手动将一个对象为参数来使其正确执行&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; super(B, B)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method(b)
+B
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;未绑定的代理对象，必须要指定一个对象绑定，才可以继续正常使用，例如&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; super(B)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__get__(b, B)
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;super: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;gt;, &amp;lt;B object&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# 这个对象与super(B, b)相同&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; super(B)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__get__(b, B)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method()
+b
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Guido对这一个用处有一个回应：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Thanks for proposing this &amp;ndash; I&amp;rsquo;ve been scratching my head wondering what the use of unbound super() would be. :-) I&amp;rsquo;m fine with killing it &amp;ndash; perhaps someone can do a bit of research to try and find out if there are any real-life uses (apart from various auto-super clones)?*&lt;/em&gt; &amp;mdash; Guido van Rossum&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;有点茴字的四种写法的味道了。&lt;/p&gt;
+&lt;h3 id=&#34;super在python3&#34;&gt;&lt;code&gt;super()&lt;/code&gt;在python3&lt;/h3&gt;
+&lt;p&gt;python3 中&lt;code&gt;super()&lt;/code&gt;是最通常使用的一种方式， &lt;code&gt;super()&lt;/code&gt;通常（只能被）使用在class定义中，用来返回一个父类的代理.&lt;/p&gt;
+&lt;p&gt;这个用法起初在&lt;a href=&#34;https://www.python.org/dev/peps/pep-3135/&#34;&gt;PEP3135&lt;/a&gt;提出，本是基于DRY原则为了避免在原本的用法中出现的两个问题：1.原本&lt;code&gt;super(class_name,self)&lt;/code&gt;的用法会在类定义的多个地方重复类名，如果类名改变，则多处的class_name也需要改变，这样就容易遗漏。2.在使用类装饰器的class中类名指定的类并不是原本方法所在的类对象，这样造成的行为与期望产生差距&lt;/p&gt;
+&lt;p&gt;Guido原本设想super作为一个keyword，然后使用cell来实现super可以指代当前的类，但之后他认为这个idea“too magic”，重新赞成使用super()来实现，并需要一个magic变量&lt;code&gt;__class__&lt;/code&gt;来作为一个妥协方法&lt;/p&gt;
+&lt;p&gt;这样当在类中使用&lt;code&gt;super&lt;/code&gt;变量时，会寻找&lt;code&gt;__class__&lt;/code&gt;来组合闭包，当你在全局范围类将super重命名为s，然后在类中使用s()，就会出现异常&lt;code&gt;RuntimeError: super(): __class__ cell not found&lt;/code&gt;，但依然可以如同通常方式一样工作。另外一个有趣的地方在于，只要在s()之前引用&lt;code&gt;__class__&lt;/code&gt;或&lt;code&gt;super&lt;/code&gt;(仅仅只需要在s()之前出现)，s()就会如同super()一样正常工作。&lt;/p&gt;
+&lt;p&gt;super()被广泛使用得以避免了一个问题：&lt;code&gt;super&lt;/code&gt;在使用中会被误用为&lt;code&gt;super(type(self), self)&lt;/code&gt;或&lt;code&gt;super(self.__class__, self)&lt;/code&gt;，这时，在以下的情况会进入无限循环&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;A&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;A&amp;#34;&lt;/span&gt;)
+    
+    
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;(A):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        super(type(self), self)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;B&amp;#34;&lt;/span&gt;)
+    
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;C&lt;/span&gt;(B):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        super(C, self)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;C&amp;#34;&lt;/span&gt;)
+    
+C()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在这里&lt;code&gt;C().method()&lt;/code&gt;，调用了&lt;code&gt;super(C, self).method()&lt;/code&gt;，此时调用的是B的method()方法，但其中的 &lt;code&gt;type(self)&lt;/code&gt;参数，所返回的类依然是C，而不是期望中的B，这样&lt;code&gt;super(type(self), self)&lt;/code&gt; 依然是B类自身。&lt;/p&gt;
+&lt;h2 id=&#34;__mro__的构造和c3线性化方法&#34;&gt;&lt;code&gt;__mro__&lt;/code&gt;的构造和C3线性化方法&lt;/h2&gt;
+&lt;p&gt;在python2.3之前的版本中，__mro__基本遵循继承顺序自左向右深度优先的属性构造，而在python2.3中引入了新式类，所有的类继承链的根部均为object对象，这样就很容易构造一个钻石形的继承图，例如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;A&lt;/span&gt;(object):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __getattribute__(self, name):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;(A):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __getattribute__(self, name):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;C&lt;/span&gt;(A):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __getattribute__(self, name):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;D&lt;/span&gt;(B, C):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __getattribute__(self, name):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;        
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;构造的继承图如下
+&lt;img src=&#34;../../img/diamond_diagram.png&#34; alt=&#34;继承图&#34;&gt;&lt;/p&gt;
+&lt;p&gt;按python2.2中的线性化方法，类D的mro顺序为D-&amp;gt;B-&amp;gt;A-&amp;gt;C-&amp;gt;A。这样，当在D中使用&lt;code&gt;__getattribute__()&lt;/code&gt;方法时，&lt;code&gt;super().__getattribute__()&lt;/code&gt;调用B中的&lt;code&gt;__getattribute__()&lt;/code&gt;方法，然后调用&lt;code&gt;A.__getattribute__()&lt;/code&gt;，由于A的&lt;code&gt;__getattribute__()&lt;/code&gt;直接继承自object，而object作为根类并不会调用&lt;code&gt;super()&lt;/code&gt;,这样C的&lt;code&gt;__getattribute__()&lt;/code&gt;方法就被忽略了。&lt;/p&gt;
+&lt;p&gt;在出现这样钻石继承图的情况中，一个替代的解决方法是自己组织调用层次来避免如以上的情况（或者重复调用A中方法的情况）。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 一个替代方法&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;A&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;(A):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;_method&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#75715e&#34;&gt;# 这里写B独有的方法部分&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_method()
+        A&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method(self)
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;C&lt;/span&gt;(A):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;_method&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#75715e&#34;&gt;# 这里写C独有的方法部分&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_method()
+        A&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method(self)
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;D&lt;/span&gt;(B, C):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;_method&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#75715e&#34;&gt;# 这里写D独有的方法部分&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_method()
+        B&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_method(self)
+        C&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_method(self)
+        A&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method(self)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这种办法一方面将一个完整的方法分割到了两个函数中，对于方法的理解存在负面影响。更加严重的是，这个方法导致在实现D的&lt;code&gt;method()&lt;/code&gt;方法时，必须了解类B，C的实现，并协调A的&lt;code&gt;method()&lt;/code&gt;方法，这样原本为封装信息的继承方法造成了信息泄露；同时将继承结构的细节与D类绑定了，这样若之后要对B或C类的继承方式做修改时，需要同时修改它们的子类。&lt;/p&gt;
+&lt;p&gt;在python2.2及之前的版本中，钻石型继承并不常出现，而在2.3版本中引入了新式类&amp;ndash;一个关键点在于所有的类继承自object&amp;ndash;造成了钻石形的继承关系出现次数大大增加。这样，引入一个新的线性化算法就变得必要了。&lt;sup&gt;[1]&lt;/sup&gt;&lt;/p&gt;
+&lt;h2 id=&#34;c3线性化算法&#34;&gt;C3线性化算法&lt;/h2&gt;
+&lt;p&gt;前置的约定：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;我们用ABCD&amp;hellip;N来指代由A-&amp;gt;B-&amp;gt;C-&amp;gt;D&amp;hellip;-&amp;gt;N的mro，其中A为mro的头部，其余作为尾部&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;设定A + B&amp;hellip;N = AB&amp;hellip;N&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;用L(C)来表示C的线性化结果&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;那么，C3算法可以被描述为以下几条原则：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;设一个类C，C线性化后的mro为C与对C的父类mro和C的继承顺序构造的一个mro做合并操作的结果之和， 用公式描述则是：&lt;code&gt;L(C) = C + merge(L(A), L(B), ..., AB...)&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;根类的mro为它自己, 也就是有&lt;code&gt;L(O) = O&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;merge的算法是: 在merge的参数中，先选择一个mro的头部，如果这个头部不在之后所有的mro的尾部中，那么就将这个头加入merge结果的mro中，并在其他参数的mro中去除这个头部， 否则选择下一个mro。重复这个过程，直到merge中没有元素，或者无法找到头部（此时抛出一个异常）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;算法本身描述比较抽象，只要用一个例子说明，就会很容易理解：&lt;/p&gt;
+&lt;p&gt;先构造一系列类：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;O &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; object
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;F&lt;/span&gt;(O): &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;E&lt;/span&gt;(O): &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;D&lt;/span&gt;(O): &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;C&lt;/span&gt;(D,F): &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;(E,D): &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;A&lt;/span&gt;(B,C): &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这些类存在着如下图的继承关系：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../img/diamond_diagram_2.png&#34; alt=&#34;继承关系&#34;&gt;&lt;/p&gt;
+&lt;p&gt;此时根据算法有：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# O 的mro为O本身&lt;/span&gt;
+L(O) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; O
+L(F) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; F &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(L(O), O) 
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; F &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(O, O)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; F &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; O 
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; FO
+L(E) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; EO
+L(D) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; DO
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;继续：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;L(C) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; C &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(L(D), L(F), DF) 
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; C &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(DO, FO, DF) 
+     &lt;span style=&#34;color:#75715e&#34;&gt;# 先选择DO的头部D，D不在FO的尾部中，D同时是DF的头部，&lt;/span&gt;
+     &lt;span style=&#34;color:#75715e&#34;&gt;# 所以将D作为merge结果的头部，并且在参数中去掉D&lt;/span&gt;
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; C &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; D &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(O, FO, F)
+     &lt;span style=&#34;color:#75715e&#34;&gt;# 同理&lt;/span&gt;
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; C &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; D &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; F &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(O, O)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; CDFO
+L(B) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; BEDO
+L(A) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(L(B), L(C), BC)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(BEDO, CDFO, BC)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; B &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(EDO, CDFO, C)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; B &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; E &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(DO, CDFO, C)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; B &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; E &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; C &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(DO, DFO)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; B &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; E &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; C &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; D &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(O, FO)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; B &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; E &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; C &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; D &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; F &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(O, O)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ABECDFO
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到C3线性化方法中，E类相比类C在继承顺序上更接近与根O，但是mro中位置却在C之前。C3线性化的一个优点在于整个继承结构中的所有的类的mro均是单调的，也就是说C3线性化方法具有单调性。&lt;/p&gt;
+&lt;h2 id=&#34;super实现&#34;&gt;&lt;code&gt;super()&lt;/code&gt;实现&lt;/h2&gt;
+&lt;p&gt;使用者通过&lt;code&gt;super()&lt;/code&gt;返回的代理对象来获取对应对象的属性，可以通过将&lt;code&gt;super()&lt;/code&gt;实现为一个描述器来做到这一点。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;new_super&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __init__(self, type&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;None, object&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;None):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; type &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; None:
+            &lt;span style=&#34;color:#75715e&#34;&gt;# super利用__class__组成闭包，这时__class__指向定义时所在的类，而不是运行时&lt;/span&gt;
+            &lt;span style=&#34;color:#75715e&#34;&gt;# 在具体的实现中，__class__在编译时被写入闭包&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; __class__ &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; None:
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;raise&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;RuntimeError&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;super(): no arguments&amp;#34;&lt;/span&gt;)
+            self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__type__ &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; __class__
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+            self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__type__ &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; type
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__object__ &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; object
+    
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __get__(self, obj, type&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;None):
+        &lt;span style=&#34;color:#75715e&#34;&gt;# 如果没有指定第二个参数，可以用__get__方法来与obj绑定&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; type &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; None &lt;span style=&#34;color:#f92672&#34;&gt;and&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__object__ &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; None:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; new_super(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__type__, obj)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; self
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __getattr__(self, attr):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; isinstance(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__object__, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__type__):
+            starttype &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__object__&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__class__
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+            starttype &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__object__
+        mro &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; iter(starttype&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__mro__)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; cls &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; mro:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; cls &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__type__:
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; cls &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; mro:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; attr &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; cls&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__dict__:
+                x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; cls&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__dict__[attr]
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; hasattr(x, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;__get__&amp;#39;&lt;/span&gt;):
+                    x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__get__(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__object__)
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; x
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;raise&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;AttributeError&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
     
     <item>
       <title>Q&#39;s magic</title>

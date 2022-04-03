@@ -6,86 +6,266 @@
     <description>b1indsight</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 31 Dec 2020 23:38:11 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 02 Mar 2022 22:03:50 +0800</lastBuildDate>
     
     <atom:link href="https://b1indsight.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>2020 年终总结</title>
-      <link>https://b1indsight.github.io/post/2020_annual_summary/</link>
-      <pubDate>Thu, 31 Dec 2020 23:38:11 +0800</pubDate>
+      <title>Super函数和mro算法</title>
+      <link>https://b1indsight.github.io/post/super_and_mro_algorithm/</link>
+      <pubDate>Wed, 02 Mar 2022 22:03:50 +0800</pubDate>
       
-      <guid>https://b1indsight.github.io/post/2020_annual_summary/</guid>
-      <description>&lt;p&gt;2020一年，是在失望和痛苦中开始的，尽管我会认为失败会更加司空见惯，但是在当时看，还是不可接受的事。然后接下的一季，在家里度过了一段时间的neet生活，虽然可以拿新冠做理由，但是只是单纯的不想出门，这段时间大体上是用来找工作了，但其实做了一些其他的事来填充这段在家的时间。下半年在8月，经过一次偶然被邀请面试，再加上我自己急于脱离当前环境，放弃了接下去的求职，直接接了offer来到上海。冬季的我逐渐缓解了新租房和添置设备的经济压力，同时生活也开始变得规律稳定起来，这段时间几乎彻底放弃了学习，于是就这样延续到了我现在打字的时刻。&lt;/p&gt;
-&lt;h2 id=&#34;第一季度&#34;&gt;第一季度&lt;/h2&gt;
-&lt;p&gt;2020年的一月我刚结束了考研，对将来还有乐观的预想，在一月初，我的笔记本电脑的显卡不幸暴死了，我试图在不换主板的前提下修好它，但是由于需要一个芯片级的维修店，在市里搜寻失败之后，我决定在过年前一周左右送去淘宝寄修，这样顺利的话可以过年之前拿到。很不幸，预想完全是错误的。&lt;/p&gt;
-&lt;p&gt;一月发生了众所周知的新冠病毒的广泛扩散和全国范围的大规模封锁，在我寄修电脑时，我虽然已经知道了这件事，并且先期屯了一盒口罩，但是却错估了这件事的持续时间和严重程度，以至于电脑在寄到维修店里的后几天，这家店由于所在小区出现了患者，导致整个店一直被封到3月。因此年初我都是在没有电脑的情况下度过的。&lt;/p&gt;
-&lt;p&gt;一月比较幸运的事，我在月初几天考完了科四，成功拿到驾照，可以说是不幸中的万幸。&lt;/p&gt;
-&lt;p&gt;二月初，封城宣传正是特别火热的时候，市里郊区一个村也用土堆上了进入的路。而我趁这段时间借接送父亲上班的时间顺便练车，每天绕一段路开车回家。这段时间开始在家里重读sicp，顺便看MIT
-6.945 sicp的视频。另外值得一提的书是&lt;a href=&#34;https://book.douban.com/subject/3334723/&#34;&gt;《谣言，世界最古老的传媒》&lt;/a&gt;,月初众多消息混杂着谣言，’辟谣‘这个字使用频率逐渐频繁，词义在不断滥用中变得模糊，而辟谣方对自己”权威“地位的滥用，也在快速消耗这个词的公众印象。&lt;/p&gt;
+      <guid>https://b1indsight.github.io/post/super_and_mro_algorithm/</guid>
+      <description>&lt;p&gt;&lt;code&gt;super()&lt;/code&gt;作为在python中常被使用到的一个方法而言，具有一些有趣的特性，本文可以看作&lt;code&gt;super()&lt;/code&gt;的一个考古，主要包括以下几个部分：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;super()&lt;/code&gt;的定义和用法&lt;/li&gt;
+&lt;li&gt;构造&lt;code&gt;__mro__&lt;/code&gt;属性中类继承顺序线性化的算法&lt;/li&gt;
+&lt;li&gt;提供了一个&lt;code&gt;super()&lt;/code&gt;的简单实现，以及一些注意事项&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;super的定义和用法&#34;&gt;&lt;code&gt;super()&lt;/code&gt;的定义和用法&lt;/h2&gt;
+&lt;p&gt;首先提供一个&lt;code&gt;super(type, object-or-type)&lt;/code&gt;的定义：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;谣言是对权威的一种返还。它揭露秘密，提出假设，迫使当局开口说话。同时，谣言还对当局作为唯一权威性信息来源的地位提出异议。 (p.16)&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;object-or-type&lt;/code&gt;中__mro__指定的搜索路径中,返回&lt;code&gt;type&lt;/code&gt;后的下一个类对象的代理。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;二月末，得知了自己的考研成绩，在去年自己对数学的重点学习的努力下，分数终于达到了上一次考研的一半，而自己基本没有看的英语和政治反而继续得到了提高。如果用一个词来描述当时的情况，那即是“困窘”。我无从知道这样的原因，既没办法去想象，也不能回溯自己的记忆来找到原因。那么，然后怎么办？唯一可以肯定的是，在考研的科目中继续投入成本是不可接受的事，像操作系统之类的课程要继续深入需要扩展的阅读和亲手实现一个操作系统的行动，而不是对重复的内容继续重复，那么接下来要做的就是要开始着手找工作的事情。迫在眉睫的事则是，需要一个临时用的电脑。&lt;/p&gt;
-&lt;p&gt;三月，用2000+临时买了配件准备组一台临时机器，而在没有电脑用的时候，我暂时在京东买了罗技k380，暂时接在pad上刷题。这段时间我还没有停下看sicp的事，至少这是临时的避难所，让我保持平静。&lt;/p&gt;
-&lt;p&gt;三月虽然是春招开始的时间，但是因为疫情的形式，招人的公司减少了，而春招的时间也在延后。当时的我需要的是三部分的准备，首先要有一个完成度足够的项目来充实简历，然后对常问的八股文要有足够的准备，最后则是我看起来比较自信的方面：要刷一些算法题来保证可以过这一关。三月的我选择常见的简单起步的项目：一个flask的博客。&lt;/p&gt;
-&lt;p&gt;选择flask是出于几个理由：1.语言方面我自己倾向于python，因为开发更快，而且在我有足够的基础知识下不会有太多的基础问题，另外是一点语言审美偏好。2.接下来就是django和flask二选一，我希望基础组件足够少，可以让我快速起步，结果很明显，是flask。&lt;/p&gt;
-&lt;p&gt;三月末另外一件事是参加了被群友内推的银联笔试，过了之后约了4月初的面试，由于开发语言是java，所以需要准备些java八股文来过面试。&lt;/p&gt;
-&lt;p&gt;三月另外同时做的事是写一个简单的python虚拟机，这起初是看了&lt;a href=&#34;https://laike9m.com/blog/python-de-block-stack,136/&#34;&gt;laike9m的博客&lt;/a&gt;，他在其中简单描述了python的block stack，并提到了byterun项目和项目的介绍文章，在我看了介绍之后，花了一些时间来写这个项目，简单写到单frame的求值过程。&lt;/p&gt;
-&lt;h2 id=&#34;第二季度&#34;&gt;第二季度&lt;/h2&gt;
-&lt;p&gt;4月，月初3天内看完了深入理解Java虚拟机， 把自己的flask项目勉强糊完，就直接开始了银联的面试，但其实面试并没有问的很深入，不过几个linux命令行的问题让我比较难受。4月中拿到了另一个群友公司的面试，约到了月底， 月底技术面也同样还算顺利，虽然是Clojure的公司，但是问的主要还是java，不过同样一般深入。&lt;/p&gt;
-&lt;p&gt;这段时间，开始做java的准备，同时剑指的100道题也基本刷完，月底银联发了心理测评的邀请，形势看起来还算不错，月底开始看concurrent包的源码，aqs的内容和aqs设计论文让我学到很多，而当时我同时在twitter上Jiayuan的推荐下开始用roam research（当时使用者还很少），再加上打算更新一下博客，所以直接把aqs的笔记修整了一下搬到了博客上。就是&lt;a href=&#34;https://b1indsight.github.io/post/juc_aqs/&#34;&gt;这篇&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;博客以前使用的主题感觉有点审美过时，而同时不再支持我的中文标题。于是我把主题换到了现在这个样子。&lt;/p&gt;
-&lt;p&gt;5月看起来一切都在正常发展，坏一点的事是我上个月过了技术面的公司，结果挂在了hr面，很难受。（之后这家公司开始了不加钱的995，看起来没去反而也许是好事）我也同时有闲情开始看一些别的技术书，同时更新了一下自己的byterun，开始支持函数调用之类的操作。同时接到了银联hr的谈薪电话，离offer只剩背调提交材料了。&lt;/p&gt;
-&lt;p&gt;6月，继续更新了一点byterun，添加了class的支持，另外把包导入的python代码托给cpython直接调用，凑合成功推进了一点。下半月不巧才被通知我银联背调没过，因为我不是2020年毕业的应届生，这样我顿时又重新回到了3月多的境况，而且由于春招结束，情况更加恶劣起来。&lt;/p&gt;
-&lt;p&gt;6月底，靠父亲的同乡提供了一个外包公司的职位，我自己并不想去外包，因为提升可能性很小，我打算靠以前的java八股文记忆继续找工作，接下来就需要一个java一套的项目，我选择了springboot+mybatis+mysql一套的rss订阅服务器，做的原因是当前的个人搭建rss服务基本只有tiny-tiny rss，这已经是2014年的项目，而且一直没有更新，我做这个感觉前景不错。&lt;/p&gt;
-&lt;p&gt;在糊了不到一周之后基本可以完成靠rss链接或者导入opml文件订阅，接下来比较难受的地方在于一些提供商的rss并不能被roma解析，再加上我的工作效率一直保持在很低的水平，这个项目最终搁置在为我的现有功能添加api支持之后。&lt;/p&gt;
-&lt;p&gt;6月底的其他时间重写了byterun，理了一下虚拟机结构，添加了不完整的code block。在试图解决class定义的一些问题时，发现想要继续下去，必须统一function和class及其他对象，应该像java一样使他们继承同一个基类，这样才能为以后添加一个gc提供基础。我对语言方面几乎没有了解，而不看《Inside The Python Virtual Machine》好像很难继续，所以同样搁置。&lt;/p&gt;
-&lt;p&gt;6月临时码字开坑从0开始的python虚拟机，写了第一篇之后到现在还没继续写下去。&lt;/p&gt;
-&lt;h2 id=&#34;第三季度&#34;&gt;第三季度&lt;/h2&gt;
-&lt;p&gt;7月初，群友开坑qq机器人，正好碰到在玩公主链接，所以月初fork了一下，添加了切噜语翻译的功能玩票。几个月之后qq提供了官方收费机器人，并威胁了其他第三方机器人制作已经是后话了。&lt;/p&gt;
-&lt;p&gt;7月在投了一些简历之后终于又约到了笔试，同时也有我现在的公司。7月主要在看《effective Java》，顺便给翻译提了一个pr。另外做的事是看了一些高性能mysql，做了些mysql文档优化这一节的翻译。&lt;/p&gt;
-&lt;p&gt;7月初看了关于写一个web app框架的演讲之后，开坑看flask的源码，写了一些笔记。&lt;/p&gt;
-&lt;p&gt;8月初把这些笔记写了新博客系列，flask的源码阅读。相对于常见的对行为的描写，我想更多体现做这些的思路，但是不幸自己对这方面的阅读不多，很难描述在架构选择的权衡。这个坑也因此搁置。&lt;/p&gt;
-&lt;p&gt;8月初面试通过，然后快速和hr约了入职时间，鸽了之后的面试的同时也被对方公司鸽了。8月另外读的书是&lt;a href=&#34;https://book.douban.com/subject/30347596/&#34;&gt;《对赌，信息不足时如何做出高明决策》&lt;/a&gt;中间几天都在找房子住。&lt;/p&gt;
-&lt;p&gt;8月下半月是我刚开始入职的时候，抛去之前文章写的牢骚之外。工作中开始学写lua，perl和php。开始除了写一些爬虫之外，也基本没有什么事。时至今日，回顾我之前在每周总结的内容：&lt;/p&gt;
+&lt;p&gt;例如&lt;code&gt;object-or-type&lt;/code&gt;的&lt;code&gt;__mro__&lt;/code&gt;指定的查找路径为D-&amp;gt;B-&amp;gt;C-&amp;gt;A-&amp;gt;object, 并且&lt;code&gt;type&lt;/code&gt;的值为B，则&lt;code&gt;super(type, object-or-type)&lt;/code&gt;将返回路径中B的下一个类C的代理。&lt;/p&gt;
+&lt;h3 id=&#34;关于未绑定的一个问题&#34;&gt;关于未绑定的一个问题&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;super()&lt;/code&gt;的两个参数都是可选参数，如果省略第二个参数，则返回一个未绑定的超类对象。在这个角度中，&lt;code&gt;super()&lt;/code&gt;返回的代理对象与&lt;code&gt;super()&lt;/code&gt;的第二个参数绑定。&lt;/p&gt;
+&lt;p&gt;这一点可以用以下的代码测试：先构造两个类A，B，并初始化&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;A&lt;/span&gt;():
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __init__(self):
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;s &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;
+  
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;obj A&amp;#39;&lt;/span&gt;)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;s
+  
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __repr__(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;A: {}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;format(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__class__&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__name__) 
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;(A):
+    s &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;B&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __init__(self):
+        super()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__init__()
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;s &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt;
+  
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;obj B&amp;#39;&lt;/span&gt;)
+        super()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;s
+ 
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __repr__(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;B: {}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;format(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__class__&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__name__) 
+ 
+a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A()
+b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; B()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此时执行&lt;code&gt;super(B)&lt;/code&gt;将返回一个未绑定的类&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; super(B)
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;super: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;gt;, NULL&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;而&lt;code&gt;super(B,B)&lt;/code&gt;则会返回&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; super(B, B)
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;super: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;gt;, &amp;lt;B object&amp;gt;&amp;gt; &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此时输出&lt;code&gt;super(B).method&lt;/code&gt;在一些&lt;a href=&#34;https://stackoverflow.com/a/22403976&#34;&gt;说明&lt;/a&gt;中会指出将返回一个未绑定的方法（像&lt;code&gt;&amp;lt;unbound method A.method&amp;gt;&lt;/code&gt;）,但在当前的实现中，将是如下状况&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; super(B)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method
+&lt;span style=&#34;color:#a6e22e&#34;&gt;AttributeError&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#39;super&amp;#39; object has no attribute &amp;#39;method&amp;#39;&amp;#34;&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;而同时并不像&lt;a href=&#34;https://www.artima.com/weblogs/viewpost.jsp?thread=236278&#34;&gt;博客&lt;/a&gt;中所说，&lt;code&gt;super(B,B)&lt;/code&gt;的行为现在也有所不同&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; super(B, B)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;function A&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method at &lt;span style=&#34;color:#ae81ff&#34;&gt;0x059976A0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# 而在调用这个函数的时候，可以通过手动将一个对象为参数来使其正确执行&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; super(B, B)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method(b)
+B
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;未绑定的代理对象，必须要指定一个对象绑定，才可以继续正常使用，例如&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; super(B)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__get__(b, B)
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;super: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;gt;, &amp;lt;B object&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# 这个对象与super(B, b)相同&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; super(B)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__get__(b, B)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method()
+b
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Guido对这一个用处有一个回应：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Thanks for proposing this &amp;ndash; I&amp;rsquo;ve been scratching my head wondering what the use of unbound super() would be. :-) I&amp;rsquo;m fine with killing it &amp;ndash; perhaps someone can do a bit of research to try and find out if there are any real-life uses (apart from various auto-super clones)?*&lt;/em&gt; &amp;mdash; Guido van Rossum&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;有点茴字的四种写法的味道了。&lt;/p&gt;
+&lt;h3 id=&#34;super在python3&#34;&gt;&lt;code&gt;super()&lt;/code&gt;在python3&lt;/h3&gt;
+&lt;p&gt;python3 中&lt;code&gt;super()&lt;/code&gt;是最通常使用的一种方式， &lt;code&gt;super()&lt;/code&gt;通常（只能被）使用在class定义中，用来返回一个父类的代理.&lt;/p&gt;
+&lt;p&gt;这个用法起初在&lt;a href=&#34;https://www.python.org/dev/peps/pep-3135/&#34;&gt;PEP3135&lt;/a&gt;提出，本是基于DRY原则为了避免在原本的用法中出现的两个问题：1.原本&lt;code&gt;super(class_name,self)&lt;/code&gt;的用法会在类定义的多个地方重复类名，如果类名改变，则多处的class_name也需要改变，这样就容易遗漏。2.在使用类装饰器的class中类名指定的类并不是原本方法所在的类对象，这样造成的行为与期望产生差距&lt;/p&gt;
+&lt;p&gt;Guido原本设想super作为一个keyword，然后使用cell来实现super可以指代当前的类，但之后他认为这个idea“too magic”，重新赞成使用super()来实现，并需要一个magic变量&lt;code&gt;__class__&lt;/code&gt;来作为一个妥协方法&lt;/p&gt;
+&lt;p&gt;这样当在类中使用&lt;code&gt;super&lt;/code&gt;变量时，会寻找&lt;code&gt;__class__&lt;/code&gt;来组合闭包，当你在全局范围类将super重命名为s，然后在类中使用s()，就会出现异常&lt;code&gt;RuntimeError: super(): __class__ cell not found&lt;/code&gt;，但依然可以如同通常方式一样工作。另外一个有趣的地方在于，只要在s()之前引用&lt;code&gt;__class__&lt;/code&gt;或&lt;code&gt;super&lt;/code&gt;(仅仅只需要在s()之前出现)，s()就会如同super()一样正常工作。&lt;/p&gt;
+&lt;p&gt;super()被广泛使用得以避免了一个问题：&lt;code&gt;super&lt;/code&gt;在使用中会被误用为&lt;code&gt;super(type(self), self)&lt;/code&gt;或&lt;code&gt;super(self.__class__, self)&lt;/code&gt;，这时，在以下的情况会进入无限循环&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;A&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;A&amp;#34;&lt;/span&gt;)
+    
+    
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;(A):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        super(type(self), self)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;B&amp;#34;&lt;/span&gt;)
+    
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;C&lt;/span&gt;(B):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        super(C, self)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;C&amp;#34;&lt;/span&gt;)
+    
+C()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在这里&lt;code&gt;C().method()&lt;/code&gt;，调用了&lt;code&gt;super(C, self).method()&lt;/code&gt;，此时调用的是B的method()方法，但其中的 &lt;code&gt;type(self)&lt;/code&gt;参数，所返回的类依然是C，而不是期望中的B，这样&lt;code&gt;super(type(self), self)&lt;/code&gt; 依然是B类自身。&lt;/p&gt;
+&lt;h2 id=&#34;__mro__的构造和c3线性化方法&#34;&gt;&lt;code&gt;__mro__&lt;/code&gt;的构造和C3线性化方法&lt;/h2&gt;
+&lt;p&gt;在python2.3之前的版本中，__mro__基本遵循继承顺序自左向右深度优先的属性构造，而在python2.3中引入了新式类，所有的类继承链的根部均为object对象，这样就很容易构造一个钻石形的继承图，例如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;A&lt;/span&gt;(object):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __getattribute__(self, name):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;(A):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __getattribute__(self, name):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;C&lt;/span&gt;(A):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __getattribute__(self, name):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;D&lt;/span&gt;(B, C):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __getattribute__(self, name):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;        
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;构造的继承图如下
+&lt;img src=&#34;../../img/diamond_diagram.png&#34; alt=&#34;继承图&#34;&gt;&lt;/p&gt;
+&lt;p&gt;按python2.2中的线性化方法，类D的mro顺序为D-&amp;gt;B-&amp;gt;A-&amp;gt;C-&amp;gt;A。这样，当在D中使用&lt;code&gt;__getattribute__()&lt;/code&gt;方法时，&lt;code&gt;super().__getattribute__()&lt;/code&gt;调用B中的&lt;code&gt;__getattribute__()&lt;/code&gt;方法，然后调用&lt;code&gt;A.__getattribute__()&lt;/code&gt;，由于A的&lt;code&gt;__getattribute__()&lt;/code&gt;直接继承自object，而object作为根类并不会调用&lt;code&gt;super()&lt;/code&gt;,这样C的&lt;code&gt;__getattribute__()&lt;/code&gt;方法就被忽略了。&lt;/p&gt;
+&lt;p&gt;在出现这样钻石继承图的情况中，一个替代的解决方法是自己组织调用层次来避免如以上的情况（或者重复调用A中方法的情况）。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 一个替代方法&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;A&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;(A):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;_method&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#75715e&#34;&gt;# 这里写B独有的方法部分&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_method()
+        A&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method(self)
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;C&lt;/span&gt;(A):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;_method&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#75715e&#34;&gt;# 这里写C独有的方法部分&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_method()
+        A&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method(self)
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;D&lt;/span&gt;(B, C):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;_method&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#75715e&#34;&gt;# 这里写D独有的方法部分&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt;(self):
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_method()
+        B&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_method(self)
+        C&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_method(self)
+        A&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;method(self)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这种办法一方面将一个完整的方法分割到了两个函数中，对于方法的理解存在负面影响。更加严重的是，这个方法导致在实现D的&lt;code&gt;method()&lt;/code&gt;方法时，必须了解类B，C的实现，并协调A的&lt;code&gt;method()&lt;/code&gt;方法，这样原本为封装信息的继承方法造成了信息泄露；同时将继承结构的细节与D类绑定了，这样若之后要对B或C类的继承方式做修改时，需要同时修改它们的子类。&lt;/p&gt;
+&lt;p&gt;在python2.2及之前的版本中，钻石型继承并不常出现，而在2.3版本中引入了新式类&amp;ndash;一个关键点在于所有的类继承自object&amp;ndash;造成了钻石形的继承关系出现次数大大增加。这样，引入一个新的线性化算法就变得必要了。&lt;sup&gt;[1]&lt;/sup&gt;&lt;/p&gt;
+&lt;h2 id=&#34;c3线性化算法&#34;&gt;C3线性化算法&lt;/h2&gt;
+&lt;p&gt;前置的约定：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;爬虫从提供任务到入库的流程需要用crontab吗？我觉得还可以接受，在数据量现有的规模下，时间同步的方法批量处理数据不算是一个差选择&lt;/p&gt;
+&lt;p&gt;我们用ABCD&amp;hellip;N来指代由A-&amp;gt;B-&amp;gt;C-&amp;gt;D&amp;hellip;-&amp;gt;N的mro，其中A为mro的头部，其余作为尾部&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;信息传递需要用mysql吗？很显然太过重量级了。&lt;/p&gt;
+&lt;p&gt;设定A + B&amp;hellip;N = AB&amp;hellip;N&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;lua的正则还是一样的烦人，另外一个空内容的迭代器，现在看是可以理解的设计。&lt;/p&gt;
+&lt;p&gt;用L(C)来表示C的线性化结果&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;9月基本没有做什么事，在进入下半年之后，没有学什么新内容，《A Philosophy of Software Design》看了大约1/3, 其他看的书是《遗落的南境》第一部，另外看了一部分《The Pragmatic Programer》&lt;/p&gt;
-&lt;p&gt;9月听了捕蛇者说，在一期的结尾推荐里提到了q这个库，q的几个特性看起来比较有意思，所以去读了源码，写了博客。很不幸写完发现实现其实挺简单，这篇是彻底的水文，但我还是厚颜无耻的发了上去。&lt;/p&gt;
-&lt;h2 id=&#34;第四季度&#34;&gt;第四季度&lt;/h2&gt;
-&lt;p&gt;最后一个季度，也同样基本没有学什么东西。大略看了一半ddia，ddia作为今年继sicp之后看的第二流畅的技术书籍，整体阅读体验也比较愉悦，内容比较基础，最后还是欠下了一堆论文没有读。业余的其他时间，看了尼尔盖曼随笔集。&lt;/p&gt;
-&lt;p&gt;12月尾，开坑一个github action项目，用ts来做，主要难度还是在于github的api和我本身没有学过ts，导致拖延十分严重，不小心拖到了下一年。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://user-images.githubusercontent.com/47165749/103441978-ea010580-4c8c-11eb-83a5-a14f91a868a5.png&#34; alt=&#34;今年的我&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;2020年结束的时候，总体心情重回平稳，至少不再像去年一样焦虑到四处开坑，从各个方面来说，都现在呆在一个平稳的境况下。遗憾的地方在于接下来想做的事太多，而到了必须要舍弃一部分的时候了。&lt;/p&gt;
-&lt;p&gt;下一年，计划要做的三件事：&lt;/p&gt;
+&lt;p&gt;那么，C3算法可以被描述为以下几条原则：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;读现有的几本关于数据库的书：
-&lt;ul&gt;
-&lt;li&gt;ddia&lt;/li&gt;
-&lt;li&gt;数据库系统内幕&lt;/li&gt;
-&lt;li&gt;redis设计和实现&lt;/li&gt;
-&lt;li&gt;Kafka设计和实现&lt;/li&gt;
-&lt;li&gt;重读高性能mysql&lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;
+&lt;p&gt;设一个类C，C线性化后的mro为C与对C的父类mro和C的继承顺序构造的一个mro做合并操作的结果之和， 用公式描述则是：&lt;code&gt;L(C) = C + merge(L(A), L(B), ..., AB...)&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;该学rust了，重新来写我的虚拟机吧&lt;/li&gt;
-&lt;li&gt;[还没想好]&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;根类的mro为它自己, 也就是有&lt;code&gt;L(O) = O&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;merge的算法是: 在merge的参数中，先选择一个mro的头部，如果这个头部不在之后所有的mro的尾部中，那么就将这个头加入merge结果的mro中，并在其他参数的mro中去除这个头部， 否则选择下一个mro。重复这个过程，直到merge中没有元素，或者无法找到头部（此时抛出一个异常）。&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;我先立个flag在这，说不定以后就不想做直接鸽了呢&lt;/p&gt;
-&lt;p&gt;希望2021能做到每月一篇吧&lt;/p&gt;
-</description>
+&lt;p&gt;算法本身描述比较抽象，只要用一个例子说明，就会很容易理解：&lt;/p&gt;
+&lt;p&gt;先构造一系列类：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;O &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; object
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;F&lt;/span&gt;(O): &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;E&lt;/span&gt;(O): &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;D&lt;/span&gt;(O): &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;C&lt;/span&gt;(D,F): &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;B&lt;/span&gt;(E,D): &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;A&lt;/span&gt;(B,C): &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这些类存在着如下图的继承关系：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../img/diamond_diagram_2.png&#34; alt=&#34;继承关系&#34;&gt;&lt;/p&gt;
+&lt;p&gt;此时根据算法有：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# O 的mro为O本身&lt;/span&gt;
+L(O) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; O
+L(F) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; F &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(L(O), O) 
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; F &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(O, O)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; F &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; O 
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; FO
+L(E) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; EO
+L(D) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; DO
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;继续：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;L(C) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; C &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(L(D), L(F), DF) 
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; C &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(DO, FO, DF) 
+     &lt;span style=&#34;color:#75715e&#34;&gt;# 先选择DO的头部D，D不在FO的尾部中，D同时是DF的头部，&lt;/span&gt;
+     &lt;span style=&#34;color:#75715e&#34;&gt;# 所以将D作为merge结果的头部，并且在参数中去掉D&lt;/span&gt;
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; C &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; D &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(O, FO, F)
+     &lt;span style=&#34;color:#75715e&#34;&gt;# 同理&lt;/span&gt;
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; C &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; D &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; F &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(O, O)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; CDFO
+L(B) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; BEDO
+L(A) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(L(B), L(C), BC)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(BEDO, CDFO, BC)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; B &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(EDO, CDFO, C)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; B &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; E &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(DO, CDFO, C)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; B &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; E &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; C &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(DO, DFO)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; B &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; E &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; C &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; D &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(O, FO)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; B &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; E &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; C &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; D &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; F &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; merge(O, O)
+     &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ABECDFO
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到C3线性化方法中，E类相比类C在继承顺序上更接近与根O，但是mro中位置却在C之前。C3线性化的一个优点在于整个继承结构中的所有的类的mro均是单调的，也就是说C3线性化方法具有单调性。&lt;/p&gt;
+&lt;h2 id=&#34;super实现&#34;&gt;&lt;code&gt;super()&lt;/code&gt;实现&lt;/h2&gt;
+&lt;p&gt;使用者通过&lt;code&gt;super()&lt;/code&gt;返回的代理对象来获取对应对象的属性，可以通过将&lt;code&gt;super()&lt;/code&gt;实现为一个描述器来做到这一点。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;new_super&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __init__(self, type&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;None, object&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;None):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; type &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; None:
+            &lt;span style=&#34;color:#75715e&#34;&gt;# super利用__class__组成闭包，这时__class__指向定义时所在的类，而不是运行时&lt;/span&gt;
+            &lt;span style=&#34;color:#75715e&#34;&gt;# 在具体的实现中，__class__在编译时被写入闭包&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; __class__ &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; None:
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;raise&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;RuntimeError&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;super(): no arguments&amp;#34;&lt;/span&gt;)
+            self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__type__ &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; __class__
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+            self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__type__ &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; type
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__object__ &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; object
+    
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __get__(self, obj, type&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;None):
+        &lt;span style=&#34;color:#75715e&#34;&gt;# 如果没有指定第二个参数，可以用__get__方法来与obj绑定&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; type &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; None &lt;span style=&#34;color:#f92672&#34;&gt;and&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__object__ &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; None:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; new_super(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__type__, obj)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; self
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __getattr__(self, attr):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; isinstance(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__object__, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__type__):
+            starttype &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__object__&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__class__
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+            starttype &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__object__
+        mro &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; iter(starttype&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__mro__)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; cls &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; mro:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; cls &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__type__:
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; cls &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; mro:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; attr &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; cls&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__dict__:
+                x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; cls&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__dict__[attr]
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; hasattr(x, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;__get__&amp;#39;&lt;/span&gt;):
+                    x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__get__(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__object__)
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; x
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;raise&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;AttributeError&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -130,88 +310,6 @@
 &lt;li&gt;&lt;a href=&#34;https://github.com/zestyping/q&#34;&gt;https://github.com/zestyping/q&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;http://pyvideo.org/video/1858/sunday-evening-lightning-talks#t=25m15s&#34;&gt;http://pyvideo.org/video/1858/sunday-evening-lightning-talks#t=25m15s&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>2020.08.31-2020.09.06</title>
-      <link>https://b1indsight.github.io/post/weekly_report_20200831_20200906/</link>
-      <pubDate>Sun, 06 Sep 2020 20:46:36 +0800</pubDate>
-      
-      <guid>https://b1indsight.github.io/post/weekly_report_20200831_20200906/</guid>
-      <description>&lt;h3 id=&#34;20200831---20200906&#34;&gt;2020.08.31 - 2020.09.06&lt;/h3&gt;
-&lt;h2 id=&#34;上周总结&#34;&gt;上周总结&lt;/h2&gt;
-&lt;p&gt;上周计划的三件事：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Ts ts入门写了hello，world，依然没有找到什么项目可以做，考虑写一下vscode的扩展，或者在github上找一个吧。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;重写虚拟机的任务根本没动，这周其实什么也没有干。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;A Philosophy of software design， 书读了半章，进度缓慢。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;上周游戏时间13小时，基本不算高的。大量的休息时间主要用来做饭和做些杂事了，上周买了新的人体工学椅和键盘。阿米洛的静电容轴响应力度足够小，回弹也快速，而且基本上没有误触，大键的手感没有小键好，樱花粉轴整体上还是比较满意的。人体工学椅买了金卓b，不过到现在还没有找到比较好的坐法，感觉100度的椅角度比较好，但是并没有这一档，不固定椅背可能能达到效果，但是不知道这种方法有没有什么坏处。&lt;/p&gt;
-&lt;h2 id=&#34;下周&#34;&gt;下周&lt;/h2&gt;
-&lt;p&gt;下周继续三件事：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;重写虚拟机， 这件事作为这个项目的第一阶段目标，还是应该要做完的，至于之后继续的发展，要看我以后会不会有继续这个方向的学习计划。&lt;/li&gt;
-&lt;li&gt;A Philosophy of software design， 现在是读到5.5，至少这周要读完11章。&lt;/li&gt;
-&lt;li&gt;Ts， 对于前端能做到什么程度我还没有清晰的概念，先github逛一下吧。找个项目，目标大概到提出一个pr。（可能完不成&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;观点&#34;&gt;观点&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;相对于notion这样以主题为核心来记录笔记的方法十分适合读书或者其他的笔记整理，而roam research这样的自下而上的笔记方法在记录自己偶发的想法的时候会更加方便，使用链接和tag会更好的整理想法，建立一个单独的页面可以用来存放和分类，在这个角度来看，roam research更加适合与个人的笔记系统。&lt;/li&gt;
-&lt;li&gt;一个简单的获取信息的筛选系统：1.以输出知识为卖点的账号，如果达到日更新，那么即可以说这些账号的输出都是垃圾（除非是多人合作的方法，而其中每个作者输出频率不高于一周一篇）。2.新闻及其他资讯应该在周的尺度上观看，如果你不是依靠短暂的市场信息来获利的话，任何的日为单位的咨讯对你来说都是可有可无占用时间的垃圾，这些东西除了谈资之外毫无作用，反而会带来获取到什么的错觉。（一个参考观点：对最近事件即时性的解释基本都是错误的，无法用来预测任何事）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;杂谈&#34;&gt;杂谈&lt;/h2&gt;
-&lt;p&gt;上周提到自己测试的时候经常被block，最终发现其实是user agent的问题，可能是一直沿用的user agent版本太低，更新之后基本就不出现这样的问题了。公司的爬虫脚本居然是要一个个部署到集群上的，而不是靠一个控制系统调用，个人感觉十分原始。而其他的java数据处理程序居然也是类似效果，靠bat文件+参数分别启动，可能有热替换的好处，但是java热更新应该是可用的解决方案，总之感觉比较原始。&lt;/p&gt;
-&lt;p&gt;人体工学椅感觉很难靠自重把椅背压下去，导致整个椅子在感觉上存在感很强，感觉不是什么好事，可能要继续调整下，这把椅子头枕位置需要多2厘米才能支撑到脖子，是特别的败笔。&lt;/p&gt;
-&lt;p&gt;用在食物上的花费没有想象中高，大概估计一月花1500左右，感觉一个月至少需要填入500左右的花费更好一点，发了工资去买煎锅和牛排吧。&lt;/p&gt;
-&lt;p&gt;本周基本没读什么，导致blog也写不出来什么内容，下周打算在这周的栏目上添加一些，周总结大概长度达到2000字可能会比较好。&lt;/p&gt;
-&lt;p&gt;END&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>2020.08.24-2020.08.30</title>
-      <link>https://b1indsight.github.io/post/weekly_report/</link>
-      <pubDate>Sun, 30 Aug 2020 22:42:50 +0800</pubDate>
-      
-      <guid>https://b1indsight.github.io/post/weekly_report/</guid>
-      <description>&lt;h3 id=&#34;20200824-20200830&#34;&gt;2020.08.24-2020.08.30&lt;/h3&gt;
-&lt;h2 id=&#34;新工作&#34;&gt;新工作&lt;/h2&gt;
-&lt;p&gt;这个月在经过了短暂的找工作时间之后，光速接了新的offer，拿到了钱并没有多少，但是工作压力并不大的新工作，结束了我在今年的半年neet生活。neet其实并没有那么令人厌恶，让人痛苦的是在家里深受限制，由于没有工作，不能看更多在长远有好处又感兴趣的书，只能一遍一遍刷翻过的面试博客，网络上的面试文章有很多错误之处，但同时一些错误的说法才是可以通过面试的答案，看着十分痛苦，另外这些没什么联系又内容十分多的东西，即使被称为知识也十分可疑。刷题反而成了我为数不多的逃避时间。&lt;/p&gt;
-&lt;p&gt;但是新公司面试十分简单和原始，一时间在我准备了挺久的python面试的情况下有点措不及防，关于html的几个问题我一概不知，在写html的时候我基本上是没有文档无法独立完成工作，没想到在这方面还有要求。&lt;/p&gt;
-&lt;p&gt;本以为是作为写python被招进来的，没想到主要工作是维护php的网站和写爬虫，公司的爬虫使用的语言挺多，方法反而感觉原始，即使是Java项目，也是基本上脚本模式存在，依靠一个php程序调用.在文件里居然有多个脚本复用同样的300+行代码，居然没有抽象成Util工具；主方法长到让人难受，基本上没有什么封装；代码风格十分诡异，一部分继承与其他地方的变量名，导致和语言常用的命名格式有区别，另一部分在于分行基本不存在，一行长达300+字符简直是首次见到，代码块之间基本没有分割，感觉就像拉长的蚯蚓，让人看着十分痛苦。&lt;/p&gt;
-&lt;p&gt;这两周做的事情基本是在维护修改继承的Lua爬虫，有技术含量的事基本都被人做过了，http请求全靠curl，用了通用格式的正则方法而不是lua自己的string.match()让人高兴，其他也没有什么有兴趣的事情，由于自己没有生成cookie的脚本，所以在测试时经常被block，看来考虑写一个需要被提上日程。&lt;/p&gt;
-&lt;p&gt;ps.公司项目基本没有测试，我十分好奇为什么这样测试代码还没有我项目长的东西可以成功跑这么多年，话说爬虫测试也基本很难做，基本只能做一下格式测试，对内容似乎没有什么好办法。&lt;/p&gt;
-&lt;p&gt;pss.Lua语法很让人难受，无内容的迭代器居然是自己返回，既没有抛error也没有任何返回就能退出让人十分恶心&lt;/p&gt;
-&lt;h2 id=&#34;搬家&#34;&gt;搬家&lt;/h2&gt;
-&lt;p&gt;花了大量的钱用来整租了一套一室户，至少有干净的厕所和厨房令人心情愉快，房东夫妇也看起来很好，成功办了居住证，感觉不久后至少可以拿住房公积金分担点压力，总之本来工资也没多少，这一年能攒一个房租钱就不错了。&lt;/p&gt;
-&lt;p&gt;一个人住有挺多好处，自己做饭还是不错的，不过最近做饭时间确实挺长，基本每餐要一个小时，虽然味道不错，但是占用还是挺多。&lt;/p&gt;
-&lt;p&gt;超市东西还不错，有盒马的补充基本就可以当地解决，不至于求助于淘宝，最近一周食物差不多要花200+，其中一大半是买肉的钱，摆脱了家里高碳水的生活，现在可以一餐吃至少半斤各种的肉，还是让人愉快。&lt;/p&gt;
-&lt;p&gt;发工资之后应该买个铸铁煎锅，可以用来煎牛排了。最近看人牛排视频十分嘴馋，先买些50多一斤的来试试吧。&lt;/p&gt;
-&lt;p&gt;一个人的另一个好处是基本可以无限外放，24小时开着电脑了，但是显示器的hdmi线似乎是有什么bug，自动熄屏之后有时不能自动恢复，十分难受，另一个问题是桌子本身挺小，以后可能很难同时拼高达和干别的事，另外全尺寸键盘有点太长，我基本不会利用数字小键盘，想换一个键盘，目前犹豫一下ikbc和大f。&lt;/p&gt;
-&lt;p&gt;ps.椅子坐着没有头部支撑有点难受，发工资了买新椅子吧。(下周就买算了)&lt;/p&gt;
-&lt;h2 id=&#34;上周总结&#34;&gt;上周总结&lt;/h2&gt;
-&lt;p&gt;上周的空闲时间基本上都在睡觉和玩游戏，游戏其实也没多玩，感觉恢复的时间基本上差不多了，每天保证睡眠还是挺重要。&lt;/p&gt;
-&lt;p&gt;自己的github也没有维护，是全白，连评论也没回。&lt;/p&gt;
-&lt;h2 id=&#34;下周&#34;&gt;下周&lt;/h2&gt;
-&lt;p&gt;按惯例，下周主要搞三件事：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;学TS， 我要开始学Ts了，不知道有什么项目可以做，先两天入门试试吧&lt;/li&gt;
-&lt;li&gt;重写虚拟机，python虚拟机设计虽然是垃圾，但还是至少自己的先重写，重理一下。先支持基本功能再去看别的实现吧。(感觉接下来一年搞分布式数据库可能是是收益最大的方向，先试着做做看吧)(blog预定，从零开始的python虚拟机第二篇，打算写控制流程和code block)&lt;/li&gt;
-&lt;li&gt;读书：A Philosophy of Software Design, 看了一周了，感觉至少要两周看完，先看着呗。(下本书预定：数据库系统内幕)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;杂谈&#34;&gt;杂谈&lt;/h2&gt;
-&lt;p&gt;想搞日常直播，但是感觉也很难有人看，不知道能不能搞起来。&lt;/p&gt;
-&lt;p&gt;想买面包机，但是现在每周面包花费也就10+，基本不是很划算。&lt;/p&gt;
-&lt;p&gt;需要屏幕挂灯和新椅子，买个人体工学椅吧。&lt;/p&gt;
-&lt;p&gt;&lt;del&gt;想要女朋友&lt;/del&gt;&lt;/p&gt;
-&lt;p&gt;END&lt;/p&gt;
 </description>
     </item>
     
