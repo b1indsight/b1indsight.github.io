@@ -21,7 +21,7 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;super()&lt;/code&gt;的定义和用法&lt;/li&gt;
 &lt;li&gt;构造&lt;code&gt;__mro__&lt;/code&gt;属性中类继承顺序线性化的算法&lt;/li&gt;
-&lt;li&gt;提供了一个&lt;code&gt;super()&lt;/code&gt;的简单实现，以及一些注意事项&lt;/li&gt;
+&lt;li&gt;提供了一个&lt;code&gt;super()&lt;/code&gt;的简单实现&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;super的定义和用法&#34;&gt;&lt;code&gt;super()&lt;/code&gt;的定义和用法&lt;/h2&gt;
 &lt;p&gt;首先提供一个&lt;code&gt;super(type, object-or-type)&lt;/code&gt;的定义：&lt;/p&gt;
