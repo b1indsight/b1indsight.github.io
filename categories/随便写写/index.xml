@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>随便写写 on b1indsight</title>
+    <link>https://b1indsight.github.io/categories/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/</link>
+    <description>b1indsight (随便写写)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 10 Aug 2023 00:45:00 +0800</lastBuildDate>
+    
+    <atom:link href="https://b1indsight.github.io/categories/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>正常事故</title>
+      <link>https://b1indsight.github.io/post/normal_accident/</link>
+      <pubDate>Thu, 10 Aug 2023 00:45:00 +0800</pubDate>
+      
+      <guid>https://b1indsight.github.io/post/normal_accident/</guid>
+      <description>&lt;p&gt;在查尔斯·佩罗的《高风险系统与正常事故》（后面简称《正常事故》）这本书中，作者认为一些高风险技术的特征表明，不管常规安全措施如何，一种事故的发生是不可避免甚至是正常的。本期的主要内容便是自三里岛事故的部分介绍开始，对正常事故的一些讨论。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;三里岛事故&#34; &gt;三里岛事故
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%b8%89%e9%87%8c%e5%b2%9b%e4%ba%8b%e6%95%85&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;让我们首先从1979年的三里岛核电厂事故看起，这指的是1979年3月28日三里岛核电站发生的一次部分堆芯熔毁事故，场内污染清理从1979年8月开始，直到1993年12月结束。在查尔斯·佩罗写作《正常事故》这本书的时间点看起，三里岛事故是迄今为止最严重的核电厂事故，而相对于现在来说，依然是美国商用核电历史上最严重的事故。首先介绍一些相关系统的信息。&lt;/p&gt;
+&lt;p&gt;机组的&lt;a href=&#34;https://zh.wikipedia.org/wiki/File:Tmi-2_schematic.svg&#34;&gt;结构简图&lt;/a&gt;如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://private-user-images.githubusercontent.com/47165749/259489432-0f73ca2a-f484-4ff8-82c7-ec4fff8457ed.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE2OTE2MDA1NDgsIm5iZiI6MTY5MTYwMDI0OCwicGF0aCI6Ii80NzE2NTc0OS8yNTk0ODk0MzItMGY3M2NhMmEtZjQ4NC00ZmY4LTgyYzctZWM0ZmZmODQ1N2VkLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFJV05KWUFYNENTVkVINTNBJTJGMjAyMzA4MDklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjMwODA5VDE2NTcyOFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTk3YjFlOTliNjRiNzhiY2MzODZlMTE4MGUzMzJlOTEyNDBhMjk4M2Q2YmJkYWZmNjBhODhkYmI2NGNkOGQyOTkmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.-MSSl2JtwtYOiyVhSsRgwUsgt0yUYTElJrsLxGjOvyE&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;可以转化为下图的示意图：
+&lt;img src=&#34;https://private-user-images.githubusercontent.com/47165749/259489651-894476dc-81a8-4991-9dbc-d41309821dd0.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE2OTE2MDA2MDcsIm5iZiI6MTY5MTYwMDMwNywicGF0aCI6Ii80NzE2NTc0OS8yNTk0ODk2NTEtODk0NDc2ZGMtODFhOC00OTkxLTlkYmMtZDQxMzA5ODIxZGQwLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFJV05KWUFYNENTVkVINTNBJTJGMjAyMzA4MDklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjMwODA5VDE2NTgyN1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTU5NjIxYzZiZTllYzc3ZmE4MDhlZWMyOWVjM2EzMjY1OTM5ZjViOTY1MzRjY2ZmN2YyNzUwYzhkZTIwMmE2YjUmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.6ijm8HLv9VhKNN_rxCYKBX1NeZhDTnsvuFKxcEJSL9w&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;系统简述&#34; &gt;系统简述
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%b3%bb%e7%bb%9f%e7%ae%80%e8%bf%b0&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;反应堆正常工作时，初级冷却系统的水始终保持高温高压流经堆芯，经过蒸汽发生器淋到次级冷却系统的水管上，次级系统的水转化为蒸汽驱动涡轮发电机。&lt;/p&gt;
+&lt;p&gt;初级冷却系统涉及以下一些自动安全装置：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自控减压阀在堆芯压力过高时放出堆芯的水来减少压力，但是自控减压阀开启时间不宜过长，因为当排出的水过多压力太低，高温的水将变成蒸汽泡阻塞初级冷却系统，会阻碍冷却水流动，造成部分位置过热并再次启动裂变反应。&lt;/li&gt;
+&lt;li&gt;为了防止压力降低之后高温水变为蒸汽，两个反应水冷却泵会自动启动向初级冷却系统注水降温。
+高压注入泵向堆芯注入高压冷却水降低温度。但是高压注入泵注入的高压冷水可能使堆芯产生裂痕，为防止高压注入泵的副作用，高压注入泵和堆芯之间通过缓压器来减少压力。缓压器是一个下半部为水上半部为蒸汽的罐子，当注入的水过多，缓压器会被注满，可能导致冷却水管破裂，造成失水事故，严重的情况会导致堆芯熔融。&lt;/li&gt;
+&lt;li&gt;次级冷却系统保持高压，次级冷却系统的水与初级冷却系统保持隔离，而且鉴于涡轮机叶片十分精细，所以必须保持纯净，因此有一个冷凝水净化系统来清除微粒。紧急给水泵在主供水泵停机时将紧急储水箱的水抽出来，维持次级冷却系统工作，两个管道阀门均含有指示灯。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;事故发生&#34; &gt;事故发生
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%ba%8b%e6%95%85%e5%8f%91%e7%94%9f&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;冷凝水净化器在二号堆启用几个月后坏过3次，而3月28日凌晨4点汽轮机不转了，事后分析是由于净化器封焊口漏出大约一杯水量的水。水的湿气进入了仪器控制系统，结果导致水泵停止工作，冷水不再流动，于是汽轮机随后停止。&lt;/p&gt;
+&lt;p&gt;紧急给水泵随后试图供水，用来补充次级供水系统的水，但是两天前检修后，管道阀门全是关闭位置，操作者知道紧急给水泵在运行，但是并不知道管道不通。这两个供水指示灯虽然指示阀门关闭，但是其中一个灯被挂在开关上的修理标签遮住了，鉴于操作者没有想到阀门是关的，所以并没有立刻去看阀门指示灯，而在八分钟之后才发现阀门没打开，但此时已经造成一部分危害。&lt;/p&gt;
+&lt;p&gt;进入事故状态13秒，次级冷却系统缺水之后，蒸汽发生器很快烧干，初级冷却系统温度居高不下，堆芯无法冷却，因此反应堆急停，但是衰减的放射性物资仍然还在产生热量。高压触发自控减压阀，放出堆芯的水到缓压器，因为自控减压阀不能开启过长，并且堆芯压力迅速下降，于是操作者决定关闭自控减压阀，但是由于出现一些故障，导致自控减压阀没有完全关闭，冷却水仍然在漏出。鉴于减压阀在之前出现过故障，前不久为此加了一个指示灯，以便操作者观察是否复位，但是指示灯在阀门收到关闭脉冲时标志阀门关闭，而不是阀门事实上关闭，于是操作者认为自控减压阀一切正常。&lt;/p&gt;
+&lt;p&gt;在进入事故状态后的两三分钟内，水不断通过自控减压阀漏出，但是堆芯温度并没有下降，这样过热的水即将变为蒸汽，于是反应水冷却泵向堆芯注水，此时由于未知的原因造成了冷却水稳定的假象，一切似乎有所控制。&lt;/p&gt;
+&lt;p&gt;进入事故状态的两分钟后，冷却水并未稳定，此时堆芯仍然在失水，初级冷却系统中压力剧降，高压注入泵自动启动，因为之上提过的高压注入泵的原因，高压注入泵在注入2分钟之后就被操作员手动降低了注入速度。高压注入泵启动之后，一个表指出堆芯压力正在减少，而另一个指示表显示缓压器压力正在升高。此时的状况使操作者迷惑不解，一般情况下缓压器和堆芯压力升降趋势应该一致，此时选择相信哪一个指示表造成了一个两难问题，而反应堆的生产厂家和用户都很注意在培训时让操作者树立缓压器不能注满的观念，此时操作者选择更加熟悉的高压注入和缓压器的相互关系，急剧降低了高压注入速度。&lt;/p&gt;
+&lt;p&gt;二号堆的设计造成无法直接测量堆芯水面高度，但是此时还有三个读数可能了解到发生失水事故，一个是污水池压力，水经由自控减压阀-&amp;gt;缓压器被排放到污水池，污水池压力增加。但是设计者不认为这是一个重要指标，指示灯布置在七英尺高控制板背面靠近底部的位置，在没有人意识到发生失水事故的情况下，查看度数是个费力不讨好的动作，所以谁也不乐意去看。另一是污水池温度，污水池接受堆芯内的高温水，导致温度升高。但是有一个自控减压阀已经漏水好几个星期，冷却水总是漏出，导致污水池温度总是偏高。剩余一个读数是堆芯压力，但是正如之前所说，操作员相信堆芯压力指示表有问题，因为它与缓压器压力读数相矛盾。&lt;/p&gt;
+&lt;p&gt;在进入事故状态四五分钟后，由于初级冷却系统失水，反应水冷却泵没有足够水流过，开始剧烈颤动，声音大到控制室都可以听到。操作者们紧急开会之后，鉴于水泵可能顶不住如此剧烈的颤动，于是决定紧急关泵。&lt;/p&gt;
+&lt;p&gt;在进入事故状态2小时20分钟之后，终于有人意识到自控减压阀出了问题，发现阀门并没有复位，于是紧急关闭了一个截止阀。在事后听证会上，一位操作者作证这这个措施是忙乱中瞎碰运气，幸好这个措施及时阻止了堆芯完全熔融。&lt;/p&gt;
+&lt;p&gt;进入事故状态33小时，控制室的人听到了轻微爆炸声，安全壳压力计度数突然跳到了安全壳设计极限的一半。这是由于堆芯燃料棒的锆合金外壳与水蒸气发生反应放出氢气，形成氢气泡，氢气可能从堆罩中经自控减压阀进入安全壳，造成氢气爆炸。在场的某人知道发生了氢气爆炸，于是让另一名操作者不要再启动一台出故障的水泵（水泵马达启动时会产生火花）。&lt;/p&gt;
+&lt;h2 id=&#34;正常事故&#34; &gt;正常事故
+&lt;span&gt;
+    &lt;a href=&#34;#%e6%ad%a3%e5%b8%b8%e4%ba%8b%e6%95%85&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;在大多数高风险系统中，由于系统的一些特性导致事故是不可避免的，以至于产生事故被看作是自然发生的，我们把这些事故叫做正常事故。三里岛事故就是一个典型的正常事故。&lt;/p&gt;
+&lt;p&gt;正常事故有几个典型的特征：系统中的各组件作用是预料外的，而且在紧要关头是不可理解的；由于系统特征，事故的破坏速度显著超过维护者抢救的速度，破坏范围不断扩大，而事故层出不穷。&lt;/p&gt;
+&lt;p&gt;考虑第一个特征，三里岛事故可以看作是由一些故障复合而成的，分别是1.净化器漏水，2.紧急给水泵阀门被误关闭，3.自控减压阀无法复位，4.自控减压阀的指示灯失灵。这四个故障如果单独发生，仅仅是连事件都算不上的小问题，如果提前得知这些故障，也无从想出会产生这样的事故，因此可以把这个事故划为系统事故，即多重故障以不可预期的方式相互作用。在操作者的视角观察，净化器漏水导致汽轮机停机几乎预想不到；次级冷却系统故障导致初级冷却系统烧干也很难立刻联想到，或者说等到联想到这个问题，已经太迟了；缓压器与堆芯由管道连接，但是缓压器压力上升而堆芯压力迅速下降，此时也造成了疑惑，鉴于之前从未发生失水事故，因此操作者能全面接受堆芯压力指示而无视手册上防止缓压器注满的警告，这一要求也显得强人所难；堆芯发生锆-水反应导致氢气爆炸同样是不可理解的。这些系统的运行路径均是超过设计的生产路径的，而产生的警告信号必须要能与思维模式吻合才能使操作者理解并产生警告效果。更不必说警告信号也同样是故障的。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;部分原因在于，这种人机系统中的相互作用确实 是看不见的(这里，“看不见的”取其本义) , 另一部分原因在于，即使能看见这种相互作用，人们也不相信。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;第二个特征就很好理解，事故破坏范围迅速扩大，在13秒的时间内蒸汽发生器便烧干了，堆芯自控减压阀启动，如果想对它做出什么处理的话，必须要求操作者理解次级冷却系统的故障造成了初级冷却系统的事故，这一切都要在13秒内进行。随后2，3分钟后两难问题出现，缓压器压力到达高点且在继续上升，堆芯压力却在下降，操作者需要在缓压器注满前紧急减少高压注水的速度（操作手册中如此写着），或是相信堆芯压力下降，冒着可能的（他们考虑中的）失水风险继续注水。事故状态四五分钟后，操作室又听到输运泵的震动，事故层出不穷。可以看到事故恶化的速度远超操作员理解的速度，操作员不得不在两到三分钟之内理解新的险情的运作方式才有可能做出正确决定，而这是显然不可能的。&lt;/p&gt;
+&lt;p&gt;而产生正常事故这些特征的原因，主要在于系统组成的特征，查尔斯·佩罗在《正常事故》中提出了两个衡量标准，其一可以被称为复杂度，坐标轴的两端是线性系统-复杂系统。线性系统划分各个生产阶段，每个生产阶段在空间上分离,生产阶段内及生产阶段间主要保持序贯式的联系，系统中的反馈极少，而且反馈信息更多是直接的。复杂系统中每个生产阶段的组件相互接近，产生许多共模联系，具有不熟悉或预想不到的反馈回路，指标和控制参数之间相互作用，系统的状况需要从反馈信息中推断而不是直接获得，另外有一些完全没搞清的工艺过程。&lt;/p&gt;
+&lt;p&gt;另一系统衡量标准是系统的配合特性，坐标轴的两端是紧配合-松配合，在紧配合的系统中工序的工艺流程相关性很高且难以拖延，同时工序恒定而通常环节设计为只有一种方式到达目标，另外紧配合系统具有很少的松弛环节，某一环节出错难以使用其它资源临时替代。而松配合系统则与之相反。在紧配合系统这些特征之外，我认为可以另一导致紧配合系统的特点在于系统中上一环节组件异常之后影响到下一环节所需的时间很短（特别是相对于操作者或决策者理解现状的时间），这可能会导致操作者无法做出正确应对，更糟糕的情况下会扩大事故影响范围。&lt;/p&gt;
+&lt;p&gt;系统的复杂度和配合特性可以看作是两个相互独立的特征范围，在这两个坐标轴构成的坐标系中，具有紧配合的复杂系统这样的结构导致出现事故是不可避免的，甚至是正常的。&lt;/p&gt;
+&lt;h2 id=&#34;一些附属的风险系统&#34; &gt;一些附属的风险系统
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%b8%80%e4%ba%9b%e9%99%84%e5%b1%9e%e7%9a%84%e9%a3%8e%e9%99%a9%e7%b3%bb%e7%bb%9f&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;h3 id=&#34;错误引致系统&#34; &gt;错误引致系统
+&lt;span&gt;
+    &lt;a href=&#34;#%e9%94%99%e8%af%af%e5%bc%95%e8%87%b4%e7%b3%bb%e7%bb%9f&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;错误引致系统的特殊之处在于错误是由系统各组元的组合方式造成的，对组元的改进或变化，不是由其他部分不予合作而不行，或是其他部分将得到强烈表现而使变化毫无意义。《正常事故》中认为水上运输是一个错误引致系统，技术手段的进步促进了生产，但也促进了事故的发生。另外同样有利于巩固这个结构。&lt;/p&gt;
+&lt;h3 id=&#34;自激系统&#34; &gt;自激系统
+&lt;span&gt;
+    &lt;a href=&#34;#%e8%87%aa%e6%bf%80%e7%b3%bb%e7%bb%9f&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;核武的侦测系统似乎是这一种系统，侦测方需要从环境噪音中正确判断信号，而鉴于后果严重，系统不仅需要防止故障，而且要杜绝故障被掩盖的可能性。攻击方则要使信号更加贴近环境噪音，缩短侦测者的反应时间，对侦测者施加破坏以造成故障。这样侦测系统的复杂度和配合特性的提升是有意造成且自我激发形成正反馈回路的。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;最后谈一些错误认知。在几乎所有的事故回顾中，严重疏忽和无能都是存在的，不安全的操作，偷工减料的设备，无视安全规范的设计层出不穷，一旦发生事故，人们总会找到容易发生重大事故的主要原因。在这里必须说明的地方在于，可以说组织无能是组织的正常状态，在生产压力下疏忽和错误也是不可避免的，即使出现一些错误征兆，人们也倾向于忽略它或是将它解释为熟悉的状态，几乎不可能为了事故隐患而每次停机，然而回顾往事时总能找到这些警告信号。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
