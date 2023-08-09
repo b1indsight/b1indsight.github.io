@@ -58,14 +58,14 @@
 &lt;li&gt;acquire和release
 &lt;ul&gt;
 &lt;li&gt;
-&lt;pre&gt;&lt;code class=&#34;language-acquire:&#34; data-lang=&#34;acquire:&#34;&gt;  while (synchronization state does not allow acquire) {
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-acquire:&#34; data-lang=&#34;acquire:&#34;&gt;  while (synchronization state does not allow acquire) {
       enqueue current thread if not already queued;
       possibly block current thread;
   }
   dequeue current thread if it was queued;
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;pre&gt;&lt;code class=&#34;language-release:&#34; data-lang=&#34;release:&#34;&gt;  update synchronization state;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-release:&#34; data-lang=&#34;release:&#34;&gt;  update synchronization state;
   if (state may permit a blocked thread to acquire)
       unblock one or more queued threads;
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -107,15 +107,15 @@
 &lt;li&gt;Acquire操作
 &lt;ul&gt;
 &lt;li&gt;
-&lt;pre&gt;&lt;code&gt;  if (!tryAcquire(arg)) {
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  if (!tryAcquire(arg)) {
       node = create and enqueue new node;
-      pred = node&#39;s effective predecessor;
+      pred = node&amp;#39;s effective predecessor;
   while (pred is not head node || !tryAcquire(arg)) {
-      if (pred&#39;s signal bit is set)
+      if (pred&amp;#39;s signal bit is set)
           park();
       else
-          compareAndSet pred&#39;s signal bit to true;
-      pred = node&#39;s effective predecessor;
+          compareAndSet pred&amp;#39;s signal bit to true;
+      pred = node&amp;#39;s effective predecessor;
   }
   head = node;
   }
@@ -125,9 +125,9 @@
 &lt;li&gt;release
 &lt;ul&gt;
 &lt;li&gt;
-&lt;pre&gt;&lt;code&gt;  if (tryRelease(arg) &amp;amp;&amp;amp; head node&#39;s signal bit is set) {
-      compareAndSet head&#39;s signal bit to false;
-      unpark head&#39;s successor, if one exists
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  if (tryRelease(arg) &amp;amp;&amp;amp; head node&amp;#39;s signal bit is set) {
+      compareAndSet head&amp;#39;s signal bit to false;
+      unpark head&amp;#39;s successor, if one exists
   }
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;

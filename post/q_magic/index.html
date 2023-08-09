@@ -11,54 +11,90 @@
 <meta name="referrer" content="no-referrer-when-downgrade">
 
 <title>Q&#39;s magic - b1indsight</title>
-<meta name="description" content="learning and writing">
+
+<meta name="description" content="前言 Q 是一个开源库，正如它介绍里所写的那样，它是用来“Quick and dirty debugging output for tired programmers.”，Q的用法主要有两种： import q之后， 使用q">
+
+
+
+
 
 <link rel="icon" type="image/x-icon" href="https://b1indsight.github.io/favicon.ico">
 <link rel="apple-touch-icon-precomposed" href="https://b1indsight.github.io/favicon.png">
 
-<link rel="stylesheet" href="https://b1indsight.github.io/css/light.css?rnd=1649001603" />
+
+
+
+    
+
+
+
 <style>
-
-    [data-theme="dark"] {   
-        --font-color: #eee;
---bg-color: #212121;
-
---link-color:#599ada;
---link-state-color:#ff5858;
---link-state-border-color: rgba(238, 54, 54, 0.5);
-
---thead-bg-color: #343a40;
---table-border-color: lightgrey;
-
---pre-color: #333;
---pre-bg-color: #f1f1f1;
-
---bq-color: #ccc;
---hr-color: #333;
-
---pagination-bg-color: #373737;
---pagination-link-color: #b6b6b6;
-
---post-info-color: grey;
-
---switcher-color: #333;
---switcher-bg-color: #fff;
-
-    }
-
+  body {
+    visibility: hidden;
+    opacity: 0;
+  }
 </style>
 
-<link rel="stylesheet" href="https://b1indsight.github.io/css/style.css?rnd=1649001603" />
+<noscript>
+  <style>
+    body {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</noscript>
 
-<link rel="stylesheet" href="https://b1indsight.github.io/css/my.css?rnd=1649001603">
 
-<script src="https://b1indsight.github.io/js/main.js?rnd=1649001603" type="text/javascript" charset="utf-8"></script>
+
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <link rel="stylesheet" href="https://b1indsight.github.io/css/style.min.633444135b0e6b5cf601026334c61193e0eb9e0ec78be3a450ac59afe2a3c50c.css" integrity="sha256-YzREE1sOa1z2AQJjNMYRk&#43;Drng7Hi&#43;OkUKxZr&#43;KjxQw=">
+    
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <script src="https://b1indsight.github.io/js/script.min.74bf1a3fcf1af396efa4acf3e660e876b61a2153ab9cbe1893ac24ea6d4f94ee.js" type="text/javascript" charset="utf-8" integrity="sha256-dL8aP88a85bvpKzz5mDodrYaIVOrnL4Yk6wk6m1PlO4="></script>
+    
+
+
+
+
+
+
 
 <meta property="og:title" content="Q&#39;s magic" />
 <meta property="og:description" content="前言 Q 是一个开源库，正如它介绍里所写的那样，它是用来“Quick and dirty debugging output for tired programmers.”，Q的用法主要有两种： import q之后， 使用q" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://b1indsight.github.io/post/q_magic/" />
-<meta property="og:image" content="https://b1indsight.github.io/images/og-featured.png"/>
+<meta property="og:url" content="https://b1indsight.github.io/post/q_magic/" /><meta property="og:image" content="https://b1indsight.github.io/images/og-featured.png"/><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2020-09-20T17:05:31+08:00" />
 <meta property="article:modified_time" content="2020-09-20T17:05:31+08:00" />
 
@@ -75,6 +111,11 @@
 
 
 
+
+
+
+
+
     
 </head>
 <body>
@@ -82,33 +123,62 @@
     <div class="container">
         <header class="common-header"> 
             
-                <h1 class="site-title">
+                <div class="header-top">
+    <h1 class="site-title">
     <a href="/">b1indsight</a>
 </h1>
-<nav>
-    
-    
-    <a class="" href="https://b1indsight.github.io/about" title="About">About</a>
-    
-    <a class="" href="https://b1indsight.github.io/post/" title="Archive">Archive</a>
-    
-    <a class="" href="https://b1indsight.github.io/tags/" title="Tags">Tags</a>
-    
-</nav>
+    <ul class="social-icons">
+
+
+
+
+
+</ul>
+</div>
+
+    <nav>
+        
+        
+        <a class="" href="https://b1indsight.github.io/about" title="About">About</a>
+        
+        <a class="" href="https://b1indsight.github.io/post/" title="Archive">Archive</a>
+        
+        <a class="" href="https://b1indsight.github.io/tags/" title="Tags">Tags</a>
+        
+    </nav>
+
+
+
+
+
 
             
         </header>
         <main id="main" tabindex="-1"> 
             
     
-    
-    <article class="post">
-        <header class="post-header">
-            <h1 class="post-title">Q&#39;s magic</h1>
-        </header>
-        <div class="content">
-            <h2 id="前言">前言</h2>
-<p>Q 是一个开源库，正如它介绍里所写的那样，它是用来“Quick and dirty debugging output for tired programmers.”，Q的用法主要有两种：</p>
+
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">Q&#39;s magic</h1>
+
+                
+            </header>
+        </div>
+        
+
+
+
+
+        <div class="content e-content">
+            <h2 id="前言" >前言
+<span>
+    <a href="#%e5%89%8d%e8%a8%80">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>Q 是一个开源库，正如它介绍里所写的那样，它是用来“Quick and dirty debugging output for tired programmers.”，Q的用法主要有两种：</p>
 <ol>
 <li>
 <p><code>import q</code>之后， 使用<code>q(value)</code>来 print value 的值，或是使用<code>q/value</code>， 或者<code>q|value</code>，只要在想 print 的值前加“q/”或“q|”的前缀，即可以print值</p>
@@ -118,18 +188,33 @@
 本文用来展示q这个库是如何在300+行代码的篇幅下，完成这样的功能的。</p>
 </li>
 </ol>
-<h2 id="import-q之后为什么可以直接使用q和q"><code>import q</code>之后为什么可以直接使用q()和@q</h2>
-<p>想做到这件事的办法可以想到，如同其他语言一样<code>q()</code>需要被实现成一个全局的静态函数，在python中，则是在import时完成class q的实例化，那么另一个问题是，q 中 class 名是 Q ，那么调用应该是<code>Q.q()</code>，而不是q()，这部分的实现关键在于它将自己装载在了<code>sys.module</code>中,通过这条语句<code>sys.modules['q'] = Q()</code>并在class中实现<code>__call__()</code>函数，使得可以直接使用q()</p>
-<h2 id="qvalue如何实现"><code>q/value</code>如何实现</h2>
-<p><code>q/value</code> 修改一下格式就变为 <code>q / value</code>， 同时源码里也可以看到其中有<code>__truediv__()</code>函数，于是发现这里的实现在于 q 重载了<code>/</code>和<code>|</code>运算，使得这个运算符在执行了q print的操作之后返回<code>__truediv__()</code>的第二个参数。</p>
+<h2 id="import-q之后为什么可以直接使用q和q" ><code>import q</code>之后为什么可以直接使用q()和@q
+<span>
+    <a href="#import-q%e4%b9%8b%e5%90%8e%e4%b8%ba%e4%bb%80%e4%b9%88%e5%8f%af%e4%bb%a5%e7%9b%b4%e6%8e%a5%e4%bd%bf%e7%94%a8q%e5%92%8cq">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>想做到这件事的办法可以想到，如同其他语言一样<code>q()</code>需要被实现成一个全局的静态函数，在python中，则是在import时完成class q的实例化，那么另一个问题是，q 中 class 名是 Q ，那么调用应该是<code>Q.q()</code>，而不是q()，这部分的实现关键在于它将自己装载在了<code>sys.module</code>中,通过这条语句<code>sys.modules['q'] = Q()</code>并在class中实现<code>__call__()</code>函数，使得可以直接使用q()</p>
+<h2 id="qvalue如何实现" ><code>q/value</code>如何实现
+<span>
+    <a href="#qvalue%e5%a6%82%e4%bd%95%e5%ae%9e%e7%8e%b0">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><code>q/value</code> 修改一下格式就变为 <code>q / value</code>， 同时源码里也可以看到其中有<code>__truediv__()</code>函数，于是发现这里的实现在于 q 重载了<code>/</code>和<code>|</code>运算，使得这个运算符在执行了q print的操作之后返回<code>__truediv__()</code>的第二个参数。</p>
 <blockquote>
 <p>object.<strong>truediv</strong>(self, other)
 调用这些方法来实现二进制算术运算 (+, -, *, @, /, //, %, divmod(), pow(), **, &laquo;, &raquo;, &amp;, ^, |)。例如，求表达式 x + y 的值，其中 x 是具有 <strong>add</strong>() 方法的类的一个实例，则会调用 x.<strong>add</strong>(y)。
 <a href="https://docs.python.org/zh-cn/3/reference/datamodel.html?highlight=truediv#object.__truediv__">python数据模型</a></p>
 </blockquote>
 <p>这里可以看到 q/value 时会调用 q 的<code>__truediv__()</code>函数，这样在 q 重载了这个函数的时候，达到了重载操作符的效果。</p>
-<h2 id="q如何实现"><code>@q</code>如何实现</h2>
-<p>q被调用时调用了<code>__call__()</code>函数，这个函数主要做了有关的几件事：<code>self.inspect.getframeinfo(self.sys._getframe(1), context=9)</code>通过<code>getframeinfo()</code>来获取调用附近的代码文本块，打印被修饰函数的基本信息，然后扫描文本块返回<code>self.trace()</code>, python 定义修饰器需要返回一个以修饰函数 func 为参数的 wapper 函数，那么可以想到 trace 里会返回 wapper，那么在这里，则是返回了<code>self.functools.update_wrapper(wrapper, func)</code>。</p>
+<h2 id="q如何实现" ><code>@q</code>如何实现
+<span>
+    <a href="#q%e5%a6%82%e4%bd%95%e5%ae%9e%e7%8e%b0">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>q被调用时调用了<code>__call__()</code>函数，这个函数主要做了有关的几件事：<code>self.inspect.getframeinfo(self.sys._getframe(1), context=9)</code>通过<code>getframeinfo()</code>来获取调用附近的代码文本块，打印被修饰函数的基本信息，然后扫描文本块返回<code>self.trace()</code>, python 定义修饰器需要返回一个以修饰函数 func 为参数的 wapper 函数，那么可以想到 trace 里会返回 wapper，那么在这里，则是返回了<code>self.functools.update_wrapper(wrapper, func)</code>。</p>
 <blockquote>
 <p>functools.update_wrapper(wrapper, wrapped, assigned=WRAPPER_ASSIGNMENTS, updated=WRAPPER_UPDATES)
 更新一个 wrapper 函数以使其类似于 wrapped 函数。 可选参数为指明原函数的哪些属性要直接被赋值给 wrapper 函数的匹配属性的元组，并且这些 wrapper 函数的属性将使用原函数的对应属性来更新。
@@ -138,8 +223,13 @@
 </blockquote>
 <p>trace 里仅仅是定义了<code>wapper()</code>,而在<code>wapper()</code>中执行了 func，然后返回了 func 的返回值，在这里修饰器得到了 func 的参数，(<code>q.__call__(self, *args)</code>,这里被作为修饰器调用时，args[0] 是被修饰的函数，这个参数被传到了 trace 里)因此可以遍历参数并 print 它们的值，func 在wapper 中执行，这样也可以 print 返回值</p>
 <p>在处理error时会有些麻烦，因为 func 是在 q 的<code>wapper()</code>中运行的，异常抛出时会抛到 wapper 的 栈帧，这里需要在 wapper 中获取 error 信息，这是通过 <code>self.sys.exc_info()</code>来做到的，通过 print error_trace_back.tb_next 可以正确显示异常。</p>
-<h3 id="reference">reference</h3>
-<ol>
+<h3 id="reference" >reference
+<span>
+    <a href="#reference">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><ol>
 <li><a href="https://github.com/zestyping/q">https://github.com/zestyping/q</a></li>
 <li><a href="http://pyvideo.org/video/1858/sunday-evening-lightning-talks#t=25m15s">http://pyvideo.org/video/1858/sunday-evening-lightning-talks#t=25m15s</a></li>
 </ol>
@@ -150,24 +240,36 @@
     
 
 
+
 <div class="post-info">
     
-        <div class="post-date">2020-09-20</div>
+        <div class="post-date dt-published">
+            <a class="u-url" href="/post/q_magic/"><time datetime="2020-09-20">2020-09-20</time></a>
+            
+        </div>
     
+
+    <a class="post-hidden-url u-url" href="https://b1indsight.github.io/post/q_magic/">https://b1indsight.github.io/post/q_magic/</a>
+    <a href="https://b1indsight.github.io" class="p-name p-author post-hidden-author h-card" rel="me">b1indsight</a>
+
+
     <div class="post-taxonomies">
         
             <ul class="post-categories">
                 
-                    <li><a href="https://b1indsight.github.io/categories/python%e5%85%b6%e4%bb%96%e6%96%87%e7%ab%a0">python其他文章</a></li>
+                    
+                    <li><a href="">python其他文章</a></li>
                 
             </ul>
-            
-            
-                <ul class="post-tags">
+        
+        
+            <ul class="post-tags">
+                
                     
-                        <li><a href="https://b1indsight.github.io/tags/python">#python</a></li>
-                    
-                </ul>
+                    <li><a href="https://b1indsight.github.io/tags/python/">#Python</a></li>
+                
+            </ul>
+        
         
     </div>
 </div>
@@ -175,7 +277,11 @@
     </article>
 
     
+
+    
         
+    
+    
     <div class="pagination post-pagination">
         <div class="left pagination-item ">
             
@@ -189,31 +295,33 @@
         </div>
     </div>
 
+
+
+
     
 
     
-        <div id="disqus_thread"></div>
-<script type="application/javascript">
-    var disqus_config = function () {
+        
+
+
     
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "b1indsights-blog" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
+
+
+<script src="https://utteranc.es/client.js"
+        repo="b1indsight/b1indsight.github.io"
+        theme="github-light"
+        label=""
+        issue-term="title"
+        crossorigin="anonymous"
+        async>
 </script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    
 
+
+
+
+
+
+    
 
         </main>
         
@@ -221,88 +329,115 @@
     
     
 
-    <div class="copyright">
-        <p>© b1indsight, 2022<br>
-         <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>,  <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.
-        </p>  
-    </div> 
+    <div class="common-footer-bottom">
+        
+        <div class="copyright">
+            <p>© b1indsight, 2023<br>
+             <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>,  <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.<br>
+            
+            </p>  
+        </div> 
+
+        
 
     
 
-    
 
 
 
     <button class="theme-switcher">
-        Dark theme
+        
     </button>
 
-    <script>
-    const STORAGE_KEY = 'user-color-scheme'
-    const defaultTheme = "auto"
 
-    let currentTheme
-    let switchButton
-    let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+<script>
+const STORAGE_KEY = 'user-color-scheme'
+const defaultTheme = "auto"
 
-    const autoChangeScheme = e => {
-        currentTheme = e.matches ? 'dark' : 'light'
-        document.documentElement.setAttribute('data-theme', currentTheme)
-        changeButtonText()
+let currentTheme
+let switchButton
+let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+const autoChangeScheme = e => {
+    currentTheme = e.matches ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', currentTheme)
+    changeButtonText()
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    switchButton = document.querySelector('.theme-switcher')
+    currentTheme = detectCurrentScheme()
+    if (currentTheme == 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark')
+    }
+    if (currentTheme == 'auto') {
+        autoChangeScheme(autoDefinedScheme);
+        autoDefinedScheme.addListener(autoChangeScheme);
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        switchButton = document.querySelector('.theme-switcher')
-        currentTheme = detectCurrentScheme()
-        if (currentTheme == 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark')
-        }
-        if (currentTheme == 'auto') {
-            autoChangeScheme(autoDefinedScheme);
-            autoDefinedScheme.addListener(autoChangeScheme);
-        }
+    if (switchButton) {
         changeButtonText()
         switchButton.addEventListener('click', switchTheme, false)
-    })
+    }
+  
+    showContent()
+})
 
-
-
-    function detectCurrentScheme() {
-        if (localStorage.getItem(STORAGE_KEY)) {
-            return localStorage.getItem(STORAGE_KEY)
-        } 
-        if (defaultTheme) {
-            return defaultTheme
-        } 
-        if (!window.matchMedia) {
-            return 'light'
-        } 
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark'
-        }
+function detectCurrentScheme() {
+    if (localStorage !== null && localStorage.getItem(STORAGE_KEY)) {
+        return localStorage.getItem(STORAGE_KEY)
+    } 
+    if (defaultTheme) {
+        return defaultTheme
+    } 
+    if (!window.matchMedia) {
         return 'light'
+    } 
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark'
     }
+    return 'light'
+}
 
-    function changeButtonText()
-    {
-        console.log(currentTheme)
-        switchButton.textContent = currentTheme == 'dark' ? 'Light theme' : 'Dark theme'
+function changeButtonText()
+{   
+    if (switchButton) {
+        switchButton.textContent = currentTheme == 'dark' ?  "" : ""
     }
+}
 
-    function switchTheme(e) {
-        if (currentTheme == 'dark') {
+function switchTheme(e) {
+    if (currentTheme == 'dark') {
+        if (localStorage !== null)
             localStorage.setItem(STORAGE_KEY, 'light')
-            document.documentElement.setAttribute('data-theme', 'light')
-            currentTheme = 'light'
-        } else {
+        document.documentElement.setAttribute('data-theme', 'light')
+        currentTheme = 'light'
+    } else {
+        if (localStorage !== null)
             localStorage.setItem(STORAGE_KEY, 'dark')
-            document.documentElement.setAttribute('data-theme', 'dark')
-            currentTheme = 'dark'
-        }
-        changeButtonText()
+        document.documentElement.setAttribute('data-theme', 'dark')
+        currentTheme = 'dark'
     }
-    </script>
+    changeButtonText()
+}
+
+function showContent() {
+    document.body.style.visibility = 'visible';
+    document.body.style.opacity = 1;
+}
+</script>
+
+   
+    </div>
+
+    <p class="h-card vcard">
+
+    <a href=https://b1indsight.github.io class="p-name u-url url fn" rel="me">b1indsight</a> 
+
     
+
+    
+</p> 
 </footer>
 
         

@@ -1,100 +1,62 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://b1indsight.github.io/</loc>
     <lastmod>2022-03-02T22:03:50+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/categories/</loc>
     <lastmod>2022-03-02T22:03:50+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/post/</loc>
     <lastmod>2022-03-02T22:03:50+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/tags/python/</loc>
     <lastmod>2022-03-02T22:03:50+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/categories/python%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0/</loc>
     <lastmod>2022-03-02T22:03:50+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/post/super_and_mro_algorithm/</loc>
     <lastmod>2022-03-02T22:03:50+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/tags/</loc>
     <lastmod>2022-03-02T22:03:50+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/post/q_magic/</loc>
     <lastmod>2020-09-20T17:05:31+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/tags/flask/</loc>
     <lastmod>2020-08-02T21:11:42+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/categories/flask-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/</loc>
     <lastmod>2020-08-02T21:11:42+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/post/read_flask_source_code_1/</loc>
     <lastmod>2020-08-02T21:11:42+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/tags/python-interpreter/</loc>
     <lastmod>2020-06-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84python%E8%A7%A3%E9%87%8A%E5%99%A8/</loc>
     <lastmod>2020-06-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/post/from_zero_to_a_python_interpreter_1/</loc>
     <lastmod>2020-06-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/tags/java/</loc>
     <lastmod>2020-05-01T16:27:50+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/post/juc_aqs/</loc>
     <lastmod>2020-05-01T16:27:50+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://b1indsight.github.io/categories/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/</loc>
-    <lastmod>2019-05-05T16:27:50+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://b1indsight.github.io/post/effecient_method_of_scotty/</loc>
     <lastmod>2019-05-05T16:27:50+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
+    <loc>https://b1indsight.github.io/categories/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/</loc>
+    <lastmod>2019-05-05T16:27:50+08:00</lastmod>
+  </url><url>
     <loc>https://b1indsight.github.io/about/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
   </url>
-  
 </urlset>

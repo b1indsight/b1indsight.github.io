@@ -11,62 +11,102 @@
 <meta name="referrer" content="no-referrer-when-downgrade">
 
 <title>Flask 源码阅读 - b1indsight</title>
+
 <meta name="description" content="learning and writing">
+
+
+
+
 
 <link rel="alternate" type="application/rss+xml" href="https://b1indsight.github.io/categories/flask-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/index.xml" title="b1indsight" />
 <link rel="icon" type="image/x-icon" href="https://b1indsight.github.io/favicon.ico">
 <link rel="apple-touch-icon-precomposed" href="https://b1indsight.github.io/favicon.png">
 
-<link rel="stylesheet" href="https://b1indsight.github.io/css/light.css?rnd=1649001603" />
+
+
+
+    
+
+
+
 <style>
-
-    [data-theme="dark"] {   
-        --font-color: #eee;
---bg-color: #212121;
-
---link-color:#599ada;
---link-state-color:#ff5858;
---link-state-border-color: rgba(238, 54, 54, 0.5);
-
---thead-bg-color: #343a40;
---table-border-color: lightgrey;
-
---pre-color: #333;
---pre-bg-color: #f1f1f1;
-
---bq-color: #ccc;
---hr-color: #333;
-
---pagination-bg-color: #373737;
---pagination-link-color: #b6b6b6;
-
---post-info-color: grey;
-
---switcher-color: #333;
---switcher-bg-color: #fff;
-
-    }
-
+  body {
+    visibility: hidden;
+    opacity: 0;
+  }
 </style>
 
-<link rel="stylesheet" href="https://b1indsight.github.io/css/style.css?rnd=1649001603" />
+<noscript>
+  <style>
+    body {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</noscript>
 
-<link rel="stylesheet" href="https://b1indsight.github.io/css/my.css?rnd=1649001603">
 
-<script src="https://b1indsight.github.io/js/main.js?rnd=1649001603" type="text/javascript" charset="utf-8"></script>
+
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <link rel="stylesheet" href="https://b1indsight.github.io/css/style.min.633444135b0e6b5cf601026334c61193e0eb9e0ec78be3a450ac59afe2a3c50c.css" integrity="sha256-YzREE1sOa1z2AQJjNMYRk&#43;Drng7Hi&#43;OkUKxZr&#43;KjxQw=">
+    
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <script src="https://b1indsight.github.io/js/script.min.74bf1a3fcf1af396efa4acf3e660e876b61a2153ab9cbe1893ac24ea6d4f94ee.js" type="text/javascript" charset="utf-8" integrity="sha256-dL8aP88a85bvpKzz5mDodrYaIVOrnL4Yk6wk6m1PlO4="></script>
+    
+
+
+
+
+
+
 
 <meta property="og:title" content="Flask 源码阅读" />
 <meta property="og:description" content="learning and writing" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://b1indsight.github.io/categories/flask-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/" />
-<meta property="og:image" content="https://b1indsight.github.io/images/og-featured.png"/>
-<meta property="og:updated_time" content="2020-08-02T21:11:42+08:00" />
+<meta property="og:url" content="https://b1indsight.github.io/categories/flask-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/" /><meta property="og:image" content="https://b1indsight.github.io/images/og-featured.png"/>
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://b1indsight.github.io/images/og-featured.png"/>
 
 <meta name="twitter:title" content="Flask 源码阅读"/>
 <meta name="twitter:description" content="learning and writing"/>
+
+
+
+
+
 
 
 
@@ -82,19 +122,34 @@
     <div class="container">
         <header class="common-header"> 
             
-                <h1 class="site-title">
+                <div class="header-top">
+    <h1 class="site-title">
     <a href="/">b1indsight</a>
 </h1>
-<nav>
-    
-    
-    <a class="" href="https://b1indsight.github.io/about" title="About">About</a>
-    
-    <a class="" href="https://b1indsight.github.io/post/" title="Archive">Archive</a>
-    
-    <a class="" href="https://b1indsight.github.io/tags/" title="Tags">Tags</a>
-    
-</nav>
+    <ul class="social-icons">
+
+
+
+
+
+</ul>
+</div>
+
+    <nav>
+        
+        
+        <a class="" href="https://b1indsight.github.io/about" title="About">About</a>
+        
+        <a class="" href="https://b1indsight.github.io/post/" title="Archive">Archive</a>
+        
+        <a class="" href="https://b1indsight.github.io/tags/" title="Tags">Tags</a>
+        
+    </nav>
+
+
+
+
+
 
             
         </header>
@@ -102,44 +157,67 @@
             
     <h1>: Flask 源码阅读</h1>
     <div class="post-info">
-        <a href="https://b1indsight.github.io/categories"></a>
+        <a href="/categories/"></a>
     </div>
     
-        <article class="post-list">
-    <header class="post-header">
-        <h1 class="post-title"><a href="/post/read_flask_source_code_1/">Flask 源码阅读（1） : request的处理流程</a></h1>
-    </header>
-
-    <div class="content post-summary">
-        前言 本系列试图从flask 1.0版开始阅读一个完整的项目，不同于常见的追踪启动后行为来阅读源码的方式，这一个系列的文章打算从写一个符合wsg
+    
+        <article class="post-list h-feed">
+    <div class="post-header">
+        <header>
+            <h1 class="p-name post-title"><a class="u-url" href="/post/read_flask_source_code_1/">Flask 源码阅读（1） : request的处理流程</a></h1>
+        </header>
+        
     </div>
 
     
+        <div class="content post-summary p-summary">
+            前言 本系列试图从flask 1.0版开始阅读一个完整的项目，不同于常见的追踪启动后行为来阅读源码的方式，这一个系列的文章打算从写一个符合wsg
+        </div>
+    
+    
+        <div class="read-more">
+            <a class="u-url" href="/post/read_flask_source_code_1/"></a>
+        </div>
+    
+    
     
 
     
+
 
 
 <div class="post-info">
     
-        <div class="post-date">2020-08-02</div>
+        <div class="post-date dt-published">
+            <a class="u-url" href="/post/read_flask_source_code_1/"><time datetime="2020-08-02">2020-08-02</time></a>
+            
+        </div>
     
+
+    <a class="post-hidden-url u-url" href="https://b1indsight.github.io/post/read_flask_source_code_1/">https://b1indsight.github.io/post/read_flask_source_code_1/</a>
+    <a href="https://b1indsight.github.io" class="p-name p-author post-hidden-author h-card" rel="me">b1indsight</a>
+
+
     <div class="post-taxonomies">
         
             <ul class="post-categories">
                 
-                    <li><a href="https://b1indsight.github.io/categories/Flask%20%e6%ba%90%e7%a0%81%e9%98%85%e8%af%bb">Flask 源码阅读</a></li>
+                    
+                    <li><a href="">Flask 源码阅读</a></li>
                 
             </ul>
-            
-            
-                <ul class="post-tags">
+        
+        
+            <ul class="post-tags">
+                
                     
-                        <li><a href="https://b1indsight.github.io/tags/python">#Python</a></li>
+                    <li><a href="https://b1indsight.github.io/tags/python/">#Python</a></li>
+                
                     
-                        <li><a href="https://b1indsight.github.io/tags/flask">#Flask</a></li>
-                    
-                </ul>
+                    <li><a href="https://b1indsight.github.io/tags/flask/">#Flask</a></li>
+                
+            </ul>
+        
         
     </div>
 </div>
@@ -149,94 +227,122 @@
     
 
 
+
         </main>
         
             <footer class="common-footer">
     
     
 
-    <div class="copyright">
-        <p>© b1indsight, 2022<br>
-         <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>,  <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.
-        </p>  
-    </div> 
+    <div class="common-footer-bottom">
+        
+        <div class="copyright">
+            <p>© b1indsight, 2023<br>
+             <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>,  <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.<br>
+            
+            </p>  
+        </div> 
+
+        
 
     
 
-    
 
 
 
     <button class="theme-switcher">
-        Dark theme
+        
     </button>
 
-    <script>
-    const STORAGE_KEY = 'user-color-scheme'
-    const defaultTheme = "auto"
 
-    let currentTheme
-    let switchButton
-    let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+<script>
+const STORAGE_KEY = 'user-color-scheme'
+const defaultTheme = "auto"
 
-    const autoChangeScheme = e => {
-        currentTheme = e.matches ? 'dark' : 'light'
-        document.documentElement.setAttribute('data-theme', currentTheme)
-        changeButtonText()
+let currentTheme
+let switchButton
+let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+const autoChangeScheme = e => {
+    currentTheme = e.matches ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', currentTheme)
+    changeButtonText()
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    switchButton = document.querySelector('.theme-switcher')
+    currentTheme = detectCurrentScheme()
+    if (currentTheme == 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark')
+    }
+    if (currentTheme == 'auto') {
+        autoChangeScheme(autoDefinedScheme);
+        autoDefinedScheme.addListener(autoChangeScheme);
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        switchButton = document.querySelector('.theme-switcher')
-        currentTheme = detectCurrentScheme()
-        if (currentTheme == 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark')
-        }
-        if (currentTheme == 'auto') {
-            autoChangeScheme(autoDefinedScheme);
-            autoDefinedScheme.addListener(autoChangeScheme);
-        }
+    if (switchButton) {
         changeButtonText()
         switchButton.addEventListener('click', switchTheme, false)
-    })
+    }
+  
+    showContent()
+})
 
-
-
-    function detectCurrentScheme() {
-        if (localStorage.getItem(STORAGE_KEY)) {
-            return localStorage.getItem(STORAGE_KEY)
-        } 
-        if (defaultTheme) {
-            return defaultTheme
-        } 
-        if (!window.matchMedia) {
-            return 'light'
-        } 
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark'
-        }
+function detectCurrentScheme() {
+    if (localStorage !== null && localStorage.getItem(STORAGE_KEY)) {
+        return localStorage.getItem(STORAGE_KEY)
+    } 
+    if (defaultTheme) {
+        return defaultTheme
+    } 
+    if (!window.matchMedia) {
         return 'light'
+    } 
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark'
     }
+    return 'light'
+}
 
-    function changeButtonText()
-    {
-        console.log(currentTheme)
-        switchButton.textContent = currentTheme == 'dark' ? 'Light theme' : 'Dark theme'
+function changeButtonText()
+{   
+    if (switchButton) {
+        switchButton.textContent = currentTheme == 'dark' ?  "" : ""
     }
+}
 
-    function switchTheme(e) {
-        if (currentTheme == 'dark') {
+function switchTheme(e) {
+    if (currentTheme == 'dark') {
+        if (localStorage !== null)
             localStorage.setItem(STORAGE_KEY, 'light')
-            document.documentElement.setAttribute('data-theme', 'light')
-            currentTheme = 'light'
-        } else {
+        document.documentElement.setAttribute('data-theme', 'light')
+        currentTheme = 'light'
+    } else {
+        if (localStorage !== null)
             localStorage.setItem(STORAGE_KEY, 'dark')
-            document.documentElement.setAttribute('data-theme', 'dark')
-            currentTheme = 'dark'
-        }
-        changeButtonText()
+        document.documentElement.setAttribute('data-theme', 'dark')
+        currentTheme = 'dark'
     }
-    </script>
+    changeButtonText()
+}
+
+function showContent() {
+    document.body.style.visibility = 'visible';
+    document.body.style.opacity = 1;
+}
+</script>
+
+   
+    </div>
+
+    <p class="h-card vcard">
+
+    <a href=https://b1indsight.github.io class="p-name u-url url fn" rel="me">b1indsight</a> 
+
     
+
+    
+</p> 
 </footer>
 
         
