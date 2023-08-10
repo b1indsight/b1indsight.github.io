@@ -1,0 +1,142 @@
+<mxfile host="65bd71144e">
+    <diagram id="GRVvdXPIKz-7ZhsZLKho" name="第 1 页">
+        <mxGraphModel dx="1344" dy="1064" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="25" value="蒸汽产生器" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;" parent="1" vertex="1">
+                    <mxGeometry x="590" y="440" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="" style="shape=flexArrow;endArrow=classic;html=1;sketch=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="61" target="25" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="460" y="470" as="sourcePoint"/>
+                        <mxPoint x="490" y="510" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="35" value="" style="shape=flexArrow;endArrow=classic;html=1;sketch=1;dashed=1;" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="710" y="470" as="sourcePoint"/>
+                        <mxPoint x="860" y="470" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="36" value="汽轮机" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;sketch=1;fillColor=default;" parent="1" vertex="1">
+                    <mxGeometry x="860" y="440" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="" style="shape=flexArrow;endArrow=classic;html=1;dashed=1;sketch=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="36" target="38" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="650" y="570" as="sourcePoint"/>
+                        <mxPoint x="920" y="570" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="38" value="冷凝水净化器" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;sketch=1;fillColor=default;" parent="1" vertex="1">
+                    <mxGeometry x="860" y="540" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" value="" style="shape=flexArrow;endArrow=classic;html=1;dashed=1;sketch=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="38" target="40" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="650" y="570" as="sourcePoint"/>
+                        <mxPoint x="920" y="660" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="40" value="主供水泵" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;dashed=1;sketch=1;fillColor=default;" parent="1" vertex="1">
+                    <mxGeometry x="880" y="660" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="41" value="" style="shape=flexArrow;endArrow=classic;html=1;dashed=1;sketch=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" parent="1" source="40" target="25" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="650" y="570" as="sourcePoint"/>
+                        <mxPoint x="700" y="520" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="920" y="770"/>
+                            <mxPoint x="680" y="770"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="43" value="" style="shape=flexArrow;endArrow=classic;html=1;sketch=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="25" target="61" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="650" y="570" as="sourcePoint"/>
+                        <mxPoint x="340" y="570" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="620" y="610"/>
+                            <mxPoint x="365" y="610"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="44" value="紧急给水泵" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;dashed=1;sketch=1;fillColor=default;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="850" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="45" value="" style="shape=flexArrow;endArrow=classic;html=1;sketch=1;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="44" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="650" y="570" as="sourcePoint"/>
+                        <mxPoint x="800" y="770" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="46" value="自控减压阀" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;sketch=1;fillColor=default;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="430" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="48" value="" style="shape=flexArrow;endArrow=classic;html=1;sketch=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="55" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="160" y="430" as="sourcePoint"/>
+                        <mxPoint x="530" y="280" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="160" y="320"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="49" value="污水池" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=default;" parent="1" vertex="1">
+                    <mxGeometry x="490" y="290" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="50" value="反应水冷却泵" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;sketch=1;fillColor=default;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="670" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="51" value="" style="shape=flexArrow;endArrow=classic;html=1;sketch=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="50" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="650" y="570" as="sourcePoint"/>
+                        <mxPoint x="540" y="610" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="53" value="高压注入泵" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;sketch=1;fillColor=default;" parent="1" vertex="1">
+                    <mxGeometry x="325" y="150" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="54" value="" style="shape=flexArrow;endArrow=classic;html=1;sketch=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="53" target="55" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="550" y="560" as="sourcePoint"/>
+                        <mxPoint x="530" y="300" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="55" value="缓压器" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=default;" parent="1" vertex="1">
+                    <mxGeometry x="305" y="290" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="56" value="" style="shape=flexArrow;endArrow=classic;html=1;sketch=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="55" target="61" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="550" y="560" as="sourcePoint"/>
+                        <mxPoint x="460" y="420" as="targetPoint"/>
+                        <Array as="points"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="57" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;fillColor=none;fontColor=#ffffff;strokeColor=#FF6666;fillStyle=auto;strokeWidth=3;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="135" width="560" height="670" as="geometry"/>
+                </mxCell>
+                <mxCell id="58" value="主冷却系统" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;fillStyle=auto;fontSize=16;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="130" width="110" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="59" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;fillStyle=auto;strokeColor=#0e8088;strokeWidth=3;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="650" y="410" width="360" height="540" as="geometry"/>
+                </mxCell>
+                <mxCell id="60" value="次级冷却系统" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;fillStyle=auto;fontSize=16;" parent="1" vertex="1">
+                    <mxGeometry x="890" y="890" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="62" value="" style="edgeStyle=none;shape=flexArrow;sketch=1;html=1;fontSize=16;" parent="1" source="61" target="46" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="61" value="堆芯" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillStyle=auto;fontSize=16;strokeWidth=3;" parent="1" vertex="1">
+                    <mxGeometry x="280" y="395" width="170" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="63" value="" style="shape=flexArrow;endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="55" target="49" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="560" y="550" as="sourcePoint"/>
+                        <mxPoint x="610" y="500" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

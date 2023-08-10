@@ -27,9 +27,9 @@
 &lt;/span&gt;
 &lt;/h2&gt;&lt;p&gt;让我们首先从1979年的三里岛核电厂事故看起，这指的是1979年3月28日三里岛核电站发生的一次部分堆芯熔毁事故，场内污染清理从1979年8月开始，直到1993年12月结束。在查尔斯·佩罗写作《正常事故》这本书的时间点看起，三里岛事故是迄今为止最严重的核电厂事故，而相对于现在来说，依然是美国商用核电历史上最严重的事故。首先介绍一些相关系统的信息。&lt;/p&gt;
 &lt;p&gt;机组的&lt;a href=&#34;https://zh.wikipedia.org/wiki/File:Tmi-2_schematic.svg&#34;&gt;结构简图&lt;/a&gt;如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://private-user-images.githubusercontent.com/47165749/259489432-0f73ca2a-f484-4ff8-82c7-ec4fff8457ed.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE2OTE2MDA1NDgsIm5iZiI6MTY5MTYwMDI0OCwicGF0aCI6Ii80NzE2NTc0OS8yNTk0ODk0MzItMGY3M2NhMmEtZjQ4NC00ZmY4LTgyYzctZWM0ZmZmODQ1N2VkLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFJV05KWUFYNENTVkVINTNBJTJGMjAyMzA4MDklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjMwODA5VDE2NTcyOFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTk3YjFlOTliNjRiNzhiY2MzODZlMTE4MGUzMzJlOTEyNDBhMjk4M2Q2YmJkYWZmNjBhODhkYmI2NGNkOGQyOTkmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.-MSSl2JtwtYOiyVhSsRgwUsgt0yUYTElJrsLxGjOvyE&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;可以转化为下图的示意图：
-&lt;img src=&#34;https://private-user-images.githubusercontent.com/47165749/259489651-894476dc-81a8-4991-9dbc-d41309821dd0.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE2OTE2MDA2MDcsIm5iZiI6MTY5MTYwMDMwNywicGF0aCI6Ii80NzE2NTc0OS8yNTk0ODk2NTEtODk0NDc2ZGMtODFhOC00OTkxLTlkYmMtZDQxMzA5ODIxZGQwLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFJV05KWUFYNENTVkVINTNBJTJGMjAyMzA4MDklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjMwODA5VDE2NTgyN1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTU5NjIxYzZiZTllYzc3ZmE4MDhlZWMyOWVjM2EzMjY1OTM5ZjViOTY1MzRjY2ZmN2YyNzUwYzhkZTIwMmE2YjUmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.6ijm8HLv9VhKNN_rxCYKBX1NeZhDTnsvuFKxcEJSL9w&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://b1indsight.github.io/post/normal_accident/Tmi-2_schematic.svg.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;可以转化为下图的示意图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://b1indsight.github.io/post/normal_accident/system1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;系统简述&#34; &gt;系统简述
 &lt;span&gt;
     &lt;a href=&#34;#%e7%b3%bb%e7%bb%9f%e7%ae%80%e8%bf%b0&#34;&gt;
