@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>数据结构 on b1indsight</title>
+    <link>http://localhost:1313/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</link>
+    <description>Recent content in 数据结构 on b1indsight</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 07 Dec 2020 20:52:54 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Infinity stream</title>
+      <link>http://localhost:1313/posts/infinity_stream/</link>
+      <pubDate>Mon, 07 Dec 2020 20:52:54 +0800</pubDate>
+      <guid>http://localhost:1313/posts/infinity_stream/</guid>
+      <description>当我们在遍历一个列表时，我们很容易写出一个迭代式的遍历处理方式，就像常见的foreach语句一样，而通过使用流语句，在处理时可以将控制流程和</description>
+    </item>
+  </channel>
+</rss>

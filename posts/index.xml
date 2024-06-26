@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>b1indsight</title>
+    <link>https://b1indsight.github.io/posts/</link>
+    <description>Recent content on b1indsight</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 10 Aug 2023 00:45:00 +0800</lastBuildDate>
+    <atom:link href="https://b1indsight.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>正常事故</title>
+      <link>https://b1indsight.github.io/posts/normal_accident/</link>
+      <pubDate>Thu, 10 Aug 2023 00:45:00 +0800</pubDate>
+      <guid>https://b1indsight.github.io/posts/normal_accident/</guid>
+      <description>在查尔斯·佩罗的《高风险系统与正常事故》（后面简称《正常事故》）这本书中，作者认为一些高风险技术的特征表明，不管常规安全措施如何，一种事故的</description>
+    </item>
+    <item>
+      <title>Super函数和mro算法</title>
+      <link>https://b1indsight.github.io/posts/super_and_mro_algorithm/</link>
+      <pubDate>Wed, 02 Mar 2022 22:03:50 +0800</pubDate>
+      <guid>https://b1indsight.github.io/posts/super_and_mro_algorithm/</guid>
+      <description>super()作为在python中常被使用到的一个方法而言，具有一些有趣的特性，本文可以看作super()的一个考古，主要包括以下几个部分：</description>
+    </item>
+    <item>
+      <title>Q&#39;s magic</title>
+      <link>https://b1indsight.github.io/posts/q_magic/</link>
+      <pubDate>Sun, 20 Sep 2020 17:05:31 +0800</pubDate>
+      <guid>https://b1indsight.github.io/posts/q_magic/</guid>
+      <description>前言 # Q 是一个开源库，正如它介绍里所写的那样，它是用来“Quick and dirty debugging output for tired programmers.”，Q的用法主要有两种： import q之后， 使用</description>
+    </item>
+    <item>
+      <title>Flask 源码阅读（1） : request的处理流程</title>
+      <link>https://b1indsight.github.io/posts/read_flask_source_code_1/</link>
+      <pubDate>Sun, 02 Aug 2020 21:11:42 +0800</pubDate>
+      <guid>https://b1indsight.github.io/posts/read_flask_source_code_1/</guid>
+      <description>前言 # 本系列试图从flask 1.0版开始阅读一个完整的项目，不同于常见的追踪启动后行为来阅读源码的方式，这一个系列的文章打算从写一个符合ws</description>
+    </item>
+    <item>
+      <title>从零开始的python解释器（1）</title>
+      <link>https://b1indsight.github.io/posts/from_zero_to_a_python_interpreter_1/</link>
+      <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>https://b1indsight.github.io/posts/from_zero_to_a_python_interpreter_1/</guid>
+      <description>单条字节码的解释运行 # 反编译字节码 # python 字节码形式可以用dis.dis()来反编译code object来获得，先考虑一段简单的python代码</description>
+    </item>
+    <item>
+      <title>JUC包AQS设计</title>
+      <link>https://b1indsight.github.io/posts/juc_aqs/</link>
+      <pubDate>Fri, 01 May 2020 16:27:50 +0800</pubDate>
+      <guid>https://b1indsight.github.io/posts/juc_aqs/</guid>
+      <description>为什么需要AQS JUC包中提供了一系列的同步器，这些同步器都有以下基本功能 内部同步状态的管理 内部同步状态的设置 使一个线程被阻塞 使线程被其他线</description>
+    </item>
+    <item>
+      <title>斯科特杨的高效率方法</title>
+      <link>https://b1indsight.github.io/posts/effecient_method_of_scotty/</link>
+      <pubDate>Sun, 05 May 2019 16:27:50 +0800</pubDate>
+      <guid>https://b1indsight.github.io/posts/effecient_method_of_scotty/</guid>
+      <description>在阅读了Scoltt Yang的几本关于高效率的书之后，总结并试着运用了一些关于高效率的方法，在这里做一些总结。 日/周目标清单 # 建立一个周目标</description>
+    </item>
+  </channel>
+</rss>

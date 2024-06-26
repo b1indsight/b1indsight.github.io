@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="前言 # Q 是一个开源库，正如它介绍里所写的那样，它是用来“Quick and dirty debugging output for tired programmers.”，Q的用法主要有两种： import q之后， 使用">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Q&#39;s magic" />
+<meta property="og:description" content="前言 # Q 是一个开源库，正如它介绍里所写的那样，它是用来“Quick and dirty debugging output for tired programmers.”，Q的用法主要有两种： import q之后， 使用" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://b1indsight.github.io/posts/q_magic/" /><meta property="og:image" content="https://b1indsight.github.io/images/og-featured.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-09-20T17:05:31+08:00" />
+<meta property="article:modified_time" content="2020-09-20T17:05:31+08:00" />
+<title>Q&#39;s magic | b1indsight</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="https://b1indsight.github.io/posts/q_magic/">
+<link rel="stylesheet" href="/book.min.f8de3645fe00591b41524aee174e19edd98a22255a2930a0cdc82a94835ba387.css" integrity="sha256-&#43;N42Rf4AWRtBUkruF04Z7dmKIiVaKTCgzcgqlINbo4c=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/zh.search.min.f0a0d51efc21da59a37a8ec2e2780e2f26d065ba7dd9400f634491df81bdc3a6.js" integrity="sha256-8KDVHvwh2lmjeo7C4ngOLybQZbp92UAPY0SR34G9w6Y=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>b1indsight</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="搜索" aria-label="搜索" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/" class="">Posts</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/normal_accident/" class="">正常事故</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/super_and_mro_algorithm/" class="">Super函数和mro算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/q_magic/" class="active">Q&#39;s magic</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/read_flask_source_code_1/" class="">Flask 源码阅读（1） : request的处理流程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/from_zero_to_a_python_interpreter_1/" class="">从零开始的python解释器（1）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/juc_aqs/" class="">JUC包AQS设计</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/effecient_method_of_scotty/" class="">斯科特杨的高效率方法</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/about/" class="">About</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/b1indsight"  target="_blank" rel="noopener">
+        github
+      </a>
+  </li>
+  
+  <li>
+    <a href="/tags/"  target="_blank" rel="noopener">
+        Tags
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Q&#39;s magic</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#import-q之后为什么可以直接使用q和q"><code>import q</code>之后为什么可以直接使用q()和@q</a></li>
+    <li><a href="#qvalue如何实现"><code>q/value</code>如何实现</a></li>
+    <li><a href="#q如何实现"><code>@q</code>如何实现</a>
+      <ul>
+        <li><a href="#reference">reference</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown book-post">
+  <h1>
+    <a href="/posts/q_magic/">Q&#39;s magic</a>
+  </h1>
+  
+  <h5>September 20, 2020</h5>
+
+
+
+  
+  <div>
+    
+      <a href="/categories/python%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0/">Python其他文章</a>
+  </div>
+  
+
+  
+  <div>
+    
+      <a href="/tags/python/">Python</a>
+  </div>
+  
+
+
+
+<h2 id="前言">
+  前言
+  <a class="anchor" href="#%e5%89%8d%e8%a8%80">#</a>
+</h2>
+<p>Q 是一个开源库，正如它介绍里所写的那样，它是用来“Quick and dirty debugging output for tired programmers.”，Q的用法主要有两种：</p>
+<ol>
+<li>
+<p><code>import q</code>之后， 使用<code>q(value)</code>来 print value 的值，或是使用<code>q/value</code>， 或者<code>q|value</code>，只要在想 print 的值前加“q/”或“q|”的前缀，即可以print值</p>
+</li>
+<li>
+<p>在函数定义前加<code>@q</code>的修饰器,可以print 函数参数，返回值，运行时间等信息
+本文用来展示q这个库是如何在300+行代码的篇幅下，完成这样的功能的。</p>
+</li>
+</ol>
+<h2 id="import-q之后为什么可以直接使用q和q">
+  <code>import q</code>之后为什么可以直接使用q()和@q
+  <a class="anchor" href="#import-q%e4%b9%8b%e5%90%8e%e4%b8%ba%e4%bb%80%e4%b9%88%e5%8f%af%e4%bb%a5%e7%9b%b4%e6%8e%a5%e4%bd%bf%e7%94%a8q%e5%92%8cq">#</a>
+</h2>
+<p>想做到这件事的办法可以想到，如同其他语言一样<code>q()</code>需要被实现成一个全局的静态函数，在python中，则是在import时完成class q的实例化，那么另一个问题是，q 中 class 名是 Q ，那么调用应该是<code>Q.q()</code>，而不是q()，这部分的实现关键在于它将自己装载在了<code>sys.module</code>中,通过这条语句<code>sys.modules['q'] = Q()</code>并在class中实现<code>__call__()</code>函数，使得可以直接使用q()</p>
+<h2 id="qvalue如何实现">
+  <code>q/value</code>如何实现
+  <a class="anchor" href="#qvalue%e5%a6%82%e4%bd%95%e5%ae%9e%e7%8e%b0">#</a>
+</h2>
+<p><code>q/value</code> 修改一下格式就变为 <code>q / value</code>， 同时源码里也可以看到其中有<code>__truediv__()</code>函数，于是发现这里的实现在于 q 重载了<code>/</code>和<code>|</code>运算，使得这个运算符在执行了q print的操作之后返回<code>__truediv__()</code>的第二个参数。</p>
+<blockquote>
+<p>object.<strong>truediv</strong>(self, other)
+调用这些方法来实现二进制算术运算 (+, -, *, @, /, //, %, divmod(), pow(), **, &laquo;, &raquo;, &amp;, ^, |)。例如，求表达式 x + y 的值，其中 x 是具有 <strong>add</strong>() 方法的类的一个实例，则会调用 x.<strong>add</strong>(y)。
+<a href="https://docs.python.org/zh-cn/3/reference/datamodel.html?highlight=truediv#object.__truediv__">python数据模型</a></p>
+</blockquote>
+<p>这里可以看到 q/value 时会调用 q 的<code>__truediv__()</code>函数，这样在 q 重载了这个函数的时候，达到了重载操作符的效果。</p>
+<h2 id="q如何实现">
+  <code>@q</code>如何实现
+  <a class="anchor" href="#q%e5%a6%82%e4%bd%95%e5%ae%9e%e7%8e%b0">#</a>
+</h2>
+<p>q被调用时调用了<code>__call__()</code>函数，这个函数主要做了有关的几件事：<code>self.inspect.getframeinfo(self.sys._getframe(1), context=9)</code>通过<code>getframeinfo()</code>来获取调用附近的代码文本块，打印被修饰函数的基本信息，然后扫描文本块返回<code>self.trace()</code>, python 定义修饰器需要返回一个以修饰函数 func 为参数的 wapper 函数，那么可以想到 trace 里会返回 wapper，那么在这里，则是返回了<code>self.functools.update_wrapper(wrapper, func)</code>。</p>
+<blockquote>
+<p>functools.update_wrapper(wrapper, wrapped, assigned=WRAPPER_ASSIGNMENTS, updated=WRAPPER_UPDATES)
+更新一个 wrapper 函数以使其类似于 wrapped 函数。 可选参数为指明原函数的哪些属性要直接被赋值给 wrapper 函数的匹配属性的元组，并且这些 wrapper 函数的属性将使用原函数的对应属性来更新。
+此函数的主要目的是在 decorator 函数中用来包装被装饰的函数并返回包装器。 如果包装器函数未被更新，则被返回函数的元数据将反映包装器定义而不是原始函数定义，这通常没有什么用处。
+<a href="https://docs.python.org/zh-cn/3/library/functools.html?highlight=functools#module-functools">module-functools</a></p>
+</blockquote>
+<p>trace 里仅仅是定义了<code>wapper()</code>,而在<code>wapper()</code>中执行了 func，然后返回了 func 的返回值，在这里修饰器得到了 func 的参数，(<code>q.__call__(self, *args)</code>,这里被作为修饰器调用时，args[0] 是被修饰的函数，这个参数被传到了 trace 里)因此可以遍历参数并 print 它们的值，func 在wapper 中执行，这样也可以 print 返回值</p>
+<p>在处理error时会有些麻烦，因为 func 是在 q 的<code>wapper()</code>中运行的，异常抛出时会抛到 wapper 的 栈帧，这里需要在 wapper 中获取 error 信息，这是通过 <code>self.sys.exc_info()</code>来做到的，通过 print error_trace_back.tb_next 可以正确显示异常。</p>
+<h3 id="reference">
+  reference
+  <a class="anchor" href="#reference">#</a>
+</h3>
+<ol>
+<li><a href="https://github.com/zestyping/q">https://github.com/zestyping/q</a></li>
+<li><a href="http://pyvideo.org/video/1858/sunday-evening-lightning-talks#t=25m15s">http://pyvideo.org/video/1858/sunday-evening-lightning-talks#t=25m15s</a></li>
+</ol>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "628237ae497b43aea84d25eaafd3daf8"}'></script>
+      </footer>
+
+      
+  
+  <div class="book-comments"><script src="https://utteranc.es/client.js"
+        repo="b1indsight/b1indsight.github.io"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script></div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#import-q之后为什么可以直接使用q和q"><code>import q</code>之后为什么可以直接使用q()和@q</a></li>
+    <li><a href="#qvalue如何实现"><code>q/value</code>如何实现</a></li>
+    <li><a href="#q如何实现"><code>@q</code>如何实现</a>
+      <ul>
+        <li><a href="#reference">reference</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,96 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>每周总结 on b1indsight</title>
-    <link>https://b1indsight.github.io/categories/%E6%AF%8F%E5%91%A8%E6%80%BB%E7%BB%93/</link>
-    <description>b1indsight (每周总结)</description>
+    <link>http://localhost:1313/categories/%E6%AF%8F%E5%91%A8%E6%80%BB%E7%BB%93/</link>
+    <description>Recent content in 每周总结 on b1indsight</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 06 Sep 2020 20:46:36 +0800</lastBuildDate>
-    
-    <atom:link href="https://b1indsight.github.io/categories/%E6%AF%8F%E5%91%A8%E6%80%BB%E7%BB%93/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 13 Sep 2020 22:23:30 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/%E6%AF%8F%E5%91%A8%E6%80%BB%E7%BB%93/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2020.09.07-2020.09.13</title>
+      <link>http://localhost:1313/posts/weekly_report_20200907_20200913/</link>
+      <pubDate>Sun, 13 Sep 2020 22:23:30 +0800</pubDate>
+      <guid>http://localhost:1313/posts/weekly_report_20200907_20200913/</guid>
+      <description>2020.08.31 - 2020.09.06 # 上周总结 # 重写虚拟机，开始做了一部分，试图要做的部分比想象的要多很多，基本上所有的类都要重新设计，看起来不是一周可以完成的工作量 A Philosophy</description>
+    </item>
     <item>
       <title>2020.08.31-2020.09.06</title>
-      <link>https://b1indsight.github.io/post/weekly_report_20200831_20200906/</link>
+      <link>http://localhost:1313/posts/weekly_report_20200831_20200906/</link>
       <pubDate>Sun, 06 Sep 2020 20:46:36 +0800</pubDate>
-      
-      <guid>https://b1indsight.github.io/post/weekly_report_20200831_20200906/</guid>
-      <description>&lt;h3 id=&#34;20200831---20200906&#34;&gt;2020.08.31 - 2020.09.06&lt;/h3&gt;
-&lt;h2 id=&#34;上周总结&#34;&gt;上周总结&lt;/h2&gt;
-&lt;p&gt;上周计划的三件事：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Ts ts入门写了hello，world，依然没有找到什么项目可以做，考虑写一下vscode的扩展，或者在github上找一个吧。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;重写虚拟机的任务根本没动，这周其实什么也没有干。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;A Philosophy of software design， 书读了半章，进度缓慢。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;上周游戏时间13小时，基本不算高的。大量的休息时间主要用来做饭和做些杂事了，上周买了新的人体工学椅和键盘。阿米洛的静电容轴响应力度足够小，回弹也快速，而且基本上没有误触，大键的手感没有小键好，樱花粉轴整体上还是比较满意的。人体工学椅买了金卓b，不过到现在还没有找到比较好的坐法，感觉100度的椅角度比较好，但是并没有这一档，不固定椅背可能能达到效果，但是不知道这种方法有没有什么坏处。&lt;/p&gt;
-&lt;h2 id=&#34;下周&#34;&gt;下周&lt;/h2&gt;
-&lt;p&gt;下周继续三件事：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;重写虚拟机， 这件事作为这个项目的第一阶段目标，还是应该要做完的，至于之后继续的发展，要看我以后会不会有继续这个方向的学习计划。&lt;/li&gt;
-&lt;li&gt;A Philosophy of software design， 现在是读到5.5，至少这周要读完11章。&lt;/li&gt;
-&lt;li&gt;Ts， 对于前端能做到什么程度我还没有清晰的概念，先github逛一下吧。找个项目，目标大概到提出一个pr。（可能完不成&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;观点&#34;&gt;观点&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;相对于notion这样以主题为核心来记录笔记的方法十分适合读书或者其他的笔记整理，而roam research这样的自下而上的笔记方法在记录自己偶发的想法的时候会更加方便，使用链接和tag会更好的整理想法，建立一个单独的页面可以用来存放和分类，在这个角度来看，roam research更加适合与个人的笔记系统。&lt;/li&gt;
-&lt;li&gt;一个简单的获取信息的筛选系统：1.以输出知识为卖点的账号，如果达到日更新，那么即可以说这些账号的输出都是垃圾（除非是多人合作的方法，而其中每个作者输出频率不高于一周一篇）。2.新闻及其他资讯应该在周的尺度上观看，如果你不是依靠短暂的市场信息来获利的话，任何的日为单位的咨讯对你来说都是可有可无占用时间的垃圾，这些东西除了谈资之外毫无作用，反而会带来获取到什么的错觉。（一个参考观点：对最近事件即时性的解释基本都是错误的，无法用来预测任何事）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;杂谈&#34;&gt;杂谈&lt;/h2&gt;
-&lt;p&gt;上周提到自己测试的时候经常被block，最终发现其实是user agent的问题，可能是一直沿用的user agent版本太低，更新之后基本就不出现这样的问题了。公司的爬虫脚本居然是要一个个部署到集群上的，而不是靠一个控制系统调用，个人感觉十分原始。而其他的java数据处理程序居然也是类似效果，靠bat文件+参数分别启动，可能有热替换的好处，但是java热更新应该是可用的解决方案，总之感觉比较原始。&lt;/p&gt;
-&lt;p&gt;人体工学椅感觉很难靠自重把椅背压下去，导致整个椅子在感觉上存在感很强，感觉不是什么好事，可能要继续调整下，这把椅子头枕位置需要多2厘米才能支撑到脖子，是特别的败笔。&lt;/p&gt;
-&lt;p&gt;用在食物上的花费没有想象中高，大概估计一月花1500左右，感觉一个月至少需要填入500左右的花费更好一点，发了工资去买煎锅和牛排吧。&lt;/p&gt;
-&lt;p&gt;本周基本没读什么，导致blog也写不出来什么内容，下周打算在这周的栏目上添加一些，周总结大概长度达到2000字可能会比较好。&lt;/p&gt;
-&lt;p&gt;END&lt;/p&gt;
-</description>
+      <guid>http://localhost:1313/posts/weekly_report_20200831_20200906/</guid>
+      <description>2020.08.31 - 2020.09.06 # 上周总结 # 上周计划的三件事： Ts ts入门写了hello，world，依然没有找到什么项目可以做，考虑写一下vscode的扩展，或者在g</description>
     </item>
-    
     <item>
       <title>2020.08.24-2020.08.30</title>
-      <link>https://b1indsight.github.io/post/weekly_report/</link>
+      <link>http://localhost:1313/posts/weekly_report/</link>
       <pubDate>Sun, 30 Aug 2020 22:42:50 +0800</pubDate>
-      
-      <guid>https://b1indsight.github.io/post/weekly_report/</guid>
-      <description>&lt;h3 id=&#34;20200824-20200830&#34;&gt;2020.08.24-2020.08.30&lt;/h3&gt;
-&lt;h2 id=&#34;新工作&#34;&gt;新工作&lt;/h2&gt;
-&lt;p&gt;这个月在经过了短暂的找工作时间之后，光速接了新的offer，拿到了钱并没有多少，但是工作压力并不大的新工作，结束了我在今年的半年neet生活。neet其实并没有那么令人厌恶，让人痛苦的是在家里深受限制，由于没有工作，不能看更多在长远有好处又感兴趣的书，只能一遍一遍刷翻过的面试博客，网络上的面试文章有很多错误之处，但同时一些错误的说法才是可以通过面试的答案，看着十分痛苦，另外这些没什么联系又内容十分多的东西，即使被称为知识也十分可疑。刷题反而成了我为数不多的逃避时间。&lt;/p&gt;
-&lt;p&gt;但是新公司面试十分简单和原始，一时间在我准备了挺久的python面试的情况下有点措不及防，关于html的几个问题我一概不知，在写html的时候我基本上是没有文档无法独立完成工作，没想到在这方面还有要求。&lt;/p&gt;
-&lt;p&gt;本以为是作为写python被招进来的，没想到主要工作是维护php的网站和写爬虫，公司的爬虫使用的语言挺多，方法反而感觉原始，即使是Java项目，也是基本上脚本模式存在，依靠一个php程序调用.在文件里居然有多个脚本复用同样的300+行代码，居然没有抽象成Util工具；主方法长到让人难受，基本上没有什么封装；代码风格十分诡异，一部分继承与其他地方的变量名，导致和语言常用的命名格式有区别，另一部分在于分行基本不存在，一行长达300+字符简直是首次见到，代码块之间基本没有分割，感觉就像拉长的蚯蚓，让人看着十分痛苦。&lt;/p&gt;
-&lt;p&gt;这两周做的事情基本是在维护修改继承的Lua爬虫，有技术含量的事基本都被人做过了，http请求全靠curl，用了通用格式的正则方法而不是lua自己的string.match()让人高兴，其他也没有什么有兴趣的事情，由于自己没有生成cookie的脚本，所以在测试时经常被block，看来考虑写一个需要被提上日程。&lt;/p&gt;
-&lt;p&gt;ps.公司项目基本没有测试，我十分好奇为什么这样测试代码还没有我项目长的东西可以成功跑这么多年，话说爬虫测试也基本很难做，基本只能做一下格式测试，对内容似乎没有什么好办法。&lt;/p&gt;
-&lt;p&gt;pss.Lua语法很让人难受，无内容的迭代器居然是自己返回，既没有抛error也没有任何返回就能退出让人十分恶心&lt;/p&gt;
-&lt;h2 id=&#34;搬家&#34;&gt;搬家&lt;/h2&gt;
-&lt;p&gt;花了大量的钱用来整租了一套一室户，至少有干净的厕所和厨房令人心情愉快，房东夫妇也看起来很好，成功办了居住证，感觉不久后至少可以拿住房公积金分担点压力，总之本来工资也没多少，这一年能攒一个房租钱就不错了。&lt;/p&gt;
-&lt;p&gt;一个人住有挺多好处，自己做饭还是不错的，不过最近做饭时间确实挺长，基本每餐要一个小时，虽然味道不错，但是占用还是挺多。&lt;/p&gt;
-&lt;p&gt;超市东西还不错，有盒马的补充基本就可以当地解决，不至于求助于淘宝，最近一周食物差不多要花200+，其中一大半是买肉的钱，摆脱了家里高碳水的生活，现在可以一餐吃至少半斤各种的肉，还是让人愉快。&lt;/p&gt;
-&lt;p&gt;发工资之后应该买个铸铁煎锅，可以用来煎牛排了。最近看人牛排视频十分嘴馋，先买些50多一斤的来试试吧。&lt;/p&gt;
-&lt;p&gt;一个人的另一个好处是基本可以无限外放，24小时开着电脑了，但是显示器的hdmi线似乎是有什么bug，自动熄屏之后有时不能自动恢复，十分难受，另一个问题是桌子本身挺小，以后可能很难同时拼高达和干别的事，另外全尺寸键盘有点太长，我基本不会利用数字小键盘，想换一个键盘，目前犹豫一下ikbc和大f。&lt;/p&gt;
-&lt;p&gt;ps.椅子坐着没有头部支撑有点难受，发工资了买新椅子吧。(下周就买算了)&lt;/p&gt;
-&lt;h2 id=&#34;上周总结&#34;&gt;上周总结&lt;/h2&gt;
-&lt;p&gt;上周的空闲时间基本上都在睡觉和玩游戏，游戏其实也没多玩，感觉恢复的时间基本上差不多了，每天保证睡眠还是挺重要。&lt;/p&gt;
-&lt;p&gt;自己的github也没有维护，是全白，连评论也没回。&lt;/p&gt;
-&lt;h2 id=&#34;下周&#34;&gt;下周&lt;/h2&gt;
-&lt;p&gt;按惯例，下周主要搞三件事：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;学TS， 我要开始学Ts了，不知道有什么项目可以做，先两天入门试试吧&lt;/li&gt;
-&lt;li&gt;重写虚拟机，python虚拟机设计虽然是垃圾，但还是至少自己的先重写，重理一下。先支持基本功能再去看别的实现吧。(感觉接下来一年搞分布式数据库可能是是收益最大的方向，先试着做做看吧)(blog预定，从零开始的python虚拟机第二篇，打算写控制流程和code block)&lt;/li&gt;
-&lt;li&gt;读书：A Philosophy of Software Design, 看了一周了，感觉至少要两周看完，先看着呗。(下本书预定：数据库系统内幕)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;杂谈&#34;&gt;杂谈&lt;/h2&gt;
-&lt;p&gt;想搞日常直播，但是感觉也很难有人看，不知道能不能搞起来。&lt;/p&gt;
-&lt;p&gt;想买面包机，但是现在每周面包花费也就10+，基本不是很划算。&lt;/p&gt;
-&lt;p&gt;需要屏幕挂灯和新椅子，买个人体工学椅吧。&lt;/p&gt;
-&lt;p&gt;&lt;del&gt;想要女朋友&lt;/del&gt;&lt;/p&gt;
-&lt;p&gt;END&lt;/p&gt;
-</description>
+      <guid>http://localhost:1313/posts/weekly_report/</guid>
+      <description>2020.08.24-2020.08.30 # 新工作 # 这个月在经过了短暂的找工作时间之后，光速接了新的offer，拿到了钱并没有多少，但是工作压力并不大的新工作，结束了我在今年的半年</description>
     </item>
-    
   </channel>
 </rss>

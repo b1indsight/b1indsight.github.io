@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="无穷流的实现">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Infinity stream" />
+<meta property="og:description" content="无穷流的实现" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/infinity_stream/" /><meta property="og:image" content="http://localhost:1313/images/og-featured.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-12-07T20:52:54+08:00" />
+<meta property="article:modified_time" content="2020-12-07T20:52:54+08:00" />
+<title>Infinity stream | b1indsight</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/posts/infinity_stream/">
+<link rel="stylesheet" href="/book.min.f8de3645fe00591b41524aee174e19edd98a22255a2930a0cdc82a94835ba387.css" integrity="sha256-&#43;N42Rf4AWRtBUkruF04Z7dmKIiVaKTCgzcgqlINbo4c=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/zh.search.min.502a247d89ace9a4d6cbf4377d973b91ce8e35e48db1af30322cff55a1b599c0.js" integrity="sha256-UCokfYms6aTWy/Q3fZc7kc6ONeSNsa8wMiz/VaG1mcA=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>b1indsight</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="搜索" aria-label="搜索" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/" class="">Posts</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/normal_accident/" class="">正常事故</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/super_and_mro_algorithm/" class="">Super函数和mro算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/2020_annual_summary/" class="">2020 年终总结</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/infinity_stream/" class="active">Infinity stream</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/q_magic/" class="">Q&#39;s magic</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/weekly_report_20200907_20200913/" class="">2020.09.07-2020.09.13</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/weekly_report_20200831_20200906/" class="">2020.08.31-2020.09.06</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/weekly_report/" class="">2020.08.24-2020.08.30</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/read_flask_source_code_1/" class="">Flask 源码阅读（1） : request的处理流程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/from_zero_to_a_python_interpreter_1/" class="">从零开始的python解释器（1）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/juc_aqs/" class="">JUC包AQS设计</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/process_and_thread/" class="">进程与线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/effecient_method_of_scotty/" class="">斯科特杨的高效率方法</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/about/" class="">About</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/b1indsight"  target="_blank" rel="noopener">
+        github
+      </a>
+  </li>
+  
+  <li>
+    <a href="/tags/"  target="_blank" rel="noopener">
+        Tags
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Infinity stream</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#简单的实现想法">简单的实现想法</a>
+      <ul>
+        <li><a href="#详细实现">详细实现</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown book-post">
+  <h1>
+    <a href="/posts/infinity_stream/">Infinity stream</a>
+  </h1>
+  
+  <h5>December 7, 2020</h5>
+
+
+
+  
+  <div>
+    
+      <a href="/categories/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/">随便写写</a>
+  </div>
+  
+
+  
+  <div>
+    
+      <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+  </div>
+  
+
+
+
+<p>当我们在遍历一个列表时，我们很容易写出一个迭代式的遍历处理方式，就像常见的<code>foreach</code>语句一样，而通过使用流语句，在处理时可以将控制流程和数据流分离开来（至少是在形式上），形成了更加清晰的代码。</p>
+<p>一个常见的流式结构似乎是以下这样的：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ans <span style="color:#f92672">=</span> fib_iterator<span style="color:#f92672">.</span>stream()
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">.</span>filter(<span style="color:#66d9ef">lambda</span> x: <span style="color:#66d9ef">True</span> <span style="color:#66d9ef">if</span> x <span style="color:#f92672">%</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">.</span>output(<span style="color:#ae81ff">100</span>)
+</span></span></code></pre></div><p>其中fib_iterator是一个产生斐波那契数列的迭代器。
+在这样的形式中，数据似乎由一个产生无穷的斐波那契数列的迭代器开始生成一条数据流，filter()在这条数据流上过滤掉所有使lambda返回False的值，并通过output()输出。</p>
+<h2 id="简单的实现想法">
+  简单的实现想法
+  <a class="anchor" href="#%e7%ae%80%e5%8d%95%e7%9a%84%e5%ae%9e%e7%8e%b0%e6%83%b3%e6%b3%95">#</a>
+</h2>
+<p>在sicp中提到流式语法时，流可以被简单的描述为以下的样子</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lisp" data-lang="lisp"><span style="display:flex;"><span>(cons_stream (car_stream <span style="color:#a6e22e">stream</span>) next_promise)
+</span></span></code></pre></div><p>流由两部分组成，前部分是已产生的值，而后半部分被表示为一个产生下一个值的承诺（promise），而promise会直到需要处理下一个值时才会被求值，在这里，假设产生下一个值的函数为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lisp" data-lang="lisp"><span style="display:flex;"><span>(def next x (<span style="color:#a6e22e">+</span> x <span style="color:#ae81ff">1</span>))
+</span></span></code></pre></div><p>next_promise仅仅会返回一个用lambda包裹的next函数，而不对它做任何事，直到使用<code>(stream_cdr stream)</code>时，对它进行求值，生成<code>(value, next_promise)</code>。 这样，只要所有的将来的值是通过过去生成的值而产生的，那么这个流就会无限的延伸下去，从而在形式上生成了一个无穷的流，无论我们需要获取哪一部分的值，它总可以沿着这样的顺序生成出来。</p>
+<p>而在python中则很容易发现，iterator是这种语法的一个很好的体现。iterator需要实现两个方法<code>__iter__()</code>和<code>__next__()</code>,前者返回迭代器本身，而后者返回下一个值。在这里，<code>__next__()</code>函数可以看作延时求值的接口，当实现流式语法时，将需要调用流中下一个值时再执行<code>__next__()</code>，即可以达到延时调用的结果。</p>
+<p>更加深入一下iterator的实现，在python中的frame栈中可以修改frame的行为，只要<code>__next__()</code>函数在求值得到返回值之后不弹出frame栈，而是将其挂起，继续在栈的下一层工作，直到下一次调用<code>__next__()</code>函数时，继续<code>__next__()</code>函数的求值即可以做到这一点。想要实现这一点，那么就需要保存<code>__next__()</code>函数中的pc并且需要保存退出栈顶frame的原因信息了。（这一部分将在之后的文章提到codeblock_stack时详细讨论）</p>
+<p>整理一下想法，可以将stream有关的函数分为三个部分：</p>
+<ol>
+<li>stream() 这个函数用来构造一个流，构造材料需要是一个iterator，这样可以通过<code>__next__()</code>函数实现延时求值。</li>
+<li>map(func), filter(func), each() 这些作为对数据流的每一个元素操作的函数，应该被实现为仅仅将输入函数注册到处理流程中，而不做其他的动作。</li>
+<li>output(x) 这一类的函数实现最终的输出，在调用这个函数时，流才真正被求值，具体在output(x)中，希望会返回前x项，那么在x次的循环中，调用<code>__next__()</code>来获取流的基础输出，并在其上执行处理流程中的函数。</li>
+</ol>
+<h3 id="详细实现">
+  详细实现
+  <a class="anchor" href="#%e8%af%a6%e7%bb%86%e5%ae%9e%e7%8e%b0">#</a>
+</h3>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "628237ae497b43aea84d25eaafd3daf8"}'></script>
+      </footer>
+
+      
+  
+  <div class="book-comments"><script src="https://utteranc.es/client.js"
+        repo="b1indsight/b1indsight.github.io"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script></div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#简单的实现想法">简单的实现想法</a>
+      <ul>
+        <li><a href="#详细实现">详细实现</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

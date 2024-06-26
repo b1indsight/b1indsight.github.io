@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2020.08.31 - 2020.09.06 # 上周总结 # 重写虚拟机，开始做了一部分，试图要做的部分比想象的要多很多，基本上所有的类都要重新设计，看起来不是一周可以完成的工作量 A Philosophy">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="2020.09.07-2020.09.13" />
+<meta property="og:description" content="2020.08.31 - 2020.09.06 # 上周总结 # 重写虚拟机，开始做了一部分，试图要做的部分比想象的要多很多，基本上所有的类都要重新设计，看起来不是一周可以完成的工作量 A Philosophy" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/weekly_report_20200907_20200913/" /><meta property="og:image" content="http://localhost:1313/images/og-featured.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-09-13T22:23:30+08:00" />
+<meta property="article:modified_time" content="2020-09-13T22:23:30+08:00" />
+<title>2020.09.07-2020.09.13 | b1indsight</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/posts/weekly_report_20200907_20200913/">
+<link rel="stylesheet" href="/book.min.f8de3645fe00591b41524aee174e19edd98a22255a2930a0cdc82a94835ba387.css" integrity="sha256-&#43;N42Rf4AWRtBUkruF04Z7dmKIiVaKTCgzcgqlINbo4c=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/zh.search.min.502a247d89ace9a4d6cbf4377d973b91ce8e35e48db1af30322cff55a1b599c0.js" integrity="sha256-UCokfYms6aTWy/Q3fZc7kc6ONeSNsa8wMiz/VaG1mcA=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>b1indsight</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="搜索" aria-label="搜索" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/" class="">Posts</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/normal_accident/" class="">正常事故</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/super_and_mro_algorithm/" class="">Super函数和mro算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/2020_annual_summary/" class="">2020 年终总结</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/infinity_stream/" class="">Infinity stream</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/q_magic/" class="">Q&#39;s magic</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/weekly_report_20200907_20200913/" class="active">2020.09.07-2020.09.13</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/weekly_report_20200831_20200906/" class="">2020.08.31-2020.09.06</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/weekly_report/" class="">2020.08.24-2020.08.30</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/read_flask_source_code_1/" class="">Flask 源码阅读（1） : request的处理流程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/from_zero_to_a_python_interpreter_1/" class="">从零开始的python解释器（1）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/juc_aqs/" class="">JUC包AQS设计</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/process_and_thread/" class="">进程与线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/effecient_method_of_scotty/" class="">斯科特杨的高效率方法</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/about/" class="">About</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/b1indsight"  target="_blank" rel="noopener">
+        github
+      </a>
+  </li>
+  
+  <li>
+    <a href="/tags/"  target="_blank" rel="noopener">
+        Tags
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>2020.09.07-2020.09.13</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#20200831---20200906">2020.08.31 - 2020.09.06</a></li>
+      </ul>
+    </li>
+    <li><a href="#上周总结">上周总结</a></li>
+    <li><a href="#下周">下周</a></li>
+    <li><a href="#观点">观点</a></li>
+    <li><a href="#杂谈">杂谈</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown book-post">
+  <h1>
+    <a href="/posts/weekly_report_20200907_20200913/">2020.09.07-2020.09.13</a>
+  </h1>
+  
+  <h5>September 13, 2020</h5>
+
+
+
+  
+  <div>
+    
+      <a href="/categories/%E6%AF%8F%E5%91%A8%E6%80%BB%E7%BB%93/">每周总结</a>
+  </div>
+  
+
+  
+  <div>
+    
+      <a href="/tags/%E7%94%9F%E6%B4%BB/">生活</a>
+  </div>
+  
+
+
+
+<h3 id="20200831---20200906">
+  2020.08.31 - 2020.09.06
+  <a class="anchor" href="#20200831---20200906">#</a>
+</h3>
+<h2 id="上周总结">
+  上周总结
+  <a class="anchor" href="#%e4%b8%8a%e5%91%a8%e6%80%bb%e7%bb%93">#</a>
+</h2>
+<ul>
+<li>重写虚拟机，开始做了一部分，试图要做的部分比想象的要多很多，基本上所有的类都要重新设计，看起来不是一周可以完成的工作量</li>
+<li>A Philosophy of software design，没有读。上周在读《对赌》大概读了一半。</li>
+<li>Ts，要做的大概是vscode的插件，或者是为web框架贡献些代码。</li>
+</ul>
+<p>上周游戏时间10+小时，主要都在啃臭，这游戏实在是玩的太过于昏睡，丢箱子模拟器太无聊了，普通难度甚至是一种折磨，急需调到简单难度看剧情。买了新锅用来煎牛排，效果相当不错，配合上温度计现在可以达到不完美的五分熟，味道十分让我满意。买了小米屏幕挂灯，效果也基本上不错，仅仅是为了适用于我的显示器做了一些改造。</p>
+<h2 id="下周">
+  下周
+  <a class="anchor" href="#%e4%b8%8b%e5%91%a8">#</a>
+</h2>
+<p>下周继续三件事：</p>
+<ul>
+<li>重写虚拟机，这部分需要继续读一下read insider the python virtual machine，本周的目标是添加pyobject类，让function和class继承。</li>
+<li>A Philosophy of software design， 现在是读到5.5，至少这周要读完11章。</li>
+<li>写些js，先把roam research的自动文本模板脚本修改到可用的地步</li>
+</ul>
+<h2 id="观点">
+  观点
+  <a class="anchor" href="#%e8%a7%82%e7%82%b9">#</a>
+</h2>
+<ul>
+<li>
+<p>标准化自己的工作流并没有为自己带来更多的限制，而是带来了更多的自由。标准化自己的工作流，方法的关键在于对自己行为的划分需要更加粗粒的密度，并不需要以分钟为单位来规范自己的时间，也不需要规范自己的每一行的文字格式，而是对于自己的任务和内容初步划分做格式化的规范，像设置MIT3(most important thing)和像现在这样为每周总结划分栏目的方式，可以使自己快速进入输出内容的状态，不需要花费大量时间思考内容方向。而在每个栏目内的自由发挥，则可以为自己带来更加自由的输出方式。<strong>划分任务，而不是时间；划分内容，而不是形式</strong></p>
+</li>
+<li></li>
+</ul>
+<h2 id="杂谈">
+  杂谈
+  <a class="anchor" href="#%e6%9d%82%e8%b0%88">#</a>
+</h2>
+<p>END</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "628237ae497b43aea84d25eaafd3daf8"}'></script>
+      </footer>
+
+      
+  
+  <div class="book-comments"><script src="https://utteranc.es/client.js"
+        repo="b1indsight/b1indsight.github.io"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script></div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#20200831---20200906">2020.08.31 - 2020.09.06</a></li>
+      </ul>
+    </li>
+    <li><a href="#上周总结">上周总结</a></li>
+    <li><a href="#下周">下周</a></li>
+    <li><a href="#观点">观点</a></li>
+    <li><a href="#杂谈">杂谈</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

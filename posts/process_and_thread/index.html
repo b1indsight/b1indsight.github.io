@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="本文主要介绍进程与线程的概念，主要问题，进程间的调度与同步。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="进程与线程" />
+<meta property="og:description" content="本文主要介绍进程与线程的概念，主要问题，进程间的调度与同步。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/process_and_thread/" /><meta property="og:image" content="http://localhost:1313/images/og-featured.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-08-03T18:56:51+08:00" />
+<meta property="article:modified_time" content="2019-08-03T18:56:51+08:00" />
+<title>进程与线程 | b1indsight</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/posts/process_and_thread/">
+<link rel="stylesheet" href="/book.min.f8de3645fe00591b41524aee174e19edd98a22255a2930a0cdc82a94835ba387.css" integrity="sha256-&#43;N42Rf4AWRtBUkruF04Z7dmKIiVaKTCgzcgqlINbo4c=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/zh.search.min.502a247d89ace9a4d6cbf4377d973b91ce8e35e48db1af30322cff55a1b599c0.js" integrity="sha256-UCokfYms6aTWy/Q3fZc7kc6ONeSNsa8wMiz/VaG1mcA=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>b1indsight</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="搜索" aria-label="搜索" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/" class="">Posts</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/normal_accident/" class="">正常事故</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/super_and_mro_algorithm/" class="">Super函数和mro算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/2020_annual_summary/" class="">2020 年终总结</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/infinity_stream/" class="">Infinity stream</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/q_magic/" class="">Q&#39;s magic</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/weekly_report_20200907_20200913/" class="">2020.09.07-2020.09.13</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/weekly_report_20200831_20200906/" class="">2020.08.31-2020.09.06</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/weekly_report/" class="">2020.08.24-2020.08.30</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/read_flask_source_code_1/" class="">Flask 源码阅读（1） : request的处理流程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/from_zero_to_a_python_interpreter_1/" class="">从零开始的python解释器（1）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/juc_aqs/" class="">JUC包AQS设计</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/process_and_thread/" class="active">进程与线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/effecient_method_of_scotty/" class="">斯科特杨的高效率方法</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/about/" class="">About</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/b1indsight"  target="_blank" rel="noopener">
+        github
+      </a>
+  </li>
+  
+  <li>
+    <a href="/tags/"  target="_blank" rel="noopener">
+        Tags
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>进程与线程</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#进程">进程</a>
+      <ul>
+        <li><a href="#1进程是什么">1.进程是什么？</a></li>
+        <li><a href="#2进程的创建">2.进程的创建</a></li>
+        <li><a href="#3进程的终止">3.进程的终止</a></li>
+        <li><a href="#4进程的层次">4.进程的层次</a></li>
+        <li><a href="#5进程的状态">5.进程的状态</a></li>
+        <li><a href="#6进程的实现">6.进程的实现</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown book-post">
+  <h1>
+    <a href="/posts/process_and_thread/">进程与线程</a>
+  </h1>
+  
+  <h5>August 3, 2019</h5>
+
+
+
+  
+  <div>
+    
+      <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+  </div>
+  
+
+  
+
+
+
+<h2 id="进程">
+  进程
+  <a class="anchor" href="#%e8%bf%9b%e7%a8%8b">#</a>
+</h2>
+<hr>
+<h3 id="1进程是什么">
+  1.进程是什么？
+  <a class="anchor" href="#1%e8%bf%9b%e7%a8%8b%e6%98%af%e4%bb%80%e4%b9%88">#</a>
+</h3>
+<p>一个进程是一个正在执行的程序的实例。一个进程是一种类型的活动，它包含程序，输入，输出以及状态。单个处理器可以被多个进程共享，处理器在多个进程间快切换，以达到（伪）并行的效果，这种形式被称为多道程序设计。</p>
+<h3 id="2进程的创建">
+  2.进程的创建
+  <a class="anchor" href="#2%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%88%9b%e5%bb%ba">#</a>
+</h3>
+<p>进程在以下四种情况下可以被创建：1.系统初始化 2.在执行的进程执行了创建进程的系统调用 3.用户请求创建进程 4.批处理作业初始化。</p>
+<p>在unix系统中只允许通过fork创建新的进程，创建的子进程通过执行execve系统调用来执行一个新程序。之所以使用两步等等系统调用，是因为要在fork和execve之间由进程完成对标准输入输出和标准错误文件的重定向。uinx的子进程的地址空间是父进程的一个副本，两者共享不可修改的内存，或者子进程通过写时复制共享父进程的所有内存。</p>
+<p>在Windows中，父进程调用CreatProcess来处理进程创建，执行新程序。</p>
+<h3 id="3进程的终止">
+  3.进程的终止
+  <a class="anchor" href="#3%e8%bf%9b%e7%a8%8b%e7%9a%84%e7%bb%88%e6%ad%a2">#</a>
+</h3>
+<p>进程由四种原因终止：1.正常退出（自愿）2.出错退出（自愿）3.严重出错（非自愿）4.被其他进程杀死（非自愿）</p>
+<h3 id="4进程的层次">
+  4.进程的层次
+  <a class="anchor" href="#4%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%b1%82%e6%ac%a1">#</a>
+</h3>
+<p>在unix中进程和子进程及其后裔进程构成进程组，信号被传给进程组的所有进程，进程组的各进程自主决定是否响应信号。
+在windows中进程的层次彼此是相同的，父进程通过句柄来控制子进程，但是其可以把句柄传送给其他进程。</p>
+<h3 id="5进程的状态">
+  5.进程的状态
+  <a class="anchor" href="#5%e8%bf%9b%e7%a8%8b%e7%9a%84%e7%8a%b6%e6%80%81">#</a>
+</h3>
+<p>进程分为运行态，就绪态，阻塞态。
+运行态的进程如被操作系统发现无法继续，如需要等待输入转换成阻塞态。阻塞态的进程在得到输入时就转换为就绪态。就绪态的进程和运行态的进程由调度系统调度可以互相转换。
+进程不能由阻塞态直接转换为运行态，进程在阻塞态下获得资源后会先达到就绪态。同样，进程不能由就绪态转换为阻塞态，就绪态的进程并不在运行中，不能通过操作失去拥有的I/O资源。</p>
+<h3 id="6进程的实现">
+  6.进程的实现
+  <a class="anchor" href="#6%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%ae%9e%e7%8e%b0">#</a>
+</h3>
+<p>为实现进程，需要在操作系统中维持一个进程表，每个进程占用一个表项。进程表项包含进程状态的重要信息，包括程序计数器，堆栈指针，内存分配状况，文件状态，账号和调度信息，及其他在调度时和转换为阻塞态时需要保存的信息。
+中断发生时：1.硬件将程序计数器保存入堆栈 2.硬件由中断向量装入新的程序计数器 3.通过汇编程序保存寄存器值 4.汇编程序设置新的堆栈 5.执行中断服务程序 6.调度程序决定下一个运行的进程 7.C过程转移控制到汇编代码，装入新的程序计数器及其内存映射开始新的进程</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "628237ae497b43aea84d25eaafd3daf8"}'></script>
+      </footer>
+
+      
+  
+  <div class="book-comments"><script src="https://utteranc.es/client.js"
+        repo="b1indsight/b1indsight.github.io"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script></div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#进程">进程</a>
+      <ul>
+        <li><a href="#1进程是什么">1.进程是什么？</a></li>
+        <li><a href="#2进程的创建">2.进程的创建</a></li>
+        <li><a href="#3进程的终止">3.进程的终止</a></li>
+        <li><a href="#4进程的层次">4.进程的层次</a></li>
+        <li><a href="#5进程的状态">5.进程的状态</a></li>
+        <li><a href="#6进程的实现">6.进程的实现</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

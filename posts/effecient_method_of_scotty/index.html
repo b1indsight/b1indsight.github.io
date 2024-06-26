@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="简单构建的可行提高效率体系">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="斯科特杨的高效率方法" />
+<meta property="og:description" content="简单构建的可行提高效率体系" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://b1indsight.github.io/posts/effecient_method_of_scotty/" /><meta property="og:image" content="https://b1indsight.github.io/images/og-featured.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-05-05T16:27:50+08:00" />
+<meta property="article:modified_time" content="2019-05-05T16:27:50+08:00" />
+<title>斯科特杨的高效率方法 | b1indsight</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="https://b1indsight.github.io/posts/effecient_method_of_scotty/">
+<link rel="stylesheet" href="/book.min.f8de3645fe00591b41524aee174e19edd98a22255a2930a0cdc82a94835ba387.css" integrity="sha256-&#43;N42Rf4AWRtBUkruF04Z7dmKIiVaKTCgzcgqlINbo4c=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/zh.search.min.f0a0d51efc21da59a37a8ec2e2780e2f26d065ba7dd9400f634491df81bdc3a6.js" integrity="sha256-8KDVHvwh2lmjeo7C4ngOLybQZbp92UAPY0SR34G9w6Y=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>b1indsight</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="搜索" aria-label="搜索" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/" class="">Posts</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/normal_accident/" class="">正常事故</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/super_and_mro_algorithm/" class="">Super函数和mro算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/q_magic/" class="">Q&#39;s magic</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/read_flask_source_code_1/" class="">Flask 源码阅读（1） : request的处理流程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/from_zero_to_a_python_interpreter_1/" class="">从零开始的python解释器（1）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/juc_aqs/" class="">JUC包AQS设计</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/effecient_method_of_scotty/" class="active">斯科特杨的高效率方法</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/about/" class="">About</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/b1indsight"  target="_blank" rel="noopener">
+        github
+      </a>
+  </li>
+  
+  <li>
+    <a href="/tags/"  target="_blank" rel="noopener">
+        Tags
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>斯科特杨的高效率方法</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#日周目标清单">日/周目标清单</a></li>
+        <li><a href="#精力管理">精力管理</a></li>
+        <li><a href="#建立习惯">建立习惯</a></li>
+        <li><a href="#批处理">批处理</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown book-post">
+  <h1>
+    <a href="/posts/effecient_method_of_scotty/">斯科特杨的高效率方法</a>
+  </h1>
+  
+  <h5>May 5, 2019</h5>
+
+
+
+  
+  <div>
+    
+      <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/">学习方法</a>
+  </div>
+  
+
+  
+
+
+
+<p>在阅读了Scoltt Yang的几本关于高效率的书之后，总结并试着运用了一些关于高效率的方法，在这里做一些总结。</p>
+<h3 id="日周目标清单">
+  日/周目标清单
+  <a class="anchor" href="#%e6%97%a5%e5%91%a8%e7%9b%ae%e6%a0%87%e6%b8%85%e5%8d%95">#</a>
+</h3>
+<ol>
+<li>
+<p>建立一个周目标清单，并在每天开始的时候将清单中的一些任务添加到日目标清单中。</p>
+</li>
+<li>
+<p>每天日目标清单中的主要工作应该不超过3个，可以让你分配主要的精力在这些任务上面。（这条原则来自于《精力管理》）</p>
+</li>
+<li>
+<p>在做完清单中的所有项之后立刻开始休息，即使你仅使用了3个小时就完成了今天的任务，也要避免继续添加今天的任务，正如我们在小时候会有即使做完作业也会被父母继续添加任务这样的经历，我们应当避免把日目标清单变成普通的todo-list，从而减少每天完成任务的动力。</p>
+</li>
+<li>
+<p>每周工作六天，在每周的最后一天不要设置任何需要大量精力的任务，为自己思考休息提供充足的空闲，给自己干涸的电池充满电。</p>
+</li>
+</ol>
+<h3 id="精力管理">
+  精力管理
+  <a class="anchor" href="#%e7%b2%be%e5%8a%9b%e7%ae%a1%e7%90%86">#</a>
+</h3>
+<p>我们在工作时应当管理的是我们的精力和任务，而非时间。</p>
+<ul>
+<li>
+<p>安排你的食物，少食多餐，每天吃4-6餐。</p>
+</li>
+<li>
+<p>工作90-120分钟休息一次，注意力是消耗品，同时也需要锻炼。</p>
+</li>
+<li>
+<p>将每天固定要做的事建立为习惯，让这些事自动完成。</p>
+</li>
+<li>
+<p>做自己想要去做的事，而不是应该去做的事。</p>
+</li>
+</ul>
+<h3 id="建立习惯">
+  建立习惯
+  <a class="anchor" href="#%e5%bb%ba%e7%ab%8b%e4%b9%a0%e6%83%af">#</a>
+</h3>
+<p>30天建立一个习惯，并将它写在纸上或者以文档记录下来，在最初的30天之内，一旦在某一天停止就重新开始计数，重新坚持30天。
+之后便可以不必坚持的如此严格，身体会自动将它完成。</p>
+<p>选择要建立的习惯时推荐阅读《Zen to do》</p>
+<h3 id="批处理">
+  批处理
+  <a class="anchor" href="#%e6%89%b9%e5%a4%84%e7%90%86">#</a>
+</h3>
+<p>生活中有大量的事情可以使用批处理来解决，把大量原本填充到其他空余时间的事情集中解决，从而可以节省出大量额外的时间。</p>
+<p>以下几类事情可以使用批处理的办法来解决：</p>
+<ul>
+<li>阅读
+集中阅读订阅的博客或者文章，每日学习工作中的阅读任务也可以批处理来解决。</li>
+<li>邮件处理/拨打电话/社会联系</li>
+<li>作业/写博客/电脑工作
+一次性做这些工作可能会花费大量的时间，但是可以避免每天进入专注时花费的时间，也不必使自己承受拖延的痛苦。</li>
+<li>清扫/购物
+将家务之类的事务在每周的某一天集中完成，可以避免陷入无尽的家务漩涡。</li>
+<li>思考/设置目标
+在周日把自己的项目或者一些任务放入自己的周清单，使用完整的一块时间来进行计划，远比使用小段时间计划要好。</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "628237ae497b43aea84d25eaafd3daf8"}'></script>
+      </footer>
+
+      
+  
+  <div class="book-comments"><script src="https://utteranc.es/client.js"
+        repo="b1indsight/b1indsight.github.io"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script></div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#日周目标清单">日/周目标清单</a></li>
+        <li><a href="#精力管理">精力管理</a></li>
+        <li><a href="#建立习惯">建立习惯</a></li>
+        <li><a href="#批处理">批处理</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

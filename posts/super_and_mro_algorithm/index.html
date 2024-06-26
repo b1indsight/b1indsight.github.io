@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="super()作为在python中常被使用到的一个方法而言，具有一些有趣的特性，本文可以看作super()的一个考古，主要包括以下几个部分：">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Super函数和mro算法" />
+<meta property="og:description" content="super()作为在python中常被使用到的一个方法而言，具有一些有趣的特性，本文可以看作super()的一个考古，主要包括以下几个部分：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://b1indsight.github.io/posts/super_and_mro_algorithm/" /><meta property="og:image" content="https://b1indsight.github.io/images/og-featured.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-03-02T22:03:50+08:00" />
+<meta property="article:modified_time" content="2022-03-02T22:03:50+08:00" />
+<title>Super函数和mro算法 | b1indsight</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="https://b1indsight.github.io/posts/super_and_mro_algorithm/">
+<link rel="stylesheet" href="/book.min.f8de3645fe00591b41524aee174e19edd98a22255a2930a0cdc82a94835ba387.css" integrity="sha256-&#43;N42Rf4AWRtBUkruF04Z7dmKIiVaKTCgzcgqlINbo4c=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/zh.search.min.f0a0d51efc21da59a37a8ec2e2780e2f26d065ba7dd9400f634491df81bdc3a6.js" integrity="sha256-8KDVHvwh2lmjeo7C4ngOLybQZbp92UAPY0SR34G9w6Y=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>b1indsight</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="搜索" aria-label="搜索" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/" class="">Posts</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/normal_accident/" class="">正常事故</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/super_and_mro_algorithm/" class="active">Super函数和mro算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/q_magic/" class="">Q&#39;s magic</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/read_flask_source_code_1/" class="">Flask 源码阅读（1） : request的处理流程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/from_zero_to_a_python_interpreter_1/" class="">从零开始的python解释器（1）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/juc_aqs/" class="">JUC包AQS设计</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/effecient_method_of_scotty/" class="">斯科特杨的高效率方法</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/about/" class="">About</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/b1indsight"  target="_blank" rel="noopener">
+        github
+      </a>
+  </li>
+  
+  <li>
+    <a href="/tags/"  target="_blank" rel="noopener">
+        Tags
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Super函数和mro算法</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#super的定义和用法"><code>super()</code>的定义和用法</a>
+      <ul>
+        <li><a href="#关于未绑定的一个问题">关于未绑定的一个问题</a></li>
+        <li><a href="#super在python3"><code>super()</code>在python3</a></li>
+      </ul>
+    </li>
+    <li><a href="#__mro__的构造和c3线性化方法"><code>__mro__</code>的构造和C3线性化方法</a></li>
+    <li><a href="#c3线性化算法">C3线性化算法</a></li>
+    <li><a href="#super实现"><code>super()</code>实现</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown book-post">
+  <h1>
+    <a href="/posts/super_and_mro_algorithm/">Super函数和mro算法</a>
+  </h1>
+  
+  <h5>March 2, 2022</h5>
+
+
+
+  
+  <div>
+    
+      <a href="/categories/python%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0/">Python其他文章</a>
+  </div>
+  
+
+  
+  <div>
+    
+      <a href="/tags/python/">Python</a>
+  </div>
+  
+
+
+
+<p><code>super()</code>作为在python中常被使用到的一个方法而言，具有一些有趣的特性，本文可以看作<code>super()</code>的一个考古，主要包括以下几个部分：</p>
+<ul>
+<li><code>super()</code>的定义和用法</li>
+<li>构造<code>__mro__</code>属性中类继承顺序线性化的算法</li>
+<li>提供了一个<code>super()</code>的简单实现</li>
+</ul>
+<h2 id="super的定义和用法">
+  <code>super()</code>的定义和用法
+  <a class="anchor" href="#super%e7%9a%84%e5%ae%9a%e4%b9%89%e5%92%8c%e7%94%a8%e6%b3%95">#</a>
+</h2>
+<p>首先提供一个<code>super(type, object-or-type)</code>的定义：</p>
+<blockquote>
+<p>在<code>object-or-type</code>中__mro__指定的搜索路径中,返回<code>type</code>后的下一个类对象的代理。</p>
+</blockquote>
+<p>例如<code>object-or-type</code>的<code>__mro__</code>指定的查找路径为D-&gt;B-&gt;C-&gt;A-&gt;object, 并且<code>type</code>的值为B，则<code>super(type, object-or-type)</code>将返回路径中B的下一个类C的代理。</p>
+<h3 id="关于未绑定的一个问题">
+  关于未绑定的一个问题
+  <a class="anchor" href="#%e5%85%b3%e4%ba%8e%e6%9c%aa%e7%bb%91%e5%ae%9a%e7%9a%84%e4%b8%80%e4%b8%aa%e9%97%ae%e9%a2%98">#</a>
+</h3>
+<p><code>super()</code>的两个参数都是可选参数，如果省略第二个参数，则返回一个未绑定的超类对象。在这个角度中，<code>super()</code>返回的代理对象与<code>super()</code>的第二个参数绑定。</p>
+<p>这一点可以用以下的代码测试：先构造两个类A，B，并初始化</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">A</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>s <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;a&#39;</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">method</span>(self):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#39;obj A&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>s
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __repr__(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;A: </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>__class__<span style="color:#f92672">.</span>__name__) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">B</span>(A):
+</span></span><span style="display:flex;"><span>    s <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;B&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self):
+</span></span><span style="display:flex;"><span>        super()<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>s <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;b&#39;</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">method</span>(self):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#39;obj B&#39;</span>)
+</span></span><span style="display:flex;"><span>        super()<span style="color:#f92672">.</span>method()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>s
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __repr__(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;B: </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>__class__<span style="color:#f92672">.</span>__name__) 
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> A()
+</span></span><span style="display:flex;"><span>b <span style="color:#f92672">=</span> B()
+</span></span></code></pre></div><p>此时执行<code>super(B)</code>将返回一个未绑定的类</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> super(B)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span>super: <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#a6e22e">B</span><span style="color:#e6db74">&#39;&gt;, NULL&gt;</span>
+</span></span></code></pre></div><p>而<code>super(B,B)</code>则会返回</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> super(B, B)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span>super: <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#a6e22e">B</span><span style="color:#e6db74">&#39;&gt;, &lt;B object&gt;&gt; </span>
+</span></span></code></pre></div><p>此时输出<code>super(B).method</code>在一些<a href="https://stackoverflow.com/a/22403976">说明</a>中会指出将返回一个未绑定的方法（像<code>&lt;unbound method A.method&gt;</code>）,但在当前的实现中，将是如下状况</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> super(B)<span style="color:#f92672">.</span>method
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">AttributeError</span>(<span style="color:#e6db74">&#34;&#39;super&#39; object has no attribute &#39;method&#39;&#34;</span>)
+</span></span></code></pre></div><p>而同时并不像<a href="https://www.artima.com/weblogs/viewpost.jsp?thread=236278">博客</a>中所说，<code>super(B,B)</code>的行为现在也有所不同</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> super(B, B)<span style="color:#f92672">.</span>method
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span>function A<span style="color:#f92672">.</span>method at <span style="color:#ae81ff">0x059976A0</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 而在调用这个函数的时候，可以通过手动将一个对象为参数来使其正确执行</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> super(B, B)<span style="color:#f92672">.</span>method(b)
+</span></span><span style="display:flex;"><span>B
+</span></span></code></pre></div><p>未绑定的代理对象，必须要指定一个对象绑定，才可以继续正常使用，例如</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> super(B)<span style="color:#f92672">.</span>__get__(b, B)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span>super: <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#a6e22e">B</span><span style="color:#e6db74">&#39;&gt;, &lt;B object&gt;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 这个对象与super(B, b)相同</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> super(B)<span style="color:#f92672">.</span>__get__(b, B)<span style="color:#f92672">.</span>method()
+</span></span><span style="display:flex;"><span>b
+</span></span></code></pre></div><p>Guido对这一个用处有一个回应：</p>
+<blockquote>
+<p><em>Thanks for proposing this &ndash; I&rsquo;ve been scratching my head wondering what the use of unbound super() would be. :-) I&rsquo;m fine with killing it &ndash; perhaps someone can do a bit of research to try and find out if there are any real-life uses (apart from various auto-super clones)?*</em> &mdash; Guido van Rossum</p>
+</blockquote>
+<p>有点茴字的四种写法的味道了。</p>
+<h3 id="super在python3">
+  <code>super()</code>在python3
+  <a class="anchor" href="#super%e5%9c%a8python3">#</a>
+</h3>
+<p>python3 中<code>super()</code>是最通常使用的一种方式， <code>super()</code>通常（只能被）使用在class定义中，用来返回一个父类的代理.</p>
+<p>这个用法起初在<a href="https://www.python.org/dev/peps/pep-3135/">PEP3135</a>提出，本是基于DRY原则为了避免在原本的用法中出现的两个问题：1.原本<code>super(class_name,self)</code>的用法会在类定义的多个地方重复类名，如果类名改变，则多处的class_name也需要改变，这样就容易遗漏。2.在使用类装饰器的class中类名指定的类并不是原本方法所在的类对象，这样造成的行为与期望产生差距</p>
+<p>Guido原本设想super作为一个keyword，然后使用cell来实现super可以指代当前的类，但之后他认为这个idea“too magic”，重新赞成使用super()来实现，并需要一个magic变量<code>__class__</code>来作为一个妥协方法</p>
+<p>这样当在类中使用<code>super</code>变量时，会寻找<code>__class__</code>来组合闭包，当你在全局范围类将super重命名为s，然后在类中使用s()，就会出现异常<code>RuntimeError: super(): __class__ cell not found</code>，但依然可以如同通常方式一样工作。另外一个有趣的地方在于，只要在s()之前引用<code>__class__</code>或<code>super</code>(仅仅只需要在s()之前出现)，s()就会如同super()一样正常工作。</p>
+<p>super()被广泛使用得以避免了一个问题：<code>super</code>在使用中会被误用为<code>super(type(self), self)</code>或<code>super(self.__class__, self)</code>，这时，在以下的情况会进入无限循环</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">A</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">method</span>(self):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;A&#34;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">B</span>(A):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">method</span>(self):
+</span></span><span style="display:flex;"><span>        super(type(self), self)<span style="color:#f92672">.</span>method()
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;B&#34;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C</span>(B):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">method</span>(self):
+</span></span><span style="display:flex;"><span>        super(C, self)<span style="color:#f92672">.</span>method()
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;C&#34;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>C()<span style="color:#f92672">.</span>method()
+</span></span></code></pre></div><p>在这里<code>C().method()</code>，调用了<code>super(C, self).method()</code>，此时调用的是B的method()方法，但其中的 <code>type(self)</code>参数，所返回的类依然是C，而不是期望中的B，这样<code>super(type(self), self)</code> 依然是B类自身。</p>
+<h2 id="__mro__的构造和c3线性化方法">
+  <code>__mro__</code>的构造和C3线性化方法
+  <a class="anchor" href="#__mro__%e7%9a%84%e6%9e%84%e9%80%a0%e5%92%8cc3%e7%ba%bf%e6%80%a7%e5%8c%96%e6%96%b9%e6%b3%95">#</a>
+</h2>
+<p>在python2.3之前的版本中，__mro__基本遵循继承顺序自左向右深度优先的属性构造，而在python2.3中引入了新式类，所有的类继承链的根部均为object对象，这样就很容易构造一个钻石形的继承图，例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">A</span>(object):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __getattribute__(self, name):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">B</span>(A):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __getattribute__(self, name):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C</span>(A):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __getattribute__(self, name):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">D</span>(B, C):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __getattribute__(self, name):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">pass</span>        
+</span></span></code></pre></div><p>构造的继承图如下
+<img src="../../img/diamond_diagram.png" alt="继承图" /></p>
+<p>按python2.2中的线性化方法，类D的mro顺序为D-&gt;B-&gt;A-&gt;C-&gt;A。这样，当在D中使用<code>__getattribute__()</code>方法时，<code>super().__getattribute__()</code>调用B中的<code>__getattribute__()</code>方法，然后调用<code>A.__getattribute__()</code>，由于A的<code>__getattribute__()</code>直接继承自object，而object作为根类并不会调用<code>super()</code>,这样C的<code>__getattribute__()</code>方法就被忽略了。</p>
+<p>在出现这样钻石继承图的情况中，一个替代的解决方法是自己组织调用层次来避免如以上的情况（或者重复调用A中方法的情况）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 一个替代方法</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">A</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">method</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">B</span>(A):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_method</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 这里写B独有的方法部分</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">method</span>(self):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>_method()
+</span></span><span style="display:flex;"><span>        A<span style="color:#f92672">.</span>method(self)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C</span>(A):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_method</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 这里写C独有的方法部分</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">method</span>(self):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>_method()
+</span></span><span style="display:flex;"><span>        A<span style="color:#f92672">.</span>method(self)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">D</span>(B, C):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_method</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 这里写D独有的方法部分</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">method</span>(self):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>_method()
+</span></span><span style="display:flex;"><span>        B<span style="color:#f92672">.</span>_method(self)
+</span></span><span style="display:flex;"><span>        C<span style="color:#f92672">.</span>_method(self)
+</span></span><span style="display:flex;"><span>        A<span style="color:#f92672">.</span>method(self)
+</span></span></code></pre></div><p>这种办法一方面将一个完整的方法分割到了两个函数中，对于方法的理解存在负面影响。更加严重的是，这个方法导致在实现D的<code>method()</code>方法时，必须了解类B，C的实现，并协调A的<code>method()</code>方法，这样原本为封装信息的继承方法造成了信息泄露；同时将继承结构的细节与D类绑定了，这样若之后要对B或C类的继承方式做修改时，需要同时修改它们的子类。</p>
+<p>在python2.2及之前的版本中，钻石型继承并不常出现，而在2.3版本中引入了新式类&ndash;一个关键点在于所有的类继承自object&ndash;造成了钻石形的继承关系出现次数大大增加。这样，引入一个新的线性化算法就变得必要了。<sup>[1]</sup></p>
+<h2 id="c3线性化算法">
+  C3线性化算法
+  <a class="anchor" href="#c3%e7%ba%bf%e6%80%a7%e5%8c%96%e7%ae%97%e6%b3%95">#</a>
+</h2>
+<p>前置的约定：</p>
+<ul>
+<li>
+<p>我们用ABCD&hellip;N来指代由A-&gt;B-&gt;C-&gt;D&hellip;-&gt;N的mro，其中A为mro的头部，其余作为尾部</p>
+</li>
+<li>
+<p>设定A + B&hellip;N = AB&hellip;N</p>
+</li>
+<li>
+<p>用L(C)来表示C的线性化结果</p>
+</li>
+</ul>
+<p>那么，C3算法可以被描述为以下几条原则：</p>
+<ul>
+<li>
+<p>设一个类C，C线性化后的mro为C与对C的父类mro和C的继承顺序构造的一个mro做合并操作的结果之和， 用公式描述则是：<code>L(C) = C + merge(L(A), L(B), ..., AB...)</code></p>
+</li>
+<li>
+<p>根类的mro为它自己, 也就是有<code>L(O) = O</code></p>
+</li>
+<li>
+<p>merge的算法是: 在merge的参数中，先选择一个mro的头部，如果这个头部不在之后所有的mro的尾部中，那么就将这个头加入merge结果的mro中，并在其他参数的mro中去除这个头部， 否则选择下一个mro。重复这个过程，直到merge中没有元素，或者无法找到头部（此时抛出一个异常）。</p>
+</li>
+</ul>
+<p>算法本身描述比较抽象，只要用一个例子说明，就会很容易理解：</p>
+<p>先构造一系列类：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>O <span style="color:#f92672">=</span> object
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">F</span>(O): <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">E</span>(O): <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">D</span>(O): <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C</span>(D,F): <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">B</span>(E,D): <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">A</span>(B,C): <span style="color:#66d9ef">pass</span>
+</span></span></code></pre></div><p>这些类存在着如下图的继承关系：</p>
+<p><img src="../../img/diamond_diagram_2.png" alt="继承关系" /></p>
+<p>此时根据算法有：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># O 的mro为O本身</span>
+</span></span><span style="display:flex;"><span>L(O) <span style="color:#f92672">=</span> O
+</span></span><span style="display:flex;"><span>L(F) <span style="color:#f92672">=</span> F <span style="color:#f92672">+</span> merge(L(O), O) 
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">=</span> F <span style="color:#f92672">+</span> merge(O, O)
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">=</span> F <span style="color:#f92672">+</span> O 
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">=</span> FO
+</span></span><span style="display:flex;"><span>L(E) <span style="color:#f92672">=</span> EO
+</span></span><span style="display:flex;"><span>L(D) <span style="color:#f92672">=</span> DO
+</span></span></code></pre></div><p>继续：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>L(C) <span style="color:#f92672">=</span> C <span style="color:#f92672">+</span> merge(L(D), L(F), DF) 
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">=</span> C <span style="color:#f92672">+</span> merge(DO, FO, DF) 
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 先选择DO的头部D，D不在FO的尾部中，D同时是DF的头部，</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 所以将D作为merge结果的头部，并且在参数中去掉D</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">=</span> C <span style="color:#f92672">+</span> D <span style="color:#f92672">+</span> merge(O, FO, F)
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 同理</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">=</span> C <span style="color:#f92672">+</span> D <span style="color:#f92672">+</span> F <span style="color:#f92672">+</span> merge(O, O)
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">=</span> CDFO
+</span></span><span style="display:flex;"><span>L(B) <span style="color:#f92672">=</span> BEDO
+</span></span><span style="display:flex;"><span>L(A) <span style="color:#f92672">=</span> A <span style="color:#f92672">+</span> merge(L(B), L(C), BC)
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">=</span> A <span style="color:#f92672">+</span> merge(BEDO, CDFO, BC)
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">=</span> A <span style="color:#f92672">+</span> B <span style="color:#f92672">+</span> merge(EDO, CDFO, C)
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">=</span> A <span style="color:#f92672">+</span> B <span style="color:#f92672">+</span> E <span style="color:#f92672">+</span> merge(DO, CDFO, C)
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">=</span> A <span style="color:#f92672">+</span> B <span style="color:#f92672">+</span> E <span style="color:#f92672">+</span> C <span style="color:#f92672">+</span> merge(DO, DFO)
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">=</span> A <span style="color:#f92672">+</span> B <span style="color:#f92672">+</span> E <span style="color:#f92672">+</span> C <span style="color:#f92672">+</span> D <span style="color:#f92672">+</span> merge(O, FO)
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">=</span> A <span style="color:#f92672">+</span> B <span style="color:#f92672">+</span> E <span style="color:#f92672">+</span> C <span style="color:#f92672">+</span> D <span style="color:#f92672">+</span> F <span style="color:#f92672">+</span> merge(O, O)
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">=</span> ABECDFO
+</span></span></code></pre></div><p>可以看到C3线性化方法中，E类相比类C在继承顺序上更接近与根O，但是mro中位置却在C之前。C3线性化的一个优点在于整个继承结构中的所有的类的mro均是单调的，也就是说C3线性化方法具有单调性。</p>
+<h2 id="super实现">
+  <code>super()</code>实现
+  <a class="anchor" href="#super%e5%ae%9e%e7%8e%b0">#</a>
+</h2>
+<p>使用者通过<code>super()</code>返回的代理对象来获取对应对象的属性，可以通过将<code>super()</code>实现为一个描述器来做到这一点。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">new_super</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, type<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, object<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> type <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># super利用__class__组成闭包，这时__class__指向定义时所在的类，而不是运行时</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 在具体的实现中，__class__在编译时被写入闭包</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> __class__ <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">RuntimeError</span>(<span style="color:#e6db74">&#34;super(): no arguments&#34;</span>)
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>__type__ <span style="color:#f92672">=</span> __class__
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>__type__ <span style="color:#f92672">=</span> type
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>__object__ <span style="color:#f92672">=</span> object
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __get__(self, obj, type<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 如果没有指定第二个参数，可以用__get__方法来与obj绑定</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> type <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span> <span style="color:#f92672">and</span> self<span style="color:#f92672">.</span>__object__ <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> new_super(self<span style="color:#f92672">.</span>__type__, obj)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> self
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __getattr__(self, attr):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> isinstance(self<span style="color:#f92672">.</span>__object__, self<span style="color:#f92672">.</span>__type__):
+</span></span><span style="display:flex;"><span>            starttype <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>__object__<span style="color:#f92672">.</span>__class__
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            starttype <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>__object__
+</span></span><span style="display:flex;"><span>        mro <span style="color:#f92672">=</span> iter(starttype<span style="color:#f92672">.</span>__mro__)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> cls <span style="color:#f92672">in</span> mro:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> cls <span style="color:#f92672">is</span> self<span style="color:#f92672">.</span>__type__:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> cls <span style="color:#f92672">in</span> mro:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> attr <span style="color:#f92672">in</span> cls<span style="color:#f92672">.</span>__dict__:
+</span></span><span style="display:flex;"><span>                x <span style="color:#f92672">=</span> cls<span style="color:#f92672">.</span>__dict__[attr]
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> hasattr(x, <span style="color:#e6db74">&#39;__get__&#39;</span>):
+</span></span><span style="display:flex;"><span>                    x <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>__get__(self<span style="color:#f92672">.</span>__object__)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> x
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">AttributeError</span>
+</span></span></code></pre></div></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "628237ae497b43aea84d25eaafd3daf8"}'></script>
+      </footer>
+
+      
+  
+  <div class="book-comments"><script src="https://utteranc.es/client.js"
+        repo="b1indsight/b1indsight.github.io"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script></div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#super的定义和用法"><code>super()</code>的定义和用法</a>
+      <ul>
+        <li><a href="#关于未绑定的一个问题">关于未绑定的一个问题</a></li>
+        <li><a href="#super在python3"><code>super()</code>在python3</a></li>
+      </ul>
+    </li>
+    <li><a href="#__mro__的构造和c3线性化方法"><code>__mro__</code>的构造和C3线性化方法</a></li>
+    <li><a href="#c3线性化算法">C3线性化算法</a></li>
+    <li><a href="#super实现"><code>super()</code>实现</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

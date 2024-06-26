@@ -3,13 +3,45 @@
   <channel>
     <title>Categories on b1indsight</title>
     <link>https://b1indsight.github.io/categories/</link>
-    <description>b1indsight (Categories)</description>
+    <description>Recent content in Categories on b1indsight</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Thu, 10 Aug 2023 00:45:00 +0800</lastBuildDate>
-    
     <atom:link href="https://b1indsight.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <item>
+      <title>随便写写</title>
+      <link>https://b1indsight.github.io/categories/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/</link>
+      <pubDate>Thu, 10 Aug 2023 00:45:00 +0800</pubDate>
+      <guid>https://b1indsight.github.io/categories/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Python其他文章</title>
+      <link>https://b1indsight.github.io/categories/python%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0/</link>
+      <pubDate>Wed, 02 Mar 2022 22:03:50 +0800</pubDate>
+      <guid>https://b1indsight.github.io/categories/python%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Flask 源码阅读</title>
+      <link>https://b1indsight.github.io/categories/flask-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/</link>
+      <pubDate>Sun, 02 Aug 2020 21:11:42 +0800</pubDate>
+      <guid>https://b1indsight.github.io/categories/flask-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>从零开始的python解释器</title>
+      <link>https://b1indsight.github.io/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84python%E8%A7%A3%E9%87%8A%E5%99%A8/</link>
+      <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>https://b1indsight.github.io/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84python%E8%A7%A3%E9%87%8A%E5%99%A8/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>学习方法</title>
+      <link>https://b1indsight.github.io/categories/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Sun, 05 May 2019 16:27:50 +0800</pubDate>
+      <guid>https://b1indsight.github.io/categories/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

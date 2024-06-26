@@ -1,21 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>操作系统 - Blog</title>
-    <link>https://b1indsight.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
-    <description>Recent content in 操作系统 on Blog</description>
+    <title>操作系统 on b1indsight</title>
+    <link>http://localhost:1313/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
+    <description>Recent content in 操作系统 on b1indsight</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Sat, 03 Aug 2019 18:56:51 +0800</lastBuildDate>
-    
-        <atom:link href="https://b1indsight.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" />
-    
+    <atom:link href="http://localhost:1313/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>进程与线程</title>
-      <link>https://b1indsight.github.io/post/process_and_thread/</link>
+      <link>http://localhost:1313/posts/process_and_thread/</link>
       <pubDate>Sat, 03 Aug 2019 18:56:51 +0800</pubDate>
-      
-      <guid>https://b1indsight.github.io/post/process_and_thread/</guid>
-      <description>本文主要介绍进程与线程的概念，主要问题，进程间的调度与同步。</description>
+      <guid>http://localhost:1313/posts/process_and_thread/</guid>
+      <description>进程 # 1.进程是什么？ # 一个进程是一个正在执行的程序的实例。一个进程是一种类型的活动，它包含程序，输入，输出以及状态。单个处理器可以被多个进</description>
     </item>
   </channel>
 </rss>

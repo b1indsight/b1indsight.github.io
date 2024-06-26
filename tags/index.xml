@@ -3,13 +3,38 @@
   <channel>
     <title>Tags on b1indsight</title>
     <link>https://b1indsight.github.io/tags/</link>
-    <description>b1indsight (Tags)</description>
+    <description>Recent content in Tags on b1indsight</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 02 Mar 2022 22:03:50 +0800</lastBuildDate>
-    
     <atom:link href="https://b1indsight.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <item>
+      <title>Python</title>
+      <link>https://b1indsight.github.io/tags/python/</link>
+      <pubDate>Wed, 02 Mar 2022 22:03:50 +0800</pubDate>
+      <guid>https://b1indsight.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Flask</title>
+      <link>https://b1indsight.github.io/tags/flask/</link>
+      <pubDate>Sun, 02 Aug 2020 21:11:42 +0800</pubDate>
+      <guid>https://b1indsight.github.io/tags/flask/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Python Interpreter</title>
+      <link>https://b1indsight.github.io/tags/python-interpreter/</link>
+      <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>https://b1indsight.github.io/tags/python-interpreter/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>JAVA</title>
+      <link>https://b1indsight.github.io/tags/java/</link>
+      <pubDate>Fri, 01 May 2020 16:27:50 +0800</pubDate>
+      <guid>https://b1indsight.github.io/tags/java/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>
